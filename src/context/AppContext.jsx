@@ -3945,6 +3945,64 @@ export function AppProvider({ children }) {
   };
 
   /**
+   * Update an existing song in Supabase
+   * @param {string} playlistId
+   * @param {string} songId
+   * @param {{ title?: string, artist?: string, duration?: string, lyrics?: string }} updatedData
+   */
+  const updateSong = async (playlistId, songId, updatedData) => {
+    if (!canEdit) {
+      showToast('Acesso restrito: faça login como colaborador para editar músicas.', 'warning');
+      return false;
+    }
+
+    try {
+      const payload = {};
+      if (updatedData.title !== undefined) payload.title = updatedData.title.trim();
+      if (updatedData.artist !== undefined) payload.artist = updatedData.artist.trim();
+      if (updatedData.lyrics !== undefined) payload.lyrics = updatedData.lyrics.trim();
+
+      const { error } = await supabase.from('songs').update(payload).eq('id', songId);
+      if (error) throw error;
+
+      setPlaylists((prev) =>
+        prev.map((pl) => {
+          if (pl.id === playlistId) {
+            return {
+              ...pl,
+              songs: (pl.songs || []).map((s) => (s.id === songId ? { ...s, ...updatedData } : s)),
+            };
+          }
+          return pl;
+        })
+      );
+      fetchPlaylists(false);
+      showToast('Música atualizada com sucesso!', 'success');
+      return true;
+    } catch (err) {
+      console.error('[Supabase] Erro ao atualizar música:', err);
+      showToast('Erro ao atualizar música no Supabase.', 'warning');
+      return false;
+    }
+  };
+
+  /**
+   * Clone / Deep Copy an existing song into a target playlist
+   * Creates a brand new row in Supabase with a new UUID so edits are completely independent.
+   * @param {string} targetPlaylistId
+   * @param {Object} sourceSong
+   */
+  const cloneSongToPlaylist = async (targetPlaylistId, sourceSong) => {
+    if (!sourceSong) return null;
+    return await addSongToPlaylist(targetPlaylistId, {
+      title: sourceSong.title,
+      artist: sourceSong.artist,
+      duration: sourceSong.duration || '3:30',
+      lyrics: sourceSong.lyrics || '',
+    });
+  };
+
+  /**
    * Delete a song from an existing playlist in Supabase
    * @param {string} playlistId
    * @param {string} songId
@@ -4073,6 +4131,8 @@ export function AppProvider({ children }) {
         updatePlaylist,
         deletePlaylist,
         addSongToPlaylist,
+        cloneSongToPlaylist,
+        updateSong,
         deleteSong,
         getPlaylistById,
         getSongById,

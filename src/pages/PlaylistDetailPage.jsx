@@ -3,8 +3,9 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { ArrowLeft, Plus, Clock, Music, Flame, Sparkles, Search, User, Pencil } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import SongRow from '../components/SongRow';
-import Modal from '../components/Modal';
 import EditPlaylistModal from '../components/EditPlaylistModal';
+import AddSongModal from '../components/AddSongModal';
+import EditSongModal from '../components/EditSongModal';
 
 /**
  * Helper to calculate total duration in "X min Y seg" format
@@ -39,21 +40,23 @@ function calculateTotalDuration(songs) {
 export function PlaylistDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { getPlaylistById, addSongToPlaylist, users, canEdit, openAuthModal, showToast } = useApp();
+  const { getPlaylistById, users, canEdit, openAuthModal, showToast } = useApp();
 
   const playlist = getPlaylistById(id);
 
   // Search filter inside playlist
   const [songSearch, setSongSearch] = useState('');
 
-  // Add Song Modal state
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  // Add / Search Song Modal state
+  const [isAddSongModalOpen, setIsAddSongModalOpen] = useState(false);
+  const [addSongTab, setAddSongTab] = useState('search');
+
+  // Edit Song Modal state (independent editing for this playlist's clone)
+  const [isEditSongModalOpen, setIsEditSongModalOpen] = useState(false);
+  const [songToEdit, setSongToEdit] = useState(null);
+
   // Edit Playlist Modal state
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [title, setTitle] = useState('');
-  const [artist, setArtist] = useState('');
-  const [duration, setDuration] = useState('3:30');
-  const [lyrics, setLyrics] = useState('');
 
   const handleOpenEditModal = () => {
     if (!canEdit) {
@@ -64,13 +67,23 @@ export function PlaylistDetailPage() {
     setIsEditModalOpen(true);
   };
 
-  const handleOpenAddSongModal = () => {
+  const handleOpenAddSongModal = (tab = 'search') => {
     if (!canEdit) {
       showToast('Apenas colaboradores aprovados pelo administrador podem adicionar músicas.', 'info');
       openAuthModal();
       return;
     }
-    setIsModalOpen(true);
+    setAddSongTab(tab);
+    setIsAddSongModalOpen(true);
+  };
+
+  const handleOpenEditSong = (song) => {
+    if (!canEdit) {
+      showToast('Apenas colaboradores aprovados podem editar músicas.', 'info');
+      return;
+    }
+    setSongToEdit(song);
+    setIsEditSongModalOpen(true);
   };
 
   // Compute creator info
@@ -112,27 +125,6 @@ export function PlaylistDetailPage() {
     );
   }
 
-  const handleAddSong = async (e) => {
-    e.preventDefault();
-    if (!title.trim() || !artist.trim()) return;
-
-    const created = await addSongToPlaylist(playlist.id, {
-      title: title.trim(),
-      artist: artist.trim(),
-      duration: duration.trim() || '3:30',
-      lyrics: lyrics.trim() || 'Letra ainda não informada.',
-    });
-
-    // Só limpa e fecha se o Supabase confirmou a gravação
-    if (created) {
-      setTitle('');
-      setArtist('');
-      setDuration('3:30');
-      setLyrics('');
-      setIsModalOpen(false);
-    }
-  };
-
   const isMixGeral = playlist.id === 'mix-geral';
 
   return (
@@ -147,12 +139,12 @@ export function PlaylistDetailPage() {
           <span>Voltar às Playlists</span>
         </button>
 
-        {/* Apenas usuários autorizados veem botões de edição de playlist e adição de música */}
+        {/* Apenas usuários autorizados veem botões de edição de playlist e adição/busca de música */}
         {!isMixGeral && canEdit && (
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2 sm:gap-2.5 flex-wrap justify-end">
             <button
               onClick={handleOpenEditModal}
-              className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#242424] hover:bg-[#323232] border border-white/10 text-white font-bold text-xs sm:text-sm transition-all hover:scale-105"
+              className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-full bg-[#242424] hover:bg-[#323232] border border-white/10 text-white font-bold text-xs sm:text-sm transition-all hover:scale-105"
               title="Editar nome e capa da playlist"
             >
               <Pencil className="w-3.5 h-3.5 text-spotify-green" />
@@ -160,11 +152,21 @@ export function PlaylistDetailPage() {
             </button>
 
             <button
-              onClick={handleOpenAddSongModal}
-              className="flex items-center gap-2 px-4 py-2 rounded-full bg-spotify-green hover:bg-spotify-green-light text-black font-extrabold text-xs sm:text-sm transition-all hover:scale-105 shadow-md shadow-spotify-green/20"
+              onClick={() => handleOpenAddSongModal('search')}
+              className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-full bg-[#242424] hover:bg-[#323232] border border-spotify-green/40 hover:border-spotify-green text-white font-bold text-xs sm:text-sm transition-all hover:scale-105 shadow-sm"
+              title="Buscar e clonar músicas já cadastradas no sistema"
+            >
+              <Search className="w-3.5 h-3.5 text-spotify-green" />
+              <span>Buscar música do sistema</span>
+            </button>
+
+            <button
+              onClick={() => handleOpenAddSongModal('create')}
+              className="flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-2 rounded-full bg-spotify-green hover:bg-spotify-green-light text-black font-extrabold text-xs sm:text-sm transition-all hover:scale-105 shadow-md shadow-spotify-green/20"
+              title="Cadastrar uma nova música do zero nesta playlist"
             >
               <Plus className="w-4 h-4" />
-              <span>Adicionar Música</span>
+              <span>Nova Música</span>
             </button>
           </div>
         )}
@@ -314,94 +316,32 @@ export function PlaylistDetailPage() {
                 song={song}
                 playlistId={playlist.id}
                 isTopRank={index < 3}
+                onEdit={canEdit && !isMixGeral ? handleOpenEditSong : null}
               />
             ))}
           </div>
         )}
       </div>
 
-      {/* Modal: Adicionar Música */}
-      <Modal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        title="Adicionar Música ao Repertório"
-        subtitle={`Playlist: ${playlist.name}`}
-      >
-        <form onSubmit={handleAddSong} className="flex flex-col gap-4">
-          <div>
-            <label className="block text-xs font-bold text-spotify-gray uppercase tracking-wider mb-1.5">
-              Título da Música *
-            </label>
-            <input
-              type="text"
-              required
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="Ex: Como Nossos Pais"
-              className="w-full px-4 py-2.5 rounded-xl bg-[#242424] border border-white/10 focus:border-spotify-green focus:outline-none text-sm text-white"
-            />
-          </div>
+      {/* Modal: Adicionar / Buscar Música do Sistema */}
+      <AddSongModal
+        isOpen={isAddSongModalOpen}
+        onClose={() => setIsAddSongModalOpen(false)}
+        playlist={playlist}
+        initialTab={addSongTab}
+      />
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs font-bold text-spotify-gray uppercase tracking-wider mb-1.5">
-                Artista / Compositor *
-              </label>
-              <input
-                type="text"
-                required
-                value={artist}
-                onChange={(e) => setArtist(e.target.value)}
-                placeholder="Ex: Elis Regina"
-                className="w-full px-4 py-2.5 rounded-xl bg-[#242424] border border-white/10 focus:border-spotify-green focus:outline-none text-sm text-white"
-              />
-            </div>
-
-            <div>
-              <label className="block text-xs font-bold text-spotify-gray uppercase tracking-wider mb-1.5">
-                Duração Estimada
-              </label>
-              <input
-                type="text"
-                value={duration}
-                onChange={(e) => setDuration(e.target.value)}
-                placeholder="Ex: 4:15"
-                className="w-full px-4 py-2.5 rounded-xl bg-[#242424] border border-white/10 focus:border-spotify-green focus:outline-none text-sm text-white"
-              />
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-xs font-bold text-spotify-gray uppercase tracking-wider mb-1.5">
-              Trecho da Letra / Cifra
-            </label>
-            <textarea
-              rows={4}
-              value={lyrics}
-              onChange={(e) => setLyrics(e.target.value)}
-              placeholder="Cole a letra para que o público e a banda possam acompanhar..."
-              className="w-full px-4 py-2.5 rounded-xl bg-[#242424] border border-white/10 focus:border-spotify-green focus:outline-none text-sm text-white resize-none font-mono"
-            />
-          </div>
-
-          <div className="flex items-center justify-end gap-3 mt-4 pt-3 border-t border-white/10">
-            <button
-              type="button"
-              onClick={() => setIsModalOpen(false)}
-              className="px-4 py-2 rounded-full text-xs font-bold text-spotify-gray hover:text-white"
-            >
-              Cancelar
-            </button>
-            <button
-              type="submit"
-              disabled={!title.trim() || !artist.trim()}
-              className="px-6 py-2.5 rounded-full bg-spotify-green hover:bg-spotify-green-light disabled:opacity-50 text-black font-extrabold text-sm transition-all shadow-md"
-            >
-              Adicionar Música
-            </button>
-          </div>
-        </form>
-      </Modal>
+      {/* Modal: Editar Música & Cifra Independente */}
+      <EditSongModal
+        isOpen={isEditSongModalOpen}
+        onClose={() => {
+          setIsEditSongModalOpen(false);
+          setSongToEdit(null);
+        }}
+        song={songToEdit}
+        playlistId={playlist.id}
+        playlistName={playlist.name}
+      />
 
       {/* Modal: Editar Playlist */}
       <EditPlaylistModal

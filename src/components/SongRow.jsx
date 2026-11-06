@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Heart, Play, Clock, Flame } from 'lucide-react';
+import { Heart, Play, Clock, Flame, Pencil } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
 /**
@@ -12,8 +12,9 @@ import { useApp } from '../context/AppContext';
  * @param {Object} props.song - Song data object
  * @param {string} props.playlistId - ID of the playlist containing the song
  * @param {boolean} [props.isTopRank] - Highlights top requested songs
+ * @param {Function} [props.onEdit] - Optional callback to edit this song
  */
-export function SongRow({ index, song, playlistId, isTopRank }) {
+export function SongRow({ index, song, playlistId, isTopRank, onEdit }) {
   const navigate = useNavigate();
   const { requestSong } = useApp();
 
@@ -66,8 +67,21 @@ export function SongRow({ index, song, playlistId, isTopRank }) {
         <span>{song.duration || '3:30'}</span>
       </div>
 
-      {/* Col 5: Action Button - 'Pedir ao vivo' */}
-      <div className="flex items-center justify-end">
+      {/* Col 5: Action Button - 'Pedir ao vivo' e opcional 'Editar' */}
+      <div className="flex items-center justify-end gap-1.5">
+        {onEdit && (
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              onEdit(song);
+            }}
+            className="p-1.5 rounded-full hover:bg-white/10 text-spotify-gray hover:text-spotify-green transition-colors"
+            title="Editar cifra e dados desta música nesta playlist"
+          >
+            <Pencil className="w-3.5 h-3.5" />
+          </button>
+        )}
         <button
           onClick={handleRequestClick}
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all duration-200 bg-[#282828] hover:bg-spotify-green text-white hover:text-black border border-white/10 hover:border-spotify-green shadow-sm active:scale-95 group/btn"

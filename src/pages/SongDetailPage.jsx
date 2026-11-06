@@ -17,8 +17,10 @@ import {
   Pause,
   Sliders,
   AlignLeft,
+  Pencil,
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
+import EditSongModal from '../components/EditSongModal';
 
 // Regex para identificar acordes musicais (Ex: A, C#m, F#m7, Bb9, G/B, C7M, D4(6))
 const CHORD_REGEX = /^[A-G](#|b)?(m|maj|dim|aug|sus|add|M|7M)?[0-9]*(\/[A-G](#|b)?)?(\+|-)?(\([0-9]+\))?$/;
@@ -70,7 +72,7 @@ function isSectionHeading(line) {
 export function SongDetailPage() {
   const { playlistId, songId } = useParams();
   const navigate = useNavigate();
-  const { getSongById, requestSong, showToast } = useApp();
+  const { getSongById, requestSong, showToast, canEdit } = useApp();
 
   // Mode: 'chords' (Cifra + Letra) ou 'lyrics' (Apenas Letra)
   const [viewMode, setViewMode] = useState('chords');
@@ -80,6 +82,7 @@ export function SongDetailPage() {
   const [copied, setCopied] = useState(false);
   // Auto-scroll for stage performance
   const [isAutoScrolling, setIsAutoScrolling] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const scrollContainerRef = useRef(null);
 
   // Retrieve song and its source playlist
@@ -176,6 +179,18 @@ export function SongDetailPage() {
           </button>
 
           <div className="flex items-center gap-2">
+            {canEdit && playlistId !== 'mix-geral' && (
+              <button
+                type="button"
+                onClick={() => setIsEditModalOpen(true)}
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-[#242424] hover:bg-[#323232] border border-white/10 text-white hover:text-spotify-green text-xs font-bold transition-all shadow-sm hover:scale-105"
+                title="Editar tom, acordes ou letra desta música nesta playlist"
+              >
+                <Pencil className="w-3.5 h-3.5 text-spotify-green" />
+                <span className="hidden sm:inline">Editar Música & Cifra</span>
+                <span className="sm:hidden">Editar</span>
+              </button>
+            )}
             <button
               onClick={handleShare}
               className="p-2 rounded-full bg-white/5 hover:bg-white/10 text-spotify-gray hover:text-white transition-colors"
@@ -394,6 +409,15 @@ export function SongDetailPage() {
           <span>Pedir para tocar agora ({song.requests || 0})</span>
         </button>
       </div>
+      {/* Modal para Edição Independente da Música / Cifra */}
+      <EditSongModal
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        song={song}
+        playlistId={playlistId}
+        playlistName={playlist?.name}
+        onDeleted={() => navigate(`/playlists/${playlistId}`)}
+      />
     </div>
   );
 }
