@@ -48,8 +48,8 @@ export function ProfilePage() {
     switchUser,
     logout,
     openAuthModal,
-    playlists,
-    userRequests,
+    playlists = [],
+    userRequests = [],
     resetToDefaults,
   } = useApp();
 

@@ -2804,8 +2804,9 @@ function generateToken() {
  */
 export function AppProvider({ children }) {
   // Playlists state managed via Supabase async queries
-  const [dbPlaylists, setPlaylists] = useState([]);
-  const [isLoadingPlaylists, setIsLoadingPlaylists] = useState(true);
+  // Playlists inicializadas imediatamente com as 4 playlists oficiais para renderização instantânea
+  const [dbPlaylists, setPlaylists] = useState(INITIAL_PLAYLISTS);
+  const [isLoadingPlaylists, setIsLoadingPlaylists] = useState(false);
 
   // As tabelas `songs`/`playlists` não possuem coluna de pedidos ao vivo, então o
   // contador de pedidos por música fica no navegador e é mesclado aos dados do Supabase.
@@ -2948,7 +2949,10 @@ export function AppProvider({ children }) {
   /**
    * Helper puro para mapear usuário a partir do Supabase Auth e perfis
    */
-  const mapUserFromDb = useCallback((sbUser, profileData = null) => {
+  /**
+   * Mapeia os dados do Supabase Auth e perfis para o formato de usuário do estado do Spiritfy
+   */
+  const mapSupabaseUser = useCallback((sbUser, profileData = null) => {
     if (!sbUser) return null;
     const email = (sbUser.email || '').toLowerCase().trim();
     const meta = sbUser.user_metadata || {};
@@ -2991,6 +2995,8 @@ export function AppProvider({ children }) {
       profile: profileData,
     };
   }, []);
+
+  const mapUserFromDb = mapSupabaseUser;
 
   /**
    * Busca silenciosa de colaboradores na nuvem (profiles + __SYSTEM_COLLABORATORS__)
@@ -3099,61 +3105,40 @@ export function AppProvider({ children }) {
    * Consulta das playlists e músicas.
    * O estado loading só é true na montagem inicial; buscas secundárias são silenciosas.
    */
-  const fetchPlaylists = useCallback(
-    async (isInitial = false) => {
-      // Ativa loading visual apenas se for a primeira montagem e ainda não carregou
-      if (isInitial && !hasLoadedPublicRef.current) {
-        setIsLoadingPlaylists(true);
+  const fetchPlaylists = useCallback(async () => {
+    try {
+      const { data: dbPlaylists, error: plError } = await supabase
+        .from('playlists')
+        .select('*')
+        .order('created_at', { ascending: true });
+
+      if (plError || !dbPlaylists || dbPlaylists.length === 0) {
+        return;
       }
+
+      // Busca todas as músicas da tabela songs com try/catch isolado
+      let dbSongs = [];
       try {
-        const { data: dbPlaylists, error: plError } = await supabase
-          .from('playlists')
+        const { data: songsData, error: songsError } = await supabase
+          .from('songs')
           .select('*')
           .order('created_at', { ascending: true });
 
-        if (plError) {
-          console.warn('[Supabase] Erro ao carregar playlists:', plError);
-          setPlaylists(INITIAL_PLAYLISTS);
-          return;
+        if (!songsError && Array.isArray(songsData)) {
+          dbSongs = songsData;
         }
-
-        if (!dbPlaylists || dbPlaylists.length === 0) {
-          try {
-            await seedInitialPlaylists();
-          } catch (seedErr) {
-            console.warn('[Supabase] Erro no seed de playlists:', seedErr);
-            setPlaylists(INITIAL_PLAYLISTS);
-          }
-          return;
-        }
-
-        // Busca todas as músicas da tabela songs com try/catch isolado
-        let dbSongs = [];
-        try {
-          const { data: songsData, error: songsError } = await supabase
-            .from('songs')
-            .select('*')
-            .order('created_at', { ascending: true });
-
-          if (!songsError && Array.isArray(songsData)) {
-            dbSongs = songsData;
-          }
-        } catch (sErr) {
-          console.warn('[Supabase] Aviso ao buscar músicas (usando padrões):', sErr);
-        }
-
-        setPlaylists(mapDbToPlaylists(dbPlaylists, dbSongs, playlistDescriptionsRef.current));
-      } catch (err) {
-        console.warn('[Supabase] Falha ao consultar Supabase:', err);
-        setPlaylists(INITIAL_PLAYLISTS);
-      } finally {
-        // MUDA O LOADING PARA FALSE DEFINITIVAMENTE
-        hasLoadedPublicRef.current = true;
-        setIsLoadingPlaylists(false);
+      } catch (sErr) {
+        console.warn('[Supabase] Aviso ao buscar músicas:', sErr);
       }
-    },
-    [seedInitialPlaylists]
-  );
+
+      setPlaylists(mapDbToPlaylists(dbPlaylists, dbSongs, playlistDescriptionsRef.current));
+    } catch (err) {
+      console.warn('[Supabase] Falha ao consultar Supabase (mantendo repertório local):', err);
+    } finally {
+      hasLoadedPublicRef.current = true;
+      setIsLoadingPlaylists(false);
+    }
+  }, []);
 
   /**
    * `registeredUsers`: Usuários cadastrados (mantido para sessão e alternância de perfil)
@@ -3172,39 +3157,11 @@ export function AppProvider({ children }) {
   const closeAuthModal = useCallback(() => setIsAuthModalOpen(false), []);
 
   /**
-   * 1. CICLO PÚBLICO (Executa estritamente UMA ÚNICA VEZ na montagem do app)
-   * Carrega apenas o repertório público (playlists e músicas) e desativa o loading.
+   * 1. CICLO PÚBLICO (Executa UMA ÚNICA VEZ na montagem do app)
+   * Sincroniza o repertório com o Supabase em segundo plano sem bloquear a interface.
    */
   useEffect(() => {
-    let isMounted = true;
-
-    // Watchdog de segurança estrito: força o desbloqueio da tela em 2 segundos
-    const watchdogTimer = setTimeout(() => {
-      if (isMounted) {
-        hasLoadedPublicRef.current = true;
-        setIsLoadingPlaylists(false);
-      }
-    }, 2000);
-
-    const loadPublicRepertory = async () => {
-      try {
-        await fetchPlaylists(true);
-      } catch (e) {
-        console.warn('[Spiritfy] Aviso ao carregar repertório:', e);
-      } finally {
-        if (isMounted) {
-          hasLoadedPublicRef.current = true;
-          setIsLoadingPlaylists(false);
-        }
-      }
-    };
-
-    loadPublicRepertory();
-
-    return () => {
-      isMounted = false;
-      clearTimeout(watchdogTimer);
-    };
+    fetchPlaylists();
   }, [fetchPlaylists]);
 
   /**
@@ -3335,38 +3292,7 @@ export function AppProvider({ children }) {
     };
   }, [fetchPlaylists, fetchCollaborators]);
 
-  // Atualiza permissões do currentUser de forma estável se o mapa de colaboradores mudar
-  useEffect(() => {
-    if (currentUser?.email) {
-      const email = currentUser.email.toLowerCase().trim();
-      const admin = checkIsAdmin(email) || currentUser.isAdmin;
-      const collabEntry = collaboratorsMap[email];
-      const isApprovedStatus = admin || email === 'filipe@spiritfy.app' || collabEntry?.status === 'approved' || collabEntry?.is_approved === true;
-      const isRejectedStatus = !admin && !isApprovedStatus && (collabEntry?.status === 'rejected');
 
-      const newRole = admin
-        ? 'Administrador'
-        : isApprovedStatus
-        ? 'Colaborador Aprovado'
-        : isRejectedStatus
-        ? 'Cadastro Recusado'
-        : 'Aguardando Aprovação';
-
-      if (currentUser.role !== newRole || currentUser.isApproved !== isApprovedStatus) {
-        setCurrentUser((prev) =>
-          prev
-            ? {
-                ...prev,
-                role: newRole,
-                isApproved: isApprovedStatus,
-                isAdmin: admin,
-                collaboratorStatus: admin ? 'approved' : isApprovedStatus ? 'approved' : isRejectedStatus ? 'rejected' : 'pending',
-              }
-            : null
-        );
-      }
-    }
-  }, [collaboratorsMap]);
 
   // Funções de Gestão de Colaboradores (Exclusivo Administrador)
   const approveCollaborator = useCallback(
@@ -4131,6 +4057,7 @@ export function AppProvider({ children }) {
         supabaseSignIn,
         supabaseSignUp,
         supabaseSignOut,
+        mapSupabaseUser,
         userRequests,
         mixGeralPlaylist,
         toast,

@@ -15,17 +15,19 @@ export function HomePage() {
 
   // Compute key statistics
   const stats = useMemo(() => {
-    const totalPlaylists = playlists.length;
+    const safePlaylists = playlists || [];
+    const totalPlaylists = safePlaylists.length;
 
     let totalSongs = 0;
     const artistsSet = new Set();
     let totalRequests = 0;
 
-    playlists.forEach((pl) => {
-      totalSongs += pl.songs.length;
-      pl.songs.forEach((s) => {
-        if (s.artist) artistsSet.add(s.artist.trim());
-        totalRequests += s.requests || 0;
+    safePlaylists.forEach((pl) => {
+      const songs = pl?.songs || [];
+      totalSongs += songs.length;
+      songs.forEach((s) => {
+        if (s?.artist) artistsSet.add(s.artist.trim());
+        totalRequests += s?.requests || 0;
       });
     });
 
@@ -40,14 +42,15 @@ export function HomePage() {
     };
   }, [playlists]);
 
-  // Featured playlists (Mix Geral + all 3 event playlists)
+  // Featured playlists (Mix Geral + all event playlists)
   const featuredPlaylists = useMemo(() => {
-    return [mixGeralPlaylist, ...playlists];
+    const list = playlists || [];
+    return mixGeralPlaylist ? [mixGeralPlaylist, ...list] : list;
   }, [mixGeralPlaylist, playlists]);
 
   // Top 3 most requested songs
   const topRequestedSongs = useMemo(() => {
-    return mixGeralPlaylist.songs.slice(0, 3);
+    return (mixGeralPlaylist?.songs || []).slice(0, 3);
   }, [mixGeralPlaylist]);
 
   return (

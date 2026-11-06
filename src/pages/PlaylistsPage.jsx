@@ -75,19 +75,22 @@ export function PlaylistsPage() {
 
   // Filtered playlists
   const displayPlaylists = useMemo(() => {
+    const safePlaylists = playlists || [];
+    const all = mixGeralPlaylist ? [mixGeralPlaylist, ...safePlaylists] : safePlaylists;
     const q = searchQuery.toLowerCase().trim();
     if (!q) {
-      return [mixGeralPlaylist, ...playlists];
+      return all;
     }
 
     const matchesMix =
-      mixGeralPlaylist.name.toLowerCase().includes(q) ||
-      mixGeralPlaylist.description.toLowerCase().includes(q);
+      mixGeralPlaylist &&
+      (mixGeralPlaylist.name?.toLowerCase().includes(q) ||
+        (mixGeralPlaylist.description && mixGeralPlaylist.description.toLowerCase().includes(q)));
 
-    const filtered = playlists.filter(
+    const filtered = safePlaylists.filter(
       (pl) =>
-        pl.name.toLowerCase().includes(q) ||
-        (pl.description && pl.description.toLowerCase().includes(q))
+        pl?.name?.toLowerCase().includes(q) ||
+        (pl?.description && pl.description.toLowerCase().includes(q))
     );
 
     return matchesMix ? [mixGeralPlaylist, ...filtered] : filtered;

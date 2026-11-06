@@ -76,7 +76,7 @@ export function PlaylistDetailPage() {
   // Compute creator info
   const creator = useMemo(() => {
     if (!playlist) return null;
-    return users.find((u) => u.id === playlist.createdBy);
+    return (users || []).find((u) => u.id === playlist.createdBy);
   }, [playlist, users]);
 
   const totalDuration = useMemo(() => {
