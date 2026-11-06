@@ -6,6 +6,17 @@ import { supabase } from '../supabaseClient';
 const AppContext = createContext(null);
 
 /**
+ * E-mails com privilégios permanentes de Administrador Principal do Spiritfy.
+ * O e-mail loyolafilipe@gmail.com possui acesso total ao sistema.
+ */
+export const ADMIN_EMAILS = ['loyolafilipe@gmail.com', 'admin@spiritfy.app'];
+
+export const checkIsAdmin = (email) => {
+  if (!email) return false;
+  return ADMIN_EMAILS.includes(email.toLowerCase().trim());
+};
+
+/**
  * Preset "demo" users that ship with the app seed data.
  * These are read-only references; actual registered users live in
  * the `registeredUsers` localStorage key.
@@ -2083,7 +2094,7 @@ Desvenda a nova era em mim e em você`,
  * Campos que não existem no banco (descrição, gradiente, duração, criador) são
  * recuperados do seed dos PDFs quando o nome/título coincide; caso contrário, usam padrões.
  */
-function mapDbToPlaylists(dbPlaylists = [], dbSongs = []) {
+function mapDbToPlaylists(dbPlaylists = [], dbSongs = [], customDescriptions = {}) {
   const presetSongs = new Map();
   INITIAL_PLAYLISTS.forEach((pl) =>
     pl.songs.forEach((s) => presetSongs.set(`${pl.name}::${s.title}`.toLowerCase(), s))
@@ -2100,7 +2111,7 @@ function mapDbToPlaylists(dbPlaylists = [], dbSongs = []) {
       id: pl.id,
       name: pl.title,
       title: pl.title,
-      description: preset?.description || 'Repertório de músicas ao vivo.',
+      description: customDescriptions[pl.id] || pl.description || preset?.description || 'Repertório de músicas ao vivo.',
       imageUrl: pl.image_url || preset?.imageUrl || '',
       image_url: pl.image_url || preset?.imageUrl || '',
       gradient: preset?.gradient || 'from-neutral-800 via-neutral-900 to-black',
@@ -2153,6 +2164,9 @@ export function AppProvider({ children }) {
   // As tabelas `songs`/`playlists` não possuem coluna de pedidos ao vivo, então o
   // contador de pedidos por música fica no navegador e é mesclado aos dados do Supabase.
   const [requestCounts, setRequestCounts] = useLocalStorage('spiritfy_song_requests', {});
+
+  // Descrições personalizadas salvas pelo usuário/colaborador
+  const [playlistDescriptions, setPlaylistDescriptions] = useLocalStorage('spiritfy_playlist_descriptions', {});
 
   // Guarda contra execução dupla do efeito (React.StrictMode) que duplicaria o seed.
   const hasFetchedRef = useRef(false);
@@ -2230,13 +2244,13 @@ export function AppProvider({ children }) {
         .select('*')
         .order('created_at', { ascending: true });
 
-      setPlaylists(mapDbToPlaylists(newDbPlaylists, newDbSongs));
+      setPlaylists(mapDbToPlaylists(newDbPlaylists, newDbSongs, playlistDescriptions));
       showToast('Banco Supabase conectado e sincronizado com sucesso!', 'success');
     } catch (err) {
       console.error('[Supabase] Erro ao semear playlists no banco:', err);
       setPlaylists(INITIAL_PLAYLISTS);
     }
-  }, [showToast]);
+  }, [playlistDescriptions, showToast]);
 
   /**
    * Consulta assíncrona das playlists e músicas diretamente do Supabase
@@ -2266,7 +2280,7 @@ export function AppProvider({ children }) {
 
       if (songsError) throw songsError;
 
-      setPlaylists(mapDbToPlaylists(dbPlaylists, dbSongs));
+      setPlaylists(mapDbToPlaylists(dbPlaylists, dbSongs, playlistDescriptions));
     } catch (err) {
       console.warn('[Supabase] Falha ao consultar Supabase:', err);
       showToast('Aviso: Operando com dados locais de contingência.', 'info');
@@ -2274,7 +2288,7 @@ export function AppProvider({ children }) {
     } finally {
       setIsLoadingPlaylists(false);
     }
-  }, [seedInitialPlaylists, showToast]);
+  }, [playlistDescriptions, seedInitialPlaylists, showToast]);
 
   // Carrega os dados na montagem do componente
   useEffect(() => {
@@ -2295,9 +2309,10 @@ export function AppProvider({ children }) {
   const [currentUser, setCurrentUser] = useLocalStorage('spiritfy_current_user', null);
 
   // Lista de e-mails de colaboradores aprovados pelo administrador
+  // loyolafilipe@gmail.com possui acesso de Administrador Principal permanente
   const [approvedCollaborators, setApprovedCollaborators] = useLocalStorage(
     'spiritfy_approved_collaborators',
-    ['admin@spiritfy.app', 'filipe@spiritfy.app']
+    ['loyolafilipe@gmail.com', 'admin@spiritfy.app', 'filipe@spiritfy.app']
   );
 
   // Controle de visibilidade do modal de autenticação (não bloqueia visitantes)
@@ -2311,14 +2326,14 @@ export function AppProvider({ children }) {
   const mapSupabaseUser = useCallback(
     (sbUser) => {
       if (!sbUser) return null;
-      const email = (sbUser.email || '').toLowerCase();
+      const email = (sbUser.email || '').toLowerCase().trim();
       const meta = sbUser.user_metadata || {};
-      const admin = email === 'admin@spiritfy.app' || meta.role === 'admin';
+      const admin = checkIsAdmin(email) || meta.role === 'admin';
       const approved =
         admin ||
         email === 'filipe@spiritfy.app' ||
         meta.is_approved === true ||
-        approvedCollaborators.some((e) => e.toLowerCase() === email);
+        approvedCollaborators.some((e) => e.toLowerCase().trim() === email);
 
       const roleName = admin
         ? 'Administrador'
@@ -2366,12 +2381,12 @@ export function AppProvider({ children }) {
   // Atualiza currentUser se a lista de aprovados mudar
   useEffect(() => {
     if (currentUser?.email) {
-      const email = currentUser.email.toLowerCase();
-      const admin = email === 'admin@spiritfy.app' || currentUser.isAdmin;
+      const email = currentUser.email.toLowerCase().trim();
+      const admin = checkIsAdmin(email) || currentUser.isAdmin;
       const approved =
         admin ||
         email === 'filipe@spiritfy.app' ||
-        approvedCollaborators.some((e) => e.toLowerCase() === email);
+        approvedCollaborators.some((e) => e.toLowerCase().trim() === email);
 
       const newRole = admin
         ? 'Administrador'
@@ -2400,7 +2415,7 @@ export function AppProvider({ children }) {
       if (!email) return;
       const normalized = email.trim().toLowerCase();
       setApprovedCollaborators((prev) => {
-        if (prev.some((e) => e.toLowerCase() === normalized)) return prev;
+        if (prev.some((e) => e.toLowerCase().trim() === normalized)) return prev;
         return [...prev, normalized];
       });
       showToast(`Colaborador "${normalized}" aprovado com sucesso!`, 'success');
@@ -2412,12 +2427,12 @@ export function AppProvider({ children }) {
     (email) => {
       if (!email) return;
       const normalized = email.trim().toLowerCase();
-      if (normalized === 'admin@spiritfy.app') {
+      if (ADMIN_EMAILS.includes(normalized)) {
         showToast('Não é possível revogar o administrador principal.', 'warning');
         return;
       }
       setApprovedCollaborators((prev) =>
-        prev.filter((e) => e.toLowerCase() !== normalized)
+        prev.filter((e) => e.toLowerCase().trim() !== normalized)
       );
       showToast(`Permissão revogada para "${normalized}".`, 'info');
     },
@@ -2427,22 +2442,23 @@ export function AppProvider({ children }) {
   // Computa permissões ativas
   const isAdmin = useMemo(() => {
     if (!currentUser) return false;
-    const email = (currentUser.email || '').toLowerCase();
-    return email === 'admin@spiritfy.app' || currentUser.role === 'Administrador' || currentUser.isAdmin === true;
+    const email = (currentUser.email || '').toLowerCase().trim();
+    return checkIsAdmin(email) || currentUser.role === 'Administrador' || currentUser.isAdmin === true;
   }, [currentUser]);
 
   const isApprovedCollaborator = useMemo(() => {
     if (!currentUser) return false;
     if (isAdmin) return true;
-    const email = (currentUser.email || '').toLowerCase();
+    const email = (currentUser.email || '').toLowerCase().trim();
     return (
       email === 'filipe@spiritfy.app' ||
-      approvedCollaborators.some((e) => e.toLowerCase() === email) ||
+      approvedCollaborators.some((e) => e.toLowerCase().trim() === email) ||
       currentUser.isApproved === true
     );
   }, [currentUser, isAdmin, approvedCollaborators]);
 
-  const canEdit = isAdmin || isApprovedCollaborator;
+  // Usuários não logados (visitantes) NUNCA têm permissão de edição
+  const canEdit = Boolean(currentUser && (isAdmin || isApprovedCollaborator));
 
   // Supabase Auth Methods
   const supabaseSignIn = useCallback(
@@ -2733,6 +2749,11 @@ export function AppProvider({ children }) {
    * @param {{ name: string, description: string, imageUrl?: string, gradient?: string }} data
    */
   const addPlaylist = async ({ name, description, imageUrl, gradient }) => {
+    if (!canEdit) {
+      showToast('Acesso restrito: faça login como colaborador para criar playlists.', 'warning');
+      return null;
+    }
+
     try {
       const { data, error } = await supabase
         .from('playlists')
@@ -2746,6 +2767,13 @@ export function AppProvider({ children }) {
 
       if (error) throw error;
       const created = data[0];
+
+      if (description) {
+        setPlaylistDescriptions((prev) => ({
+          ...prev,
+          [created.id]: description.trim(),
+        }));
+      }
 
       const newPlaylist = {
         id: created.id,
@@ -2776,6 +2804,11 @@ export function AppProvider({ children }) {
    * @param {{ name?: string, title?: string, imageUrl?: string, image_url?: string, description?: string, gradient?: string }} updatedData
    */
   const updatePlaylist = async (playlistId, updatedData) => {
+    if (!canEdit) {
+      showToast('Acesso restrito: faça login como colaborador para editar playlists.', 'warning');
+      return false;
+    }
+
     if (playlistId === 'mix-geral') {
       showToast('O Mix Geral é dinâmico e não pode ser editado diretamente.', 'warning');
       return false;
@@ -2788,12 +2821,35 @@ export function AppProvider({ children }) {
       if (updatedData.imageUrl !== undefined) payload.image_url = updatedData.imageUrl.trim();
       if (updatedData.image_url !== undefined) payload.image_url = updatedData.image_url.trim();
 
-      const { error } = await supabase
+      // Tenta atualizar com description no banco caso a coluna exista
+      if (updatedData.description !== undefined) {
+        payload.description = updatedData.description.trim();
+      }
+
+      let { error } = await supabase
         .from('playlists')
         .update(payload)
         .eq('id', playlistId);
 
+      // Se a coluna description ainda não existir fisicamente no Supabase, atualiza sem ela
+      if (error && error.message?.includes('description')) {
+        delete payload.description;
+        const res = await supabase
+          .from('playlists')
+          .update(payload)
+          .eq('id', playlistId);
+        error = res.error;
+      }
+
       if (error) throw error;
+
+      // Salva a descrição também no armazenamento persistente local
+      if (updatedData.description !== undefined) {
+        setPlaylistDescriptions((prev) => ({
+          ...prev,
+          [playlistId]: updatedData.description.trim(),
+        }));
+      }
 
       setPlaylists((prev) =>
         prev.map((pl) => {
@@ -2803,6 +2859,7 @@ export function AppProvider({ children }) {
               ...updatedData,
               name: payload.title || pl.name,
               title: payload.title || pl.title,
+              description: updatedData.description !== undefined ? updatedData.description.trim() : pl.description,
               imageUrl: payload.image_url !== undefined ? payload.image_url : pl.imageUrl,
               image_url: payload.image_url !== undefined ? payload.image_url : pl.image_url,
             };
@@ -2821,11 +2878,45 @@ export function AppProvider({ children }) {
   };
 
   /**
+   * Delete an existing playlist from Supabase (restrito ao Admin/colaborador autorizado)
+   * @param {string} playlistId
+   */
+  const deletePlaylist = async (playlistId) => {
+    if (!canEdit) {
+      showToast('Acesso restrito: apenas colaboradores autorizados podem excluir playlists.', 'warning');
+      return false;
+    }
+
+    if (playlistId === 'mix-geral') {
+      showToast('O Mix Geral não pode ser excluído.', 'warning');
+      return false;
+    }
+
+    try {
+      const { error } = await supabase.from('playlists').delete().eq('id', playlistId);
+      if (error) throw error;
+
+      setPlaylists((prev) => prev.filter((pl) => pl.id !== playlistId));
+      showToast('Playlist removida com sucesso!', 'info');
+      return true;
+    } catch (err) {
+      console.error('[Supabase] Erro ao excluir playlist:', err);
+      showToast('Erro ao excluir playlist no Supabase.', 'warning');
+      return false;
+    }
+  };
+
+  /**
    * Add a new song to an existing playlist in Supabase
    * @param {string} playlistId
    * @param {{ title: string, artist: string, duration?: string, lyrics?: string }} songData
    */
   const addSongToPlaylist = async (playlistId, { title, artist, duration, lyrics }) => {
+    if (!canEdit) {
+      showToast('Acesso restrito: faça login como colaborador para adicionar músicas.', 'warning');
+      return null;
+    }
+
     if (playlistId === 'mix-geral') {
       showToast('O Mix Geral é automático. Adicione a uma playlist específica.', 'warning');
       return false;
@@ -2876,6 +2967,42 @@ export function AppProvider({ children }) {
       console.error('[Supabase] Erro ao adicionar música:', err);
       showToast('Erro ao adicionar música no Supabase.', 'warning');
       return null;
+    }
+  };
+
+  /**
+   * Delete a song from an existing playlist in Supabase
+   * @param {string} playlistId
+   * @param {string} songId
+   */
+  const deleteSong = async (playlistId, songId) => {
+    if (!canEdit) {
+      showToast('Acesso restrito: apenas colaboradores autorizados podem excluir músicas.', 'warning');
+      return false;
+    }
+
+    try {
+      const { error } = await supabase.from('songs').delete().eq('id', songId);
+      if (error) throw error;
+
+      setPlaylists((prev) =>
+        prev.map((pl) => {
+          if (pl.id === playlistId) {
+            return {
+              ...pl,
+              songs: (pl.songs || []).filter((s) => s.id !== songId),
+            };
+          }
+          return pl;
+        })
+      );
+
+      showToast('Música removida do repertório!', 'info');
+      return true;
+    } catch (err) {
+      console.error('[Supabase] Erro ao excluir música:', err);
+      showToast('Erro ao excluir música no Supabase.', 'warning');
+      return false;
     }
   };
 
@@ -2961,7 +3088,9 @@ export function AppProvider({ children }) {
         requestSong,
         addPlaylist,
         updatePlaylist,
+        deletePlaylist,
         addSongToPlaylist,
+        deleteSong,
         getPlaylistById,
         getSongById,
         resetToDefaults,

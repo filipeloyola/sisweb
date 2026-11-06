@@ -236,8 +236,9 @@ export function ProfilePage() {
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
               {approvedCollaborators.map((email) => {
-                const isMainAdmin = email.toLowerCase() === 'admin@spiritfy.app';
-                const isFilipe = email.toLowerCase() === 'filipe@spiritfy.app';
+                const norm = email.toLowerCase().trim();
+                const isMainAdmin = norm === 'loyolafilipe@gmail.com' || norm === 'admin@spiritfy.app';
+                const isFilipe = norm === 'filipe@spiritfy.app';
 
                 return (
                   <div
@@ -251,7 +252,7 @@ export function ProfilePage() {
                       <div className="flex flex-col min-w-0">
                         <span className="text-sm font-bold text-white truncate">{email}</span>
                         <span className="text-[10px] text-spotify-gray">
-                          {isMainAdmin ? 'Administrador' : isFilipe ? 'Colaborador Inicial' : 'Colaborador Aprovado'}
+                          {isMainAdmin ? 'Administrador Principal' : isFilipe ? 'Colaborador Inicial' : 'Colaborador Aprovado'}
                         </span>
                       </div>
                     </div>

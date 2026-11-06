@@ -127,14 +127,16 @@ export function PlaylistsPage() {
           </p>
         </div>
 
-        {/* Action button */}
-        <button
-          onClick={handleOpenCreateModal}
-          className="self-start md:self-auto px-5 py-2.5 rounded-full bg-spotify-green hover:bg-spotify-green-light text-black font-extrabold text-sm transition-all duration-200 hover:scale-105 shadow-lg shadow-spotify-green/20 flex items-center gap-2"
-        >
-          <Plus className="w-5 h-5" />
-          <span>Nova Playlist</span>
-        </button>
+        {/* Action button: visível apenas para Admin e Colaboradores autorizados */}
+        {canEdit && (
+          <button
+            onClick={handleOpenCreateModal}
+            className="self-start md:self-auto px-5 py-2.5 rounded-full bg-spotify-green hover:bg-spotify-green-light text-black font-extrabold text-sm transition-all duration-200 hover:scale-105 shadow-lg shadow-spotify-green/20 flex items-center gap-2"
+          >
+            <Plus className="w-5 h-5" />
+            <span>Nova Playlist</span>
+          </button>
+        )}
       </div>
 
       {/* Search Bar */}
@@ -172,7 +174,7 @@ export function PlaylistsPage() {
             <PlaylistCard
               key={playlist.id}
               playlist={playlist}
-              onEdit={handleOpenEdit}
+              onEdit={canEdit ? handleOpenEdit : undefined}
             />
           ))}
         </div>

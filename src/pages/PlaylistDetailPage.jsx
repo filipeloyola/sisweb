@@ -147,7 +147,8 @@ export function PlaylistDetailPage() {
           <span>Voltar às Playlists</span>
         </button>
 
-        {!isMixGeral && (
+        {/* Apenas usuários autorizados veem botões de edição de playlist e adição de música */}
+        {!isMixGeral && canEdit && (
           <div className="flex items-center gap-2.5">
             <button
               onClick={handleOpenEditModal}
@@ -176,11 +177,11 @@ export function PlaylistDetailPage() {
 
         {/* Cover Artwork (Interactive on hover if editable) */}
         <div
-          onClick={() => !isMixGeral && setIsEditModalOpen(true)}
+          onClick={() => !isMixGeral && canEdit && setIsEditModalOpen(true)}
           className={`relative group w-44 h-44 sm:w-56 sm:h-56 rounded-2xl overflow-hidden shadow-2xl flex-shrink-0 bg-neutral-900 border border-white/10 ${
-            !isMixGeral ? 'cursor-pointer' : ''
+            !isMixGeral && canEdit ? 'cursor-pointer' : ''
           }`}
-          title={!isMixGeral ? 'Clique para alterar nome e capa da playlist' : ''}
+          title={!isMixGeral && canEdit ? 'Clique para alterar nome e capa da playlist' : ''}
         >
           {playlist.imageUrl && !isMixGeral ? (
             <img
@@ -207,8 +208,8 @@ export function PlaylistDetailPage() {
             </div>
           )}
 
-          {/* Spotify-style hover overlay to edit artwork */}
-          {!isMixGeral && (
+          {/* Spotify-style hover overlay to edit artwork (somente se puder editar) */}
+          {!isMixGeral && canEdit && (
             <div className="absolute inset-0 bg-black/65 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-col items-center justify-center gap-2 text-white">
               <div className="p-3 rounded-full bg-white/10 border border-white/20">
                 <Pencil className="w-5 h-5 text-spotify-green" />
@@ -235,7 +236,7 @@ export function PlaylistDetailPage() {
             <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight">
               {playlist.name}
             </h1>
-            {!isMixGeral && (
+            {!isMixGeral && canEdit && (
               <button
                 onClick={() => setIsEditModalOpen(true)}
                 className="p-2 rounded-full hover:bg-white/10 text-spotify-gray hover:text-spotify-green transition-colors"

@@ -2,13 +2,17 @@
 -- Spiritfy - Script SQL para configuração do Supabase
 -- ========================================================
 
--- 1. Criação da tabela de playlists
+-- 1. Criação da tabela de playlists (com suporte a descrição e capa)
 CREATE TABLE IF NOT EXISTS public.playlists (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     title TEXT NOT NULL,
+    description TEXT,
     image_url TEXT,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
+
+-- Garante que a coluna description exista caso a tabela já tenha sido criada anteriormente
+ALTER TABLE public.playlists ADD COLUMN IF NOT EXISTS description TEXT;
 
 -- 2. Criação da tabela de músicas (songs) com cifra + letra
 CREATE TABLE IF NOT EXISTS public.songs (
@@ -30,10 +34,12 @@ CREATE TABLE IF NOT EXISTS public.collaborators (
 );
 
 -- 4. Contas iniciais configuradas:
--- Admin: admin@spiritfy.app (permissões totais de admin e aprovação)
--- Filipe: filipe@spiritfy.app (colaborador pré-aprovado para testes)
+-- Admin Principal: loyolafilipe@gmail.com (permissões totais de admin e aprovação)
+-- Admin Secundário: admin@spiritfy.app
+-- Filipe: filipe@spiritfy.app (colaborador inicial pré-aprovado para testes)
 INSERT INTO public.collaborators (email, role, is_approved)
 VALUES 
+    ('loyolafilipe@gmail.com', 'admin', true),
     ('admin@spiritfy.app', 'admin', true),
     ('filipe@spiritfy.app', 'collaborator', true)
 ON CONFLICT (email) DO UPDATE 
@@ -44,7 +50,7 @@ ALTER TABLE public.playlists ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.songs ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.collaborators ENABLE ROW LEVEL SECURITY;
 
--- Políticas de acesso para playlists (leitura pública total, escrita liberada para anon/autenticados)
+-- Políticas de acesso para playlists (leitura pública total, escrita liberada para autenticados/anon)
 CREATE POLICY "Permitir leitura pública de playlists"
     ON public.playlists FOR SELECT
     USING (true);

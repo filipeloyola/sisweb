@@ -225,7 +225,7 @@ export function AuthModal({ isOpen, onClose }) {
             <button
               type="submit"
               disabled={loginLoading}
-              className="w-full mt-1 py-3 rounded-full bg-spotify-green hover:bg-spotify-green-light active:scale-[0.98] text-black font-extrabold text-sm transition-all duration-200 flex items-center justify-center gap-2 shadow-lg shadow-spotify-green/20 disabled:opacity-60"
+              className="w-full mt-2 py-3 rounded-full bg-spotify-green hover:bg-spotify-green-light active:scale-[0.98] text-black font-extrabold text-sm transition-all duration-200 flex items-center justify-center gap-2 shadow-lg shadow-spotify-green/20 disabled:opacity-60"
             >
               {loginLoading ? (
                 <span className="w-5 h-5 border-2 border-black/40 border-t-black rounded-full animate-spin" />
@@ -236,38 +236,6 @@ export function AuthModal({ isOpen, onClose }) {
                 </>
               )}
             </button>
-
-            {/* Pre-configured accounts for quick testing */}
-            <div className="mt-3 pt-3 border-t border-white/5 flex flex-col gap-2">
-              <span className="text-[11px] font-bold text-spotify-gray uppercase tracking-wider text-center">
-                Acesso Rápido para Testes:
-              </span>
-              <div className="grid grid-cols-2 gap-2 text-xs">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setLoginEmail('admin@spiritfy.app');
-                    setLoginPassword('AdminPassword123!');
-                  }}
-                  className="p-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 text-left transition-colors"
-                >
-                  <span className="block font-bold text-amber-400">👑 Admin</span>
-                  <span className="text-[10px] text-spotify-gray truncate block">admin@spiritfy.app</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    setLoginEmail('filipe@spiritfy.app');
-                    setLoginPassword('FilipePassword123!');
-                  }}
-                  className="p-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 text-left transition-colors"
-                >
-                  <span className="block font-bold text-spotify-green">🎸 Filipe</span>
-                  <span className="text-[10px] text-spotify-gray truncate block">filipe@spiritfy.app</span>
-                </button>
-              </div>
-            </div>
           </form>
         )}
 
