@@ -94,23 +94,25 @@ export function PlaylistDetailPage() {
     );
   }
 
-  const handleAddSong = (e) => {
+  const handleAddSong = async (e) => {
     e.preventDefault();
     if (!title.trim() || !artist.trim()) return;
 
-    addSongToPlaylist(playlist.id, {
+    const created = await addSongToPlaylist(playlist.id, {
       title: title.trim(),
       artist: artist.trim(),
       duration: duration.trim() || '3:30',
       lyrics: lyrics.trim() || 'Letra ainda não informada.',
     });
 
-    // Reset and close
-    setTitle('');
-    setArtist('');
-    setDuration('3:30');
-    setLyrics('');
-    setIsModalOpen(false);
+    // Só limpa e fecha se o Supabase confirmou a gravação
+    if (created) {
+      setTitle('');
+      setArtist('');
+      setDuration('3:30');
+      setLyrics('');
+      setIsModalOpen(false);
+    }
   };
 
   const isMixGeral = playlist.id === 'mix-geral';

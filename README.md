@@ -35,11 +35,32 @@ A aplicação agora carrega com **3 playlists oficiais** extraídas diretamente 
 O usuário pode personalizar cada uma das 3 playlists diretamente na interface:
 - **Alteração do Nome da Playlist**
 - **Alteração da Imagem de Capa**: suporte a URL externa customizada ou seleção imediata entre temas/presets selecionados (Acústico, Vocal, Espiritual, Palco, Violão e Harmonia).
-- **Alteração da Descrição**
 - Acesso à edição:
   - Na página de detalhes da playlist: botão **"Editar Playlist"** no topo ou **clique direto sobre a capa do álbum** (com efeito hover inspirado no Spotify).
   - Na listagem de playlists: botão de edição no canto do card.
-- Todas as alterações são salvas e persistidas no `localStorage`.
+- Todas as alterações são salvas e persistidas diretamente no **Supabase** via consultas assíncronas (`async/await`).
+
+---
+
+## 🗄️ Integração com Supabase (Banco de Dados em Nuvem)
+
+A aplicação está integrada com o **Supabase** para persistência em nuvem das tabelas `playlists` e `songs`.
+
+### 1. Variáveis de Ambiente (`.env`)
+As credenciais são carregadas através das variáveis no arquivo `.env`:
+```env
+VITE_SUPABASE_URL=https://vyycxfstoahejheqvfkp.supabase.co
+VITE_SUPABASE_ANON_KEY=sb_publishable_...
+```
+*(Um arquivo `.env.example` foi fornecido no repositório como modelo).*
+
+### 2. Cliente de Conexão (`src/supabaseClient.js`)
+Configurado para inicializar a instância oficial `@supabase/supabase-js`, com tratamento automático para normalização da URL base.
+
+### 3. Esquema das Tabelas (`supabase_schema.sql`)
+- **`playlists`**: `id` (UUID), `title` (TEXT), `image_url` (TEXT), `created_at` (TIMESTAMP).
+- **`songs`**: `id` (UUID), `playlist_id` (UUID, FK -> playlists.id), `title` (TEXT), `artist` (TEXT), `lyrics` (TEXT), `created_at` (TIMESTAMP).
+- **Inicialização Automática**: Na primeira carga, se o banco estiver vazio, o Spiritfy semeia automaticamente as 3 playlists oficiais e todas as suas músicas.
 
 ---
 

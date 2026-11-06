@@ -51,7 +51,7 @@ export function EditPlaylistModal({ isOpen, onClose, playlist }) {
   const { updatePlaylist } = useApp();
 
   const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
+  const [saving, setSaving] = useState(false);
   const [imageUrl, setImageUrl] = useState('');
   const [selectedPresetId, setSelectedPresetId] = useState(null);
   const [gradient, setGradient] = useState('');
@@ -60,7 +60,6 @@ export function EditPlaylistModal({ isOpen, onClose, playlist }) {
   useEffect(() => {
     if (playlist) {
       setName(playlist.name || '');
-      setDescription(playlist.description || '');
       setImageUrl(playlist.imageUrl || '');
       setGradient(playlist.gradient || 'from-neutral-800 via-neutral-900 to-black');
 
@@ -88,18 +87,19 @@ export function EditPlaylistModal({ isOpen, onClose, playlist }) {
     setSelectedPresetId(null);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!name.trim()) return;
+    if (!name.trim() || saving) return;
 
-    updatePlaylist(playlist.id, {
+    setSaving(true);
+    const ok = await updatePlaylist(playlist.id, {
       name: name.trim(),
-      description: description.trim(),
       imageUrl: imageUrl.trim(),
       gradient,
     });
+    setSaving(false);
 
-    onClose();
+    if (ok) onClose();
   };
 
   return (
@@ -107,7 +107,7 @@ export function EditPlaylistModal({ isOpen, onClose, playlist }) {
       isOpen={isOpen}
       onClose={onClose}
       title="Editar Playlist"
-      subtitle="Altere o nome e a imagem de capa da playlist."
+      subtitle="Altere o nome e a imagem de capa. As alterações são salvas no Supabase."
       maxWidth="max-w-xl"
     >
       <form onSubmit={handleSubmit} className="flex flex-col gap-5">
@@ -145,7 +145,7 @@ export function EditPlaylistModal({ isOpen, onClose, playlist }) {
               {name || 'Nome da Playlist'}
             </h4>
             <p className="text-xs text-spotify-gray line-clamp-2 mt-0.5">
-              {description || 'Sem descrição.'}
+              {playlist.description || 'Sem descrição.'}
             </p>
           </div>
         </div>
@@ -227,20 +227,6 @@ export function EditPlaylistModal({ isOpen, onClose, playlist }) {
           </div>
         </div>
 
-        {/* Description textarea */}
-        <div className="flex flex-col gap-1.5">
-          <label className="text-xs font-bold text-spotify-gray uppercase tracking-wider">
-            Descrição da Playlist
-          </label>
-          <textarea
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            rows={2}
-            placeholder="Descrição ou informações sobre o repertório..."
-            className="w-full bg-[#121212] border border-[#333333] focus:border-spotify-green rounded-xl p-3 text-sm text-white placeholder-[#555] outline-none transition-colors resize-none"
-          />
-        </div>
-
         {/* Form Actions */}
         <div className="flex items-center justify-end gap-3 pt-2 border-t border-[#282828] mt-2">
           <button
@@ -252,9 +238,10 @@ export function EditPlaylistModal({ isOpen, onClose, playlist }) {
           </button>
           <button
             type="submit"
-            className="px-6 py-2.5 rounded-full bg-spotify-green hover:bg-[#1ed760] text-black font-extrabold text-xs sm:text-sm transition-all hover:scale-105 shadow-md shadow-spotify-green/20"
+            disabled={saving || !name.trim()}
+            className="px-6 py-2.5 rounded-full bg-spotify-green hover:bg-[#1ed760] disabled:opacity-60 disabled:hover:scale-100 text-black font-extrabold text-xs sm:text-sm transition-all hover:scale-105 shadow-md shadow-spotify-green/20"
           >
-            Salvar Alterações
+            {saving ? 'Salvando...' : 'Salvar Alterações'}
           </button>
         </div>
       </form>

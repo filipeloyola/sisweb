@@ -1,5 +1,6 @@
-import React, { createContext, useContext, useMemo, useState, useEffect } from 'react';
+import React, { createContext, useContext, useMemo, useState, useEffect, useCallback, useRef } from 'react';
 import useLocalStorage from '../hooks/useLocalStorage';
+import { supabase } from '../supabaseClient';
 
 // Create App Context
 const AppContext = createContext(null);
@@ -972,6 +973,51 @@ Desvenda a nova era em mim e em você`,
 ];
 
 /**
+ * Converte as linhas do Supabase (`playlists` + `songs`) para o formato usado pela UI.
+ * Campos que não existem no banco (descrição, gradiente, duração, criador) são
+ * recuperados do seed dos PDFs quando o nome/título coincide; caso contrário, usam padrões.
+ */
+function mapDbToPlaylists(dbPlaylists = [], dbSongs = []) {
+  const presetSongs = new Map();
+  INITIAL_PLAYLISTS.forEach((pl) =>
+    pl.songs.forEach((s) => presetSongs.set(`${pl.name}::${s.title}`.toLowerCase(), s))
+  );
+
+  const songsByPlaylist = {};
+  dbSongs.forEach((song) => {
+    (songsByPlaylist[song.playlist_id] ||= []).push(song);
+  });
+
+  return dbPlaylists.map((pl) => {
+    const preset = INITIAL_PLAYLISTS.find((p) => p.name.toLowerCase() === pl.title.toLowerCase());
+    return {
+      id: pl.id,
+      name: pl.title,
+      title: pl.title,
+      description: preset?.description || 'Repertório de músicas ao vivo.',
+      imageUrl: pl.image_url || preset?.imageUrl || '',
+      image_url: pl.image_url || preset?.imageUrl || '',
+      gradient: preset?.gradient || 'from-neutral-800 via-neutral-900 to-black',
+      createdBy: preset?.createdBy || 'user-1',
+      createdAt: pl.created_at,
+      songs: (songsByPlaylist[pl.id] || []).map((song) => {
+        const seedSong = presetSongs.get(`${pl.title}::${song.title}`.toLowerCase());
+        return {
+          id: song.id,
+          playlist_id: song.playlist_id,
+          title: song.title,
+          artist: song.artist,
+          lyrics: song.lyrics || '',
+          duration: seedSong?.duration || '3:30',
+          requests: 0,
+          addedAt: song.created_at,
+        };
+      }),
+    };
+  });
+}
+
+/**
  * Generates a random emoji avatar from a curated set.
  * @returns {string}
  */
@@ -994,26 +1040,145 @@ function generateToken() {
  * synced to localStorage.
  */
 export function AppProvider({ children }) {
-  // Playlists persistence
-  const [playlists, setPlaylists] = useLocalStorage('spiritfy_playlists', INITIAL_PLAYLISTS);
+  // Playlists state managed via Supabase async queries
+  const [dbPlaylists, setPlaylists] = useState([]);
+  const [isLoadingPlaylists, setIsLoadingPlaylists] = useState(true);
 
-  // Automatic migration: If localStorage contains old example playlists, replace with the 3 real PDF playlists
-  useEffect(() => {
-    if (Array.isArray(playlists)) {
-      const hasOldPlaylists = playlists.some((pl) =>
-        ['playlist-rock', 'playlist-pop', 'playlist-mpb'].includes(pl.id)
-      );
-      if (hasOldPlaylists) {
-        setPlaylists(INITIAL_PLAYLISTS);
-      }
-    }
-  }, [playlists, setPlaylists]);
+  // As tabelas `songs`/`playlists` não possuem coluna de pedidos ao vivo, então o
+  // contador de pedidos por música fica no navegador e é mesclado aos dados do Supabase.
+  const [requestCounts, setRequestCounts] = useLocalStorage('spiritfy_song_requests', {});
+
+  // Guarda contra execução dupla do efeito (React.StrictMode) que duplicaria o seed.
+  const hasFetchedRef = useRef(false);
+
+  const playlists = useMemo(
+    () =>
+      dbPlaylists.map((pl) => ({
+        ...pl,
+        songs: (pl.songs || []).map((s) => ({
+          ...s,
+          requests: requestCounts[s.id] ?? s.requests ?? 0,
+        })),
+      })),
+    [dbPlaylists, requestCounts]
+  );
+
+  // Global Toast state
+  const [toast, setToast] = useState(null);
 
   /**
-   * `registeredUsers`: All users who signed up (preset + newly created).
-   * Each user shape: { id, name, email, passwordHash, avatar, role, bio, confirmed, token }
-   * NOTE: passwordHash here is a very simple base64 obfuscation for demo purposes only.
-   * In a real app, NEVER store passwords client-side — use a proper auth service.
+   * Helper to trigger a toast banner
+   * @param {string} message
+   * @param {'success' | 'info' | 'warning'} [type='success']
+   */
+  const showToast = useCallback((message, type = 'success') => {
+    setToast({
+      id: Date.now() + Math.random(),
+      message,
+      type,
+    });
+  }, []);
+
+  /**
+   * Semeia as 3 playlists oficiais e respectivas músicas no Supabase
+   * caso o banco na nuvem esteja vazio na primeira inicialização.
+   */
+  const seedInitialPlaylists = useCallback(async () => {
+    try {
+      console.log('[Supabase] Inicializando banco de dados com as 3 playlists oficiais...');
+      for (const pl of INITIAL_PLAYLISTS) {
+        const { data: createdPls, error: plErr } = await supabase
+          .from('playlists')
+          .insert([
+            {
+              title: pl.name,
+              image_url: pl.imageUrl || '',
+            },
+          ])
+          .select();
+
+        if (plErr) throw plErr;
+        const createdPl = createdPls[0];
+
+        if (pl.songs && pl.songs.length > 0) {
+          const songsToInsert = pl.songs.map((s) => ({
+            playlist_id: createdPl.id,
+            title: s.title,
+            artist: s.artist,
+            lyrics: s.lyrics || '',
+          }));
+
+          const { error: sErr } = await supabase.from('songs').insert(songsToInsert);
+          if (sErr) throw sErr;
+        }
+      }
+
+      // Re-busca os dados gerados com os UUIDs reais do Supabase
+      const { data: newDbPlaylists } = await supabase
+        .from('playlists')
+        .select('*')
+        .order('created_at', { ascending: true });
+
+      const { data: newDbSongs } = await supabase
+        .from('songs')
+        .select('*')
+        .order('created_at', { ascending: true });
+
+      setPlaylists(mapDbToPlaylists(newDbPlaylists, newDbSongs));
+      showToast('Banco Supabase conectado e sincronizado com sucesso!', 'success');
+    } catch (err) {
+      console.error('[Supabase] Erro ao semear playlists no banco:', err);
+      setPlaylists(INITIAL_PLAYLISTS);
+    }
+  }, [showToast]);
+
+  /**
+   * Consulta assíncrona das playlists e músicas diretamente do Supabase
+   */
+  const fetchPlaylists = useCallback(async () => {
+    try {
+      setIsLoadingPlaylists(true);
+
+      const { data: dbPlaylists, error: plError } = await supabase
+        .from('playlists')
+        .select('*')
+        .order('created_at', { ascending: true });
+
+      if (plError) throw plError;
+
+      // Se a tabela estiver vazia, popula com as 3 playlists oficiais
+      if (!dbPlaylists || dbPlaylists.length === 0) {
+        await seedInitialPlaylists();
+        return;
+      }
+
+      // Busca todas as músicas da tabela songs
+      const { data: dbSongs, error: songsError } = await supabase
+        .from('songs')
+        .select('*')
+        .order('created_at', { ascending: true });
+
+      if (songsError) throw songsError;
+
+      setPlaylists(mapDbToPlaylists(dbPlaylists, dbSongs));
+    } catch (err) {
+      console.warn('[Supabase] Falha ao consultar Supabase:', err);
+      showToast('Aviso: Operando com dados locais de contingência.', 'info');
+      setPlaylists(INITIAL_PLAYLISTS);
+    } finally {
+      setIsLoadingPlaylists(false);
+    }
+  }, [seedInitialPlaylists, showToast]);
+
+  // Carrega os dados na montagem do componente
+  useEffect(() => {
+    if (hasFetchedRef.current) return;
+    hasFetchedRef.current = true;
+    fetchPlaylists();
+  }, [fetchPlaylists]);
+
+  /**
+   * `registeredUsers`: Usuários cadastrados (mantido para sessão e alternância de perfil)
    */
   const [registeredUsers, setRegisteredUsers] = useLocalStorage(
     'spiritfy_registered_users',
@@ -1025,22 +1190,6 @@ export function AppProvider({ children }) {
 
   // Request interaction history (for Profile page & live feed)
   const [userRequests, setUserRequests] = useLocalStorage('spiritfy_user_requests', []);
-
-  // Global Toast state
-  const [toast, setToast] = useState(null);
-
-  /**
-   * Helper to trigger a toast banner
-   * @param {string} message
-   * @param {'success' | 'info' | 'warning'} [type='success']
-   */
-  const showToast = (message, type = 'success') => {
-    setToast({
-      id: Date.now() + Math.random(),
-      message,
-      type,
-    });
-  };
 
   /**
    * Computed "Mix Geral" playlist:
@@ -1219,26 +1368,9 @@ export function AppProvider({ children }) {
    * @param {string} [songTitle]
    */
   const requestSong = (songId, songTitle) => {
-    let targetSong = null;
+    const targetSong = playlists.flatMap((pl) => pl.songs).find((s) => s.id === songId) || null;
 
-    setPlaylists((prevPlaylists) =>
-      prevPlaylists.map((pl) => {
-        let matched = false;
-        const updatedSongs = pl.songs.map((s) => {
-          if (s.id === songId) {
-            matched = true;
-            targetSong = s;
-            return { ...s, requests: (s.requests || 0) + 1 };
-          }
-          return s;
-        });
-
-        if (matched) {
-          return { ...pl, songs: updatedSongs };
-        }
-        return pl;
-      })
-    );
+    setRequestCounts((prev) => ({ ...prev, [songId]: (prev[songId] || 0) + 1 }));
 
     const displayName = songTitle || targetSong?.title || 'a música';
     const artistName = targetSong?.artist || 'Banda ao Vivo';
@@ -1260,95 +1392,154 @@ export function AppProvider({ children }) {
   };
 
   /**
-   * Create a new custom playlist
+   * Create a new custom playlist directly in Supabase
    * @param {{ name: string, description: string, imageUrl?: string, gradient?: string }} data
    */
-  const addPlaylist = ({ name, description, imageUrl, gradient }) => {
-    const newId = `playlist-${Date.now()}`;
-    const newPlaylist = {
-      id: newId,
-      name,
-      description: description || 'Playlist personalizada para o show ao vivo.',
-      imageUrl: imageUrl || '',
-      gradient: gradient || 'from-neutral-800 via-neutral-900 to-black',
-      createdBy: currentUser ? currentUser.id : 'user-guest',
-      createdAt: new Date().toISOString(),
-      songs: [],
-    };
+  const addPlaylist = async ({ name, description, imageUrl, gradient }) => {
+    try {
+      const { data, error } = await supabase
+        .from('playlists')
+        .insert([
+          {
+            title: name.trim(),
+            image_url: imageUrl || '',
+          },
+        ])
+        .select();
 
-    setPlaylists((prev) => [newPlaylist, ...prev]);
-    showToast(`Playlist "${name}" criada com sucesso!`, 'success');
-    return newPlaylist;
+      if (error) throw error;
+      const created = data[0];
+
+      const newPlaylist = {
+        id: created.id,
+        name: created.title,
+        title: created.title,
+        description: description || 'Playlist personalizada no Supabase.',
+        imageUrl: created.image_url || '',
+        image_url: created.image_url || '',
+        gradient: gradient || 'from-neutral-800 via-neutral-900 to-black',
+        createdBy: currentUser ? currentUser.id : 'user-guest',
+        createdAt: created.created_at,
+        songs: [],
+      };
+
+      setPlaylists((prev) => [newPlaylist, ...prev]);
+      showToast(`Playlist "${name}" criada e salva no Supabase!`, 'success');
+      return newPlaylist;
+    } catch (err) {
+      console.error('[Supabase] Erro ao criar playlist:', err);
+      showToast('Erro ao salvar playlist no Supabase.', 'warning');
+      return null;
+    }
   };
 
   /**
-   * Update an existing playlist's details (name, imageUrl, description, gradient)
-   * Saves changes to state and persists to localStorage.
+   * Update an existing playlist's details (name, imageUrl, description, gradient) directly in Supabase
    * @param {string} playlistId
-   * @param {{ name?: string, imageUrl?: string, description?: string, gradient?: string }} updatedData
+   * @param {{ name?: string, title?: string, imageUrl?: string, image_url?: string, description?: string, gradient?: string }} updatedData
    */
-  const updatePlaylist = (playlistId, updatedData) => {
+  const updatePlaylist = async (playlistId, updatedData) => {
     if (playlistId === 'mix-geral') {
       showToast('O Mix Geral é dinâmico e não pode ser editado diretamente.', 'warning');
       return false;
     }
 
-    let found = false;
-    setPlaylists((prev) =>
-      prev.map((pl) => {
-        if (pl.id === playlistId) {
-          found = true;
-          return {
-            ...pl,
-            ...updatedData,
-          };
-        }
-        return pl;
-      })
-    );
+    try {
+      const payload = {};
+      if (updatedData.name !== undefined) payload.title = updatedData.name.trim();
+      if (updatedData.title !== undefined) payload.title = updatedData.title.trim();
+      if (updatedData.imageUrl !== undefined) payload.image_url = updatedData.imageUrl.trim();
+      if (updatedData.image_url !== undefined) payload.image_url = updatedData.image_url.trim();
 
-    if (found) {
-      showToast(`Playlist "${updatedData.name || 'selecionada'}" atualizada com sucesso!`, 'success');
+      const { error } = await supabase
+        .from('playlists')
+        .update(payload)
+        .eq('id', playlistId);
+
+      if (error) throw error;
+
+      setPlaylists((prev) =>
+        prev.map((pl) => {
+          if (pl.id === playlistId) {
+            return {
+              ...pl,
+              ...updatedData,
+              name: payload.title || pl.name,
+              title: payload.title || pl.title,
+              imageUrl: payload.image_url !== undefined ? payload.image_url : pl.imageUrl,
+              image_url: payload.image_url !== undefined ? payload.image_url : pl.image_url,
+            };
+          }
+          return pl;
+        })
+      );
+
+      showToast(`Playlist atualizada com sucesso no Supabase!`, 'success');
       return true;
+    } catch (err) {
+      console.error('[Supabase] Erro ao atualizar playlist:', err);
+      showToast('Erro ao salvar alterações no Supabase.', 'warning');
+      return false;
     }
-    return false;
   };
 
   /**
-   * Add a new song to an existing playlist
+   * Add a new song to an existing playlist in Supabase
    * @param {string} playlistId
-   * @param {{ title: string, artist: string, duration: string, lyrics: string }} songData
+   * @param {{ title: string, artist: string, duration?: string, lyrics?: string }} songData
    */
-  const addSongToPlaylist = (playlistId, { title, artist, duration, lyrics }) => {
+  const addSongToPlaylist = async (playlistId, { title, artist, duration, lyrics }) => {
     if (playlistId === 'mix-geral') {
       showToast('O Mix Geral é automático. Adicione a uma playlist específica.', 'warning');
       return false;
     }
 
-    const newSong = {
-      id: `song-${Date.now()}`,
-      title,
-      artist,
-      duration: duration || '3:30',
-      lyrics: lyrics || 'Letra ainda não informada.',
-      requests: 0,
-      addedAt: new Date().toISOString(),
-    };
+    try {
+      const { data, error } = await supabase
+        .from('songs')
+        .insert([
+          {
+            playlist_id: playlistId,
+            title: title.trim(),
+            artist: artist.trim(),
+            lyrics: lyrics ? lyrics.trim() : '',
+          },
+        ])
+        .select();
 
-    setPlaylists((prev) =>
-      prev.map((pl) => {
-        if (pl.id === playlistId) {
-          return {
-            ...pl,
-            songs: [...pl.songs, newSong],
-          };
-        }
-        return pl;
-      })
-    );
+      if (error) throw error;
+      const created = data[0];
 
-    showToast(`Música "${title}" adicionada ao repertório!`, 'success');
-    return newSong;
+      const newSong = {
+        id: created.id,
+        playlist_id: playlistId,
+        title: created.title,
+        artist: created.artist,
+        lyrics: created.lyrics || '',
+        duration: duration || '3:30',
+        requests: 0,
+        addedAt: created.created_at,
+      };
+
+      setPlaylists((prev) =>
+        prev.map((pl) => {
+          if (pl.id === playlistId) {
+            return {
+              ...pl,
+              songs: [...pl.songs, newSong],
+            };
+          }
+          return pl;
+        })
+      );
+
+      showToast(`Música "${title}" adicionada com sucesso no Supabase!`, 'success');
+      return newSong;
+    } catch (err) {
+      console.error('[Supabase] Erro ao adicionar música:', err);
+      showToast('Erro ao adicionar música no Supabase.', 'warning');
+      return null;
+    }
   };
 
   /**
@@ -1381,18 +1572,30 @@ export function AppProvider({ children }) {
   };
 
   /**
-   * Helper to reset local storage demo data
+   * Reset local/cloud demo data
    */
-  const resetToDefaults = () => {
-    setPlaylists(INITIAL_PLAYLISTS);
-    setCurrentUser(null);
-    showToast('Dados de demonstração restaurados!', 'info');
+  const resetToDefaults = async () => {
+    try {
+      showToast('Restaurando dados no Supabase...', 'info');
+      await supabase.from('songs').delete().neq('title', '___none___');
+      await supabase.from('playlists').delete().neq('title', '___none___');
+      await seedInitialPlaylists();
+      setRequestCounts({});
+      setCurrentUser(null);
+    } catch (err) {
+      console.warn('Erro ao restaurar:', err);
+      setPlaylists(INITIAL_PLAYLISTS);
+      setCurrentUser(null);
+      showToast('Dados restaurados!', 'info');
+    }
   };
 
   return (
     <AppContext.Provider
       value={{
         playlists,
+        isLoadingPlaylists,
+        fetchPlaylists,
         users: registeredUsers,
         registeredUsers,
         currentUser,

@@ -69,22 +69,24 @@ export function PlaylistsPage() {
     return matchesMix ? [mixGeralPlaylist, ...filtered] : filtered;
   }, [playlists, mixGeralPlaylist, searchQuery]);
 
-  const handleCreatePlaylist = (e) => {
+  const handleCreatePlaylist = async (e) => {
     e.preventDefault();
     if (!name.trim()) return;
 
-    addPlaylist({
+    const created = await addPlaylist({
       name: name.trim(),
       description: description.trim(),
       imageUrl: customImageUrl.trim() || selectedCover.imageUrl,
       gradient: selectedCover.gradient,
     });
 
-    // Reset and close
-    setName('');
-    setDescription('');
-    setCustomImageUrl('');
-    setIsModalOpen(false);
+    // Só limpa e fecha se o Supabase confirmou a criação
+    if (created) {
+      setName('');
+      setDescription('');
+      setCustomImageUrl('');
+      setIsModalOpen(false);
+    }
   };
 
   return (

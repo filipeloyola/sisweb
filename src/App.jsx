@@ -33,7 +33,7 @@ function ScrollToTop() {
  * and EmailConfirmModal when a sign-up is pending e-mail confirmation.
  */
 export function App() {
-  const { currentUser } = useApp();
+  const { currentUser, isLoadingPlaylists } = useApp();
 
   /**
    * pendingConfirmation holds the data needed for EmailConfirmModal
@@ -86,6 +86,12 @@ export function App() {
 
             {/* Dynamic Route Pages Viewport */}
             <main className="flex-1 min-w-0 p-4 sm:p-6 lg:p-8 pb-24 md:pb-12">
+              {isLoadingPlaylists ? (
+                <div className="flex flex-col items-center justify-center py-32 gap-4 text-spotify-gray">
+                  <span className="w-10 h-10 border-4 border-white/10 border-t-spotify-green rounded-full animate-spin" />
+                  <p className="text-sm font-medium">Carregando playlists do Supabase...</p>
+                </div>
+              ) : (
               <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/playlists" element={<PlaylistsPage />} />
@@ -95,6 +101,7 @@ export function App() {
                 {/* Catch-all fallback */}
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
+              )}
             </main>
           </div>
 
