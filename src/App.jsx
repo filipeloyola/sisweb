@@ -29,43 +29,39 @@ function ScrollToTop() {
 
 /**
  * Main Application Shell Component.
- * Handles authentication gating: shows AuthModal when no user is logged in,
- * and EmailConfirmModal when a sign-up is pending e-mail confirmation.
+ * Oferece acesso público irrestrito: visitantes chegam diretamente na página
+ * principal com todas as playlists e músicas visíveis sem login obrigatório.
+ * A autenticação é opcional e acionada discretamente pelo botão "Login / Colaborador".
  */
 export function App() {
-  const { currentUser, isLoadingPlaylists } = useApp();
+  const { currentUser, isLoadingPlaylists, isAuthModalOpen, closeAuthModal } = useApp();
 
   /**
-   * pendingConfirmation holds the data needed for EmailConfirmModal
-   * while waiting for the user to "click the link":
+   * pendingConfirmation holds data when user registers via demo/local flow:
    * { userId, token, email, name }
    */
   const [pendingConfirmation, setPendingConfirmation] = useState(null);
 
-  // Once currentUser is set (login/confirm success), clear pending state
+  // Once currentUser is set, clear pending state
   useEffect(() => {
     if (currentUser && pendingConfirmation) {
       setPendingConfirmation(null);
     }
   }, [currentUser, pendingConfirmation]);
 
-  // Show AuthModal when there is no session AND no pending email step
-  const showAuthModal = !currentUser && !pendingConfirmation;
-  // Show EmailConfirmModal when sign-up just happened
-  const showConfirmModal = !currentUser && !!pendingConfirmation;
-
   return (
     <div className="min-h-screen bg-spotify-black text-white flex flex-col font-sans selection:bg-spotify-green selection:text-black">
       <ScrollToTop />
 
-      {/* ── Authentication gate modals ───────────────────────────────────── */}
+      {/* ── Authentication Modals (Apenas sob demanda, sem bloquear visitantes) ── */}
       <AuthModal
-        isOpen={showAuthModal}
+        isOpen={isAuthModalOpen}
+        onClose={closeAuthModal}
         onSignUpSuccess={(data) => setPendingConfirmation(data)}
       />
 
       <EmailConfirmModal
-        isOpen={showConfirmModal}
+        isOpen={!!pendingConfirmation}
         onClose={() => setPendingConfirmation(null)}
         userId={pendingConfirmation?.userId}
         token={pendingConfirmation?.token}
@@ -73,42 +69,37 @@ export function App() {
         name={pendingConfirmation?.name}
       />
 
-      {/* ── Main app shell (visible once authenticated) ───────────────────── */}
-      {currentUser && (
-        <>
-          {/* Fixed Header */}
-          <Navbar />
+      {/* ── Fixed Header Navigation ───────────────────────────────────────── */}
+      <Navbar />
 
-          {/* Main Body Layout with Sidebar + Scrollable Content */}
-          <div className="flex-1 flex max-w-[1600px] w-full mx-auto">
-            {/* Left Sidebar */}
-            <Sidebar />
+      {/* ── Main Layout: Sidebar + Dynamic Routes (Acesso Público Total) ──── */}
+      <div className="flex-1 flex max-w-[1600px] w-full mx-auto">
+        {/* Left Sidebar */}
+        <Sidebar />
 
-            {/* Dynamic Route Pages Viewport */}
-            <main className="flex-1 min-w-0 p-4 sm:p-6 lg:p-8 pb-24 md:pb-12">
-              {isLoadingPlaylists ? (
-                <div className="flex flex-col items-center justify-center py-32 gap-4 text-spotify-gray">
-                  <span className="w-10 h-10 border-4 border-white/10 border-t-spotify-green rounded-full animate-spin" />
-                  <p className="text-sm font-medium">Carregando playlists do Supabase...</p>
-                </div>
-              ) : (
-              <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/playlists" element={<PlaylistsPage />} />
-                <Route path="/playlists/:id" element={<PlaylistDetailPage />} />
-                <Route path="/playlists/:playlistId/songs/:songId" element={<SongDetailPage />} />
-                <Route path="/profile" element={<ProfilePage />} />
-                {/* Catch-all fallback */}
-                <Route path="*" element={<Navigate to="/" replace />} />
-              </Routes>
-              )}
-            </main>
-          </div>
+        {/* Dynamic Route Pages Viewport */}
+        <main className="flex-1 min-w-0 p-4 sm:p-6 lg:p-8 pb-24 md:pb-12">
+          {isLoadingPlaylists ? (
+            <div className="flex flex-col items-center justify-center py-32 gap-4 text-spotify-gray">
+              <span className="w-10 h-10 border-4 border-white/10 border-t-spotify-green rounded-full animate-spin" />
+              <p className="text-sm font-medium">Carregando repertório do Supabase...</p>
+            </div>
+          ) : (
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/playlists" element={<PlaylistsPage />} />
+              <Route path="/playlists/:id" element={<PlaylistDetailPage />} />
+              <Route path="/playlists/:playlistId/songs/:songId" element={<SongDetailPage />} />
+              <Route path="/profile" element={<ProfilePage />} />
+              {/* Catch-all fallback */}
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          )}
+        </main>
+      </div>
 
-          {/* Global Notification Toast */}
-          <Toast />
-        </>
-      )}
+      {/* Global Notification Toast */}
+      <Toast />
     </div>
   );
 }

@@ -74,34 +74,64 @@ export const INITIAL_PLAYLISTS = [
         duration: '3:20',
         requests: 12,
         addedAt: '2026-10-15T18:05:00.000Z',
-        lyrics: `Aleluia, (aleluia) 4X
+        lyrics: `                                 A Alegria Está No Coração
 
+
+    A       G D
+Aleluia, (alelui_a) 4X’
+A
 A alegria está no coração
+    D                    A G D
 De quem já conhece a Jesus
+A
 A verdadeira paz só tem aquele
+    B7               E
 Que já conhece a Jesus
 
+
+A                    A7
 O sentimento mais precioso
+    D                F
 Que vem do nosso Senhor
+    A            E
 É o amor que só tem quem
+                A G D
 Já conhece a Jesus
 (2x)
 
+
+            A
 Posso pisar numa tropa
+    A7
 E saltar as muralhas
 
+
+    D       F
 Aleluia! Aleluia!
+        A
 Posso pisar numa tropa
+
+     A7
 E saltar as muralhas
+  D        F
 Aleluia! Aleluia!
 
+
+ A             A7
 E Ele é a rocha da minha salvação
+  D            F
 Com Ele não há mais condenação
+      A
 Posso pisar numa tropa
+ E
 E saltar as muralhas
+  A E
 Aleluia!
 
-Aleluia! Aleluia!...
+
+
+Aleluia! Alelui_a!....
+
 
 O sentimento mais precioso…`,
       },
@@ -112,45 +142,102 @@ O sentimento mais precioso…`,
         duration: '4:10',
         requests: 8,
         addedAt: '2026-10-15T18:10:00.000Z',
-        lyrics: `Em direção ao rio
+        lyrics: `                                    João - Oficina G3
+
+
+Dm               F
+ Em direção ao rio
+                Am
 Cumprindo sua missão
+            G
 Da Galileia veio em minha direção
 
+
+F           Am            G
 Como posso eu, um mero pecador
+            Dm
 Batizar nas águas o meu Senhor?
 
+
+Bb                    G
 Eu não sou merecedor de com minhas mãos te mergulhar
+    F                     Gm   Dm
 Se digno eu não sou de suas sandálias desatar
 
+
+Bb
 Deixa assim acontecer
+G
 Mesmo sem você entender
 
+
+        F
 São os planos do meu Pai
+        Gm           Dm
 Pra justiça se cumprir
+    Gm           Dm
 O começo é aqui
+    Gm          G4 G5
 O Pai quem me enviou
 
+    D     D5
 O céu se abriu
+    Gm
 E a terra se curvou
+    Bb9
 Das águas levantou
+    C
 O filho de Deus
+    D     D5
 O céu se abriu
+    Gm
 O Espírito desceu
+    Bb
 O filho revelou
+    C
 E o Pai falou
 
-Com os meus olhos vi
+
+( Dm F Am G )
+
+
+Dm               F
+ Com os meus olhos vi
+           Am
 Sair do rio Jordão
+          G
 O rio de água viva, a salvação
+F         Am          G
 Como posso eu, um mero pecador
+          Dm
 Batizar nas águas o meu Senhor?
+
 
 Eu não sou merecedor…
 
+( Dm F Am G )
+
+
+Dm                F
+ Com os meus olhos vi
+          Am
+Sair do rio Jordão
+          G9 G
+A fonte de água viva
+
+
+D9                Am11
 Este é o meu filho amado
+         G            D     D9
+Que traz o sorriso aos meus lábios
+              Em
+Este é o meu filho amado
+         G            F#m
 Que traz o sorriso aos meus lábios
 
-Hosana, Hosana, Hosana ao nosso rei`,
+
+ Am          C9       G              D
+Hosana, Hosana,Hosana ao nosso rei`,
       },
       {
         id: 'bj-03',
@@ -159,26 +246,47 @@ Hosana, Hosana, Hosana ao nosso rei`,
         duration: '4:05',
         requests: 15,
         addedAt: '2026-10-15T18:15:00.000Z',
-        lyrics: `Haverá um dia em que você não haverá de ser feliz
-Sem tirar o ar, sem se mexer, sem desejar como antes sempre quis
-Você vai rir, sem perceber, felicidade é só questão de ser
-Quando chover, deixar molhar pra receber o sol quando voltar
-Lembrará os dias que você deixou passar sem ver a luz
-Se chorar, chorar é vão porque os dias vão pra nunca mais
+        lyrics: `                                       Felicidade - Marcelo Jeneci
 
-Melhor viver, meu bem, pois há um lugar em que o sol brilha pra você
-Chorar, sorrir também e depois dançar, na chuva quando a chuva vem
-Melhor viver, meu bem, pois há um lugar em que o sol brilha pra você
-Chorar, sorrir também e dançar
-Dançar na chuva quando a chuva vem
+G7+            Am               G7+          Am
+    Haverá um dia em que você não haverá de ser feliz
+G7+            Am                      G7+          Am
+    Sem tirar o ar, sem se mexer, sem desejar como antes sempre quis
+G7+           Am         G7+       Am               G7+
+    Você vai rir, sem perceber, felicidade é só questão de ser
+          Am        G7+         Am                G7+
+    Quando chover, deixar molhar pra receber o sol quando voltar
+               Am                  G7+        Am
+    Lembrará os dias que você deixou passar sem ver a luz
+G7+                 Am                  G7+        B7
+    Se chorar, chorar é vão porque os dias vão pra nunca mais
 
-Tem vez que as coisas pesam mais do que a gente acha que pode aguentar
-Nessa hora fique firme, pois tudo isso logo vai passar
-Você vai rir, sem perceber, felicidade é só questão de ser
-Quando chover, deixar molhar pra receber o sol quando voltar
 
-Melhor viver….
-Dançar na chuva quando a chuva vem…. 3X`,
+Em         Bm             Am       D                Em
+    Melhor viver, meu bem, pois há um lugar em que o sol brilha pra você
+         Bm           Am           D                Em
+    Chorar, sorrir também e depois dançar, na chuva quando a chuva vem
+         Bm           Am       D                   Em
+    Melhor viver, meu bem, pois há um lugar em que o sol brilha pra você
+          Bm          Am
+    Chorar, sorrir também e dançar
+D                             ( G7+ Am )
+    Dançar na chuva quando a chuva vem
+
+
+G7+                      Am                       G7+     Am
+    Tem vez que as coisas pesam mais do que a gente acha que pode aguentar
+G7+              Am                     G7+        Am
+    Nessa hora fique firme, pois tudo isso logo vai passar
+G7+         Am         G7+      Am                 G7+
+    Você vai rir, sem perceber, felicidade é só questão de ser
+         Am         G7+         B7
+
+ Quando chover, deixar molhar pra receber o sol quando voltar
+
+
+ Melhor viver….
+ Dançar na chuva quando a chuva vem…. 3X`,
       },
       {
         id: 'bj-04',
@@ -187,25 +295,48 @@ Dançar na chuva quando a chuva vem…. 3X`,
         duration: '3:45',
         requests: 10,
         addedAt: '2026-10-15T18:20:00.000Z',
-        lyrics: `Tu anseias, eu bem sei, por salvação
-Tens desejo de banir a escuridão
+        lyrics: `                                     Deixa a Luz do Céu Entrar
+    G                       D7
+Tu anseias, eu bem sei, por salvação
+     Am Am/G                D7/F#        G
+Tens dese________jo de banir a escuridão
+               G7           C Cm
 Abre, pois, de par em par teu coração
+ G       Em    Am D7 G D D4 D
 E deixa a luz do céu entrar
 
+
+G                  D7
 Deixa a luz do céu entrar
+Am            D7        G
 Deixa a luz do céu entrar
+         G7             C Cm
 Abre bem as portas do teu coração
+ G       Em    Am D7 G
 E deixa a luz do céu entrar
 
+
+        G                   D7
 Cristo, a luz do céu em ti, quer habitar
-Para as trevas dos seus erros dissipar
+        Am Am/G                  D7/F#       G
+Para as tre________vas dos seus erros dissipar
+              G7 C Cm
 Teu caminho e coração iluminar
+ G       Em    Am D7 G D D4 D
 E deixa a luz do céu entrar
 
+[Refrão]
+      G                D7
 Que alegria andar ao brilho dessa luz
-Vida eterna e paz no coração produz
+     Am Am/G            D7/F#       G
+Vida eter_______na e paz no coração produz
+           G7 C       Cm
 Oh! Aceita essa aliança com Jesus
-E deixa a luz do céu entrar`,
+ G      Em     Am D7 G D D4 D
+E deixa a luz do céu entrar
+
+
+[Refrão]`,
       },
       {
         id: 'bj-05',
@@ -214,24 +345,44 @@ E deixa a luz do céu entrar`,
         duration: '3:30',
         requests: 18,
         addedAt: '2026-10-15T18:25:00.000Z',
-        lyrics: `Senhor, fazei-me instrumento de vossa paz
+        lyrics: `                                 Oração de São Francisco
+
+G                                Bm7 Em
+Senhor, fazei-me instrumento de vossa paz
+              Am                  Em
 Onde houver ódio, que eu leve o amor
+               Am                   Em
 Onde houver ofensa, que eu leve o perdão
+               G               B7      Em
 Onde houver discórdia, que eu leve a união
+               G              B7 Em
 Onde houver dúvida, que eu leve a fé
 
+              Am                     Em
 Onde houver erro, que eu leve a verdade
+               Am                           Em
 Onde houver desespero, que eu leve a esperança
+                G              B7        Em
 Onde houver tristeza, que eu leve a alegria
+                G             B7 Em
 Onde houver trevas, que eu leve a luz
 
+   G                                Am
 Ó mestre, fazei com que eu procure mais
+     B7                 Em
 Consolar, que ser consolado
+
+            C                 D
 Compreender, que ser compreendido
+G       B7        Em
 Amar, que ser amado
+          B7             Em
 Pois é dando que se recebe
+          C               D
 É perdoando que se é perdoado
+         G       B7     Em
 E é morrendo que se vive,
+         B7 G B7 Em
 Para a vida eterna`,
       },
       {
@@ -241,32 +392,92 @@ Para a vida eterna`,
         duration: '3:52',
         requests: 22,
         addedAt: '2026-10-15T18:30:00.000Z',
-        lyrics: `Eu sei que cada um só tem a vista da montanha que escalar
+        lyrics: `                      Girassol - Kell Smith
+A
+Eu sei que cada um só tem a vista da montanha que
+    D
+escalar
+E                               A
 Por isso todo dia eu me preocupo em fazer a coisa certa
-E mesmo assim, infelizmente, às vezes, não parece adiantar
-Porque o mundo tá tão louco e as pessoas andam tão estranhas
+E mesmo assim, infelizmente, às vezes, não parece
+   D
+adiantar
+E
+Porque o mundo tá tão louco e as pessoas andam tão
+    A
+estranhas
 
+D                                A
 Me diz se ainda passa o medo de não ser o melhor de mim
+D                                 A
 E se a gente se cobra menos em algum momento disso aqui
+E
 Me diz
 
+A
 Quando já não sei qual é a direção
+F#m
 E tudo que posso é seguir meu coração
+      E
 Então me viro
+               A
 E giro para onde gira o sol
 
 Quando já não sei qual é a direção
+F#m
 E tudo que posso é seguir meu coração
+      E
 É por instinto
+                    A
 Que eu encontro a luz, sou girassol
 
-Eu quero aquela vida que a gente inventa antes de dormir
-Mas pra dar certo sei que tenho que acordar tomando atitude
-O tempo não me espera só porque quero jogar tudo pro ar
-E quase sempre é em desistência que o fracasso se resume
+A
+Eu quero aquela vida que a gente inventa antes de
+   D
+dormir
+E
+Mas pra dar certo sei que tenho que acordar tomando
 
+    A
+atitude
+                                D
+O tempo não me espera só porque quero jogar tudo pro ar
+E
+E quase sempre é em desistência que o fracasso se
+   A
+resume
+
+D
+Me diz se ainda passa um medo de não ser o melhor de
+  A
+mim
+D                               A
+E se a gente se cobra menos em algum momento disso aqui
+  E
+Me diz
+
+A
+Quando já não sei qual é a direção
+F#m
+E tudo que posso é seguir meu coração
+      E
+Então me viro
+               A
+E giro para onde gira o sol
+
+Quando já não sei qual é a direção
+F#m
+E tudo que posso é seguir meu coração
+      E
 É por instinto
+                    A
+Que eu encontro a luz, sou girassol
+
+      E
+É por instinto
+
 Que eu encontro a luz
+      A
 Sou girassol`,
       },
       {
@@ -276,39 +487,102 @@ Sou girassol`,
         duration: '3:15',
         requests: 9,
         addedAt: '2026-10-15T18:35:00.000Z',
-        lyrics: `De que importa sua bandeira?
+        lyrics: `                                       Uni-vos
+
+G           Am
+De que importa sua bandeira?
+G           Am
 Suas cores não me dizem nada
 
+G          Am
 Todas iguais, se segregando entre si
 
+G          Am
 Se sabe tanto, então faz!
 
+C
 Amai-vos como um só,
+D
 cantemos como um só
 
+G           Am
 Se reconhece por suas obras
+G           Am
 e pelo esforço em superar
+G           Am
 De que suas mãos estão marcadas?
+G           Am
 O que significa amar?
 
+C
 Amai-vos como um só,
+D
 cantemos como um só
 
+
+G
 Uni-vos em torno do mesmo ideal
+Am
 Derrube as barreiras do material
+C
 Amai-vos como um só,
+D
 cantemos como um só
 
+G
 Laraê, laraê, laraêlaiá,
+Am
+
 laraêlaiá (2x)
 
+
+G                  Am
 O corpo é só ferramenta
+G                   Am
 Pro espírito se reformar
-Se curte Rock, Funk ou Pop, no fundo é tudo igual
+G
+Se curte Rock, Funk ou
+                 Am
+Pop, no fundo é tudo igual
+G                 Am
 Daqui o que vamos levar?
 
+C
 Amai-vos como um só,
-cantemos como um só`,
+D
+cantemos como um só
+
+
+
+G
+Uni-vos em torno do mesmo ideal
+Am
+Derrube as barreiras do material
+C
+Amai-vos como um só,
+D
+cantemos como um só
+
+
+G
+Uni-vos em torno do mesmo ideal
+Am
+Derrube as barreiras do material
+C
+Amai-vos como um só,
+D
+cantemos como um só
+
+
+G
+Laraê, laraê, laraêlaiá,
+Am
+laraêlaiá (3X)
+
+G
+Laraê, laraê, laraêlaiá,
+Am
+laraêlaiá laiá`,
       },
       {
         id: 'bj-08',
@@ -317,46 +591,111 @@ cantemos como um só`,
         duration: '4:18',
         requests: 27,
         addedAt: '2026-10-15T18:40:00.000Z',
-        lyrics: `Não é sobre ter
+        lyrics: `                     Trem-Bala - Ana Vilela
+
+        A9
+Não é sobre ter
+                  D9
 Todas as pessoas do mundo pra si
+      A9
 É sobre saber
+                      E
 Que em algum lugar, alguém zela por ti
 
+       A9
 É sobre cantar e poder escutar
+          D9
 Mais do que a própria voz
+       A9
 É sobre dançar
+                    E
 Na chuva de vida que cai sobre nós
 
+[Refrão]
+
+   D9
 É saber se sentir infinito
+     E
 Num universo tão vasto e bonito
+       A9
 É saber sonhar
+  D9
 Então fazer valer a pena
+    E
 Cada verso daquele poema
+        A9
 Sobre acreditar
 
+[Segunda Parte]
+
 Não é sobre chegar
+                D9
+
 No topo do mundo e saber que venceu
+         A9
 É sobre escalar
+                     E
 E sentir que o caminho te fortaleceu
 
+         A9
 É sobre ser abrigo
+                   D9
 E também ter morada em outros corações
+        A9
 E assim ter amigos
+                E
 Contigo em todas as situações
 
+[Refrão 2]
+
+  D9
 A gente não pode ter tudo
+     E
 Qual seria a graça do mundo
+        A9
 Se fosse assim?
+  D9
 Por isso eu prefiro sorrisos
+      E
 E os presentes que a vida trouxe
+         A9
 Pra perto de mim
 
+[Terceira Parte]
+
+Não é sobre tudo
+                      D9
+Que o seu dinheiro é capaz de comprar
+        A9
+E sim sobre cada momento
+               E
+Sorriso a se compartilhar
+
+      A9
+Também não é sobre
+
+Correr contra o tempo
+          D9
+Pra ter sempre mais
+          A9
+Porque quando menos se espera
+              E
+A vida já ficou pra trás
+
+[Refrão 3]
+
+ D9
 Segura teu filho no colo
+  E
 Sorria e abraça os teus pais
+            A9
 Enquanto estão aqui
 
+    D9
 Que a vida é trem bala, parceiro
+   E
 E a gente é só passageiro
+       A9
 Prestes a partir`,
       },
       {
@@ -366,24 +705,47 @@ Prestes a partir`,
         duration: '3:40',
         requests: 11,
         addedAt: '2026-10-15T18:45:00.000Z',
-        lyrics: `Ó poderosa águia que há no alto do totem
-Dá-me tuas asas, me ensina a voar
-Cruzar os horizontes, vencer montes e mares
-Com a luz do saber, pela virtude de amar
+        lyrics: `                                    Uma Prece (Totem) - Cacau
 
-Com tua força tamanha, ó urso, me ajude a derrubar
-As barreiras da vida que eu venha a encontrar
 
-E eu venho pedir a ti, ó tartaruga, que o totem estás a sustentar
-Dá-me tua certeza de um dia eu poder chegar
-A ver-te nas asas da águia, na força do urso
-Em todas as coisas criadas por ti
-Eleva minh'alma, me faz tão perfeito
-Me leva a saber que estás dentro de mim
 
-Ó Pai Nosso que estás no céu
-Santificado seja o teu nome
-Em favor de todos nós`,
+​ Em                C                   G/B
+​Ó poderosa águia que há no alto do totem
+​Am             D
+​Dá-me tuas asas, me ensina a voar
+​ Em                    C                G/B
+​Cruzar os horizontes, vencer montes e mares
+​     Am                D
+​Com a luz do saber, pela virtude de amar
+
+
+​Em                             C             G/B
+​Com tua força tamanha, ó urso, me ajude a derrubar
+​Am                             B
+​As barreiras da vida que eu venha a encontrar
+
+
+​          Em                                 C     G/B
+​E eu venho pedir a ti, ó tartaruga, que o totem estás a sustentar
+​Am                         B
+​Dá-me tua certeza de um dia eu poder chegar
+​          Em               C
+​A ver-te nas asas da águia, na força do urso
+​Am                 D
+​Em todas as coisas criadas por ti
+​Em             C               G/B
+​Eleva minh'alma, me faz tão perfeito
+​ Am                D               B
+​Me leva a saber que estás dentro de mim
+
+
+​Em                 C       G/B
+​Ó Pai Nosso que estás no céu
+
+​Am              B
+​Santificado seja o teu nome
+​          Em
+​Em favor de todos nós`,
       },
       {
         id: 'bj-10',
@@ -392,25 +754,46 @@ Em favor de todos nós`,
         duration: '4:00',
         requests: 14,
         addedAt: '2026-10-15T18:50:00.000Z',
-        lyrics: `Um sentimento me ronda
-Não sei dizer, tudo é novo pra mim
-Meu coração se renova
-Sinto a esperança invadir o meu ser
+        lyrics: `                                Aos Pés do Monte - Tim e Vanessa
 
-Quero ser manso, ser limpo, ser justo
-E pobre de espírito ser
-Tua palavra me sonda
-Me conta do Reino que espera por mim
-Eu te ofereço meu pranto
-As dores da alma que quer renascer
 
-Eu ouvi tua voz
-Teu falar me encantou
-Quis seguir, caminhar
-Quis saber pra onde vou
+​Em                 Am
+​Um sentimento me ronda
+​D                     G       B7
+​Não sei dizer, tudo é novo pra mim
+​Em                Am
+​Meu coração se renova
+​D                  G          B7
+​Sinto a esperança invadir o meu ser
 
-Eis-me aqui
-Minha dor serenou`,
+
+​ Em                         Am
+​Quero ser manso, ser limpo, ser justo
+​ Em           B7       Em
+​E pobre de espírito ser
+​Am             D
+​Tua palavra me sonda
+​          G            D/F#        Em
+​Me conta do Reino que espera por mim
+​Am                 D
+​Eu te ofereço meu pranto
+​          G                 B7
+​As dores da alma que quer renascer
+
+
+​ Em           Am
+​Eu ouvi tua voz
+​     D        G       B7
+​Teu falar me encantou
+​     Em           Am
+​Quis seguir, caminhar
+​     D            G
+​Quis saber pra onde vou
+
+​    Am
+​Eis-me aqui
+​   B7         Em
+​Minha dor serenou`,
       },
       {
         id: 'bj-11',
@@ -419,18 +802,29 @@ Minha dor serenou`,
         duration: '3:10',
         requests: 7,
         addedAt: '2026-10-15T18:55:00.000Z',
-        lyrics: `Ouça o vento na folhagem
+        lyrics: `                                  VENTO E LUZ
+
+        ​    ​       A9                G/A
+Ouça o vento na folhagem
+                A9                 G/A
 Veja a luz do sol e a lua
+               F#m                 C#m
 Pra viver em paz na terra
+      D7+ C#m Bm E
 Temos que tentar sorrir
-
+        ​    ​       A9                G/A
 E não ligar mais pra tristeza
+        ​    ​       A9                G/A
 No caminho sempre há pedras
+               F#m                 C#m
 Não sentir mais o abandono
-Reunir e cantar pra Jesus
-
+D7+ C#m Bm E         D7+/9
+Reunir e cantar pra     Jesus
+A7+ F#m7 Bm
 O sol conduz a paz
+                     E D7+/9     A7+
 E a ser feliz sem ter porque
+                  F         E4           E   (final A9)
 Pedir mais que o vento e a luz`,
       },
       {
@@ -440,15 +834,30 @@ Pedir mais que o vento e a luz`,
         duration: '3:35',
         requests: 13,
         addedAt: '2026-10-15T19:00:00.000Z',
-        lyrics: `Tente acreditar que o amor ainda virá
+        lyrics: `Lei de Amor - Fernanda Mendes Carvalho
+
+
+
+
+F#m
+Tente acreditar que o amor ainda virá
+D                   C#7
 Pela reencarnação tudo vai mudar
 
+F#m
 A família que nos cerca é aquela que escolhemos
+D                     C#7
 Para nossa evolução isso agora entendemos
 
-Nascer, viver, morrer
+
+F#m
+Nascer ,viver,morrer
+            D
 Renascer ainda
-Progredir sempre, tal é a lei`,
+           C#7
+Progredir sempre , tal é a lei
+
+F#m (Bm E A D Bm C#7)`,
       },
       {
         id: 'bj-13',
@@ -457,15 +866,35 @@ Progredir sempre, tal é a lei`,
         duration: '3:50',
         requests: 16,
         addedAt: '2026-10-15T19:05:00.000Z',
-        lyrics: `Depende de nós
+        lyrics: `                           Tempo e Vida - Ariovaldo Filho
+
+A                A9
+Depende de nós
+A            A9
 De mais ninguém
+E                F#m
 Que o amanhã seja melhor
+C#m                D E
 Através do amor e humildade
 
-Deixar o tempo e a vida
-Fluir com paz e leveza
-Acreditar no bem
-É a nossa riqueza`,
+
+F#m         C#m
+ Deixar o tempo e a vida
+    D7+     D#°
+correrem no riacho da
+ Bm A
+amizade
+
+    A             E
+E seremos no amanhã
+    F#m         E
+Uma grande família
+
+ A                         E
+Com certeza nossas vozes vencerão
+F#m             A
+
+em coro     todo o mal.`,
       },
     ],
   },
@@ -489,10 +918,17 @@ Acreditar no bem
         duration: '3:00',
         requests: 14,
         addedAt: '2026-10-16T19:05:00.000Z',
-        lyrics: `Belo pra mim é criança a brincar, é ouvir mil canções numa concha do mar
-É a chuva caindo, é o campo em flor e acima de tudo, é o amor (é o amor) é o amor...
+        lyrics: `                                                                                       4
 
+                                           Belo
+Introdução: C Am Dm G7
+C        Am       Dm         G7       C           Am        Dm        G7
+Belo pra mim é criança a brincar, é ouvir mil canções numa concha do mar
+     C      Am        Dm         G7      C        Am        Dm                 G7
+É a chuva caindo, é o campo em flor e acima de tudo, é o amor (é o amor) é o amor...
+ C      Am             Dm      G7        C        Am     Dm        G7
 Belo pra mim quando estou a sofrer e a treva na alma começa a crescer
+      C          Am        Dm           G7       C      Am Dm G7 C
 É lembrar com alegria que além, muito além, à espera de mim existe alguém.`,
       },
       {
@@ -502,16 +938,28 @@ Belo pra mim quando estou a sofrer e a treva na alma começa a crescer
         duration: '2:50',
         requests: 11,
         addedAt: '2026-10-16T19:10:00.000Z',
-        lyrics: `Quanta luz neste ambiente
+        lyrics: `                                      Quanta Luz
+Compositor: Cenyra Pinto
+Introdução: D Bm A7
+    D        Bm
+Quanta luz neste ambiente
+  G        A
 Descendo sobre nós
+  A7          D    A7
 Vibrando em nossa mente
+     D             Bm
 Quanta luz, quando assim em prece
+G        A
 Como a alma cresce
+  A7      D D7
 Aos olhos de Jesus...
-
+     G           D
 Quanta luz, pois em oração
+         Bm       G      A A7
 A voz do Mestre fala ao nosso coração...
+     G             D
 Quanta luz, descendo sobre nós
+    Em           A                D
 Quanta luz.....quanta luz...quanta luz`,
       },
       {
@@ -521,25 +969,49 @@ Quanta luz.....quanta luz...quanta luz`,
         duration: '3:10',
         requests: 17,
         addedAt: '2026-10-16T19:15:00.000Z',
-        lyrics: `Somos companheiros,
+        lyrics: `                                                            5
+
+                                 Canção da Alegria Cristã
+Letra: Leopoldo Machado
+Música: Oli de Castro
+Introdução: G C D G...D G
+               G
+Somos companheiros,
+           C
 Amigos, irmãos
+            D                    G
 Que vivem alegres pensando no bem.
+                               C
 A nossa alegria é de bons cristãos,
+                 D                  G... D G
 Não ofende a Jesus, nem fere a ninguém.
 
+             C                D
 A nossa alegria (a nossa alegria)
+               G
 É bem do evangelho (é bem do evangelho)
+            C                  D
 Vibra e contagia (vibra e contagia)
+                G
 Da criança ao velho (da criança ao velho)
+                C                      D
 Mesmo entre perigos (mesmo entre perigos)
+              G
 Daremos as mãos (daremos as mãos)
+              C                     D
 Como bons amigos (como bons amigos)
+C D C        D G... D G
 Como bons cristãos...
 
+        G
 Sempre ombro a ombro,
+                 C
 Sempre lado a lado,
+               D                  G
 Vamos trabalhar com muita alegria,
+             G                   C
 Pelo o Espiritismo mais cristianizado,
+                D                   G... D G
 Pela implantação da paz e harmonia.`,
       },
       {
@@ -549,15 +1021,26 @@ Pela implantação da paz e harmonia.`,
         duration: '3:20',
         requests: 19,
         addedAt: '2026-10-16T19:20:00.000Z',
-        lyrics: `Sem saber que um sol maior brilhava sobre mim
-Quase me perdi... sem destino, mas o amor...
+        lyrics: `                                                                                            6
 
-Não... não há lugar pra tristeza em quem sabe amar
-É uma luz que nos faz sonhar, é uma alegria que te faz chorar
+                                        Já é tempo
+Compositor: James
+Introdução: G D C...G
+ G      D            C       G                     D
+Sem saber que um sol maior brilhava sobre mim
+         C     G B7            C               D7 D7
+Quase me perdi... ii sem destino, mas o amor...
+ G Am7              G         Am7                      G
+Não.... não há lugar pra tristeza em quem sabe amar
+       Am7                     G            Am7             G    B7
+É uma luz que nos faz sonhar, é uma alegria que te faz chora ...aaá
+              C               D7 D7
 De sofrer sorrindo sem temor...
-
-Olhe (Olhe) Olhe pro céu, já é tempo de cair o véu
-De sair amando espalhando a paz, a paz... (a paz)
+ G      Am7                G       Am7               G   B7
+Olhe (Olhe) Olhe pro céu, já é tempo de cair o véee...eu
+            C         D7          G       Am7 G
+De sair amando espalhando a paz, a paz...(a paz)
+  Am7        G      Am7       G     Am7        G
 A paz... (a paz) a paz... (a paz) a paz... (a paz)`,
       },
       {
@@ -567,12 +1050,20 @@ A paz... (a paz) a paz... (a paz) a paz... (a paz)`,
         duration: '3:15',
         requests: 16,
         addedAt: '2026-10-16T19:25:00.000Z',
-        lyrics: `Onde estiver sei que vou caminhar com você, meu irmão, meu amigo
-Seja na terra ou nas águas do mar, na pureza do ar com você, amigo
+        lyrics: `                                          Amigo
+José Carlos Guimarães
+Introdução: D D7+ D7 G Em7 A7 A7
+D                    D7+                  D7                       G
 Onde estiver sei que vou caminhar com você, meu irmão, meu amigo
+Em                  Em7                 A7
+Seja na terra ou nas águas do mar, na pureza do ar com você, amigo
+D                   D7+                  D7                        G
+Onde estiver sei que vou caminhar com você, meu irmão, meu amigo
+Em                     Em7                       A7
 Na escuridão sei que a luz vai voltar, sei que o sol vai brilhar em você, amigo
 
-Amor, amor, que nunca vai nos separar amor [BIS]`,
+D     F#m       Em Em7         A A7 D
+Amor, amor, que nunca vai nos sepa...rar amor [BIS]`,
       },
       {
         id: 'gv-06',
@@ -581,15 +1072,23 @@ Amor, amor, que nunca vai nos separar amor [BIS]`,
         duration: '3:30',
         requests: 12,
         addedAt: '2026-10-16T19:30:00.000Z',
-        lyrics: `Uma palavra tão linda, já quase esquecida me fez relembrar
+        lyrics: `                                          Cativar
+Introdução: C Am Dm G (2x)
+C               Am                    Dm                G7
+Uma palavra tão linda, já quase esquecida me fez relembrar
+    C           Am                 Dm               G7
 Contendo sete letrinhas e todas juntinhas se lê cativar
-
+    C      Am         Dm        G7          C         Am          Dm       G7
 Cativar é amar, é também carregar um pouquinho da dor que alguém tem que levar
+    C             Am         Dm       G7          C      Am    Dm     G7
 
 Cativou, disse alguém, laços fortes criou, responsável é você pelo que cativou
+         C       Am       Dm            G7          C      Am        Dm           G7
 Num deserto tão só, entre homens também, vou tentar cativar, viver perto de alguém
-
-Cativou, disse alguém, laços fortes criou, responsável é você pelo que cativou`,
+     C            Am         Dm       G7          C        Am      Dm G7         C Am Dm
+Cativou, disse alguém, laços fortes criou, responsável é você pelo que caaatiiiivoooooooo
+G7      C Am Dm G7 C
+Caatiiivooooooou... Cativou`,
       },
       {
         id: 'gv-07',
@@ -598,20 +1097,56 @@ Cativou, disse alguém, laços fortes criou, responsável é você pelo que cati
         duration: '2:55',
         requests: 20,
         addedAt: '2026-10-16T19:35:00.000Z',
-        lyrics: `Quando uma tristeza tomar seu coração
+        lyrics: `                                                                                                  7
+
+
+
+
+                                             Alegria
+
+C             Am      Dm          G7
+Quando uma tristeza tomar seu coração
+C             Am      Dm          G7
 Não se desamine e cante uma canção
+   C Am       Dm      G7       C       Am
 E lembre que acima de tudo você tem alguém
+Dm      G7         C          Am Dm G7
 Que lhe quer muito bem, muito bem, muito bem
 
+C          Am      Dm         G7
 Ponha um sorriso bonito no seu rosto
+C              Am      Dm          G7
 Deixe que as lágrimas lavem seu desgosto
+   C Am        Dm       G7       C      Am
 E lembre que acima de tudo você tem alguém
+Dm      G7         C          Am Dm G7
 Que lhe quer muito bem, muito bem, muito bem
 
+C             Am        Dm           G7
 Quando uma dorzinha danada de doer
+C          Am      Dm             G7
 Bem lá no fundo lhe fizer sofrer
+   C Am       Dm        G7        C     Am
 E lembre que acima de tudo você tem alguém
-Que lhe quer muito bem, muito bem, muito bem`,
+Dm      G7          C            Am Dm G7
+Que lhe quer muito bem, muito bem, muito bem
+
+
+                                         Gosto de Você
+Int.: D A Bm F#m G F#m Bm Em A7
+
+D               A                  Bm            F#m
+Gosto de você assim como você é // Pode me amar assim como você quer
+G                  F#m Bm Em                     A7
+Quero ter você e não quero saber // Se assim não fosse, como poderia?
+D                  A                           Bm                      F#m
+Ser de outro jeito, abraços os seus defeitos, // Gosto dos seus olhos, o jeito que me olhas
+G                      F#m          Bm      Em                        A7
+Seja assim tão pura // A minha voz é sua // Me ame sempre igual em casa ou na rua
+D                      A                     Bm                   F#m
+Deixe que o vento penteie seus cabelos, // Faça dos meus olhos sempre seu espelho
+G                          F#m        Bm       Em                        A7                   D
+Deixe que essa noite eu traga uma canção, // Deixe que eu te guarde dentro do meu coração!`,
       },
       {
         id: 'gv-08',
@@ -620,23 +1155,64 @@ Que lhe quer muito bem, muito bem, muito bem`,
         duration: '4:10',
         requests: 23,
         addedAt: '2026-10-16T19:40:00.000Z',
-        lyrics: `Deve haver um lugar dentro do seu coração
+        lyrics: `                                                      8
+
+                              A Paz - Roupa Nova
+Intro: C Dm Em Dm (Capo na 5ª casa)
+   C       Dm       Em         Dm
+Deve haver um lugar dentro do seu coração
+   C        Dm            Em Dm
 Onde a paz brilhe mais que uma lembrança
+   C         Dm       Em        Dm
 Sem a luz que ela traz já nem se consegue mais
+   C      Dm         Em Dm
 Encontrar o caminho da esperança
-
+    Am       Em      F          Em
 Sinta, chega o tempo de enxugar o pranto dos homens
+    Dm          G4     G
 Se fazendo irmão e estendendo a mão
+     C         Dm
 Só o amor, muda o que já se fez
+    G4 G          C        G/B
 E a força da paz junta todos outra vez
-
-Venha, já é hora de acender a chama da vida
+    Am       Em        F       Em
+Venha,     já é hora de acender a chama da vida
+    Dm         G       C
 E fazer a terra inteira feliz
+   C      Dm      Em       Dm
+Se você for capaz de soltar a sua voz
+   C        Dm     Em Dm
+Pelo ar, como prece de criança
+    C      Dm      Em          Dm
+Deve então começar outros vão te acompanhar
+   C        Dm       Em      Dm
+E cantar com harmonia e esperança
 
+    Am           Em F              Em
+Deixe,    que esse canto lave o pranto do mundo
+     Dm         G4      G
+Pra trazer perdão e dividir o pão.
+
+Refrão:
+
+     Bb                     C
 Quanta dor e sofrimento em volta a gente ainda tem,
+     Bb                 C
 Pra manter a fé e o sonho dos que ainda vêm.
+    Am      Em        F       Em
 A lição pro futuro vem da alma e do coração,
-Pra buscar a paz, não olhar pra trás, com amor.`,
+      Dm                  G G4
+Pra buscar a paz, não olhar pra trás, com amor.
+
+   C     Dm      Em        Dm
+Se você começar outros vão te acompanhar
+   C       Dm      Em Dm
+E cantar com harmonia e esperança.
+
+      Am        Em F               Em
+Deixe,    que esse canto lave o pranto do mundo
+      Dm        G4      G
+Pra trazer perdão e dividir o pão. Refrão:`,
       },
       {
         id: 'gv-09',
@@ -645,29 +1221,57 @@ Pra buscar a paz, não olhar pra trás, com amor.`,
         duration: '3:40',
         requests: 15,
         addedAt: '2026-10-16T19:45:00.000Z',
-        lyrics: `Não percas a tua fé
+        lyrics: `                                                             10
+
+
+                                       Confia Sempre
+                                  Carla Bevilacqua Piccolo
+
+(Capo na 1ª casa) ou (Capo na 2ª casa, forma de C)
+Introd.: D, Bm, G, A (2x)
+
+D
+Não percas a tua fé
+Bm
 Entre as sombras deste mundo
+G                     A
 Ainda que teus pés sangrem
+              D
 Confia sempre e segue
 
+                  Bm
 Tudo passa nesta Terra
+                              G
 Mas o que vem do céu permanecerá
+                     A
 Eleva, pois, o teu olhar
+                      D   Bm
 Confia sempre e segue
 
+G         A                  D
 Luta.. Esforça-te no bem e confia sempre
 
+D                      Bm
 Se hoje domina a tempestade
+                     G
 E te atormenta o coração
+                          A
 Brilha a alvorada além da noite
+                    D
 Confia sempre e segue
 
+             Bm
 Há uma luz celeste
+                 G
 Pairando acima de ti
+                      A
 Crê que amanhã serás feliz
+                  D        Bm
 Confia sempre e segue
 
+G          A                   D
 Luta... Esforça-te no bem e confia sempre...
+G              A      D
 Esforça-te no bem e confia sempre`,
       },
       {
@@ -677,15 +1281,59 @@ Esforça-te no bem e confia sempre`,
         duration: '4:30',
         requests: 18,
         addedAt: '2026-10-16T19:50:00.000Z',
-        lyrics: `Uma grande noite abate a Terra, que se abate.
+        lyrics: `                                                          12
+
+
+                                          Aurora
+Tim e Vanessa
+
+Intro: Em D4(6) C G/B D9/F# (original: capo na 4ª casa)
+
+Uma grande noite abate a Terra, que se abate.
 Treva imensa, não sem estrelas...
 Passados milênios, um abrasamento
 tisna o horizonte clareando esperança.
 Prenúncio milenar do amanhecer.
-
+G9         G        G9    G
 Bem vinda Aurora
-A terra sofreu, noites convulsivas
-Verteu lágrimas, rangeu dentes`,
+C C/B             Am7 Am7/G D9/F#              G6
+    A terra sofreu,             noites convulsivas
+D9/F# C7M                   Bm7
+Verteu lágrimas, rangeu dentes
+            Em           D4(6)
+Mas gestou-se, majestou-se
+       C      C/B          Am Am/G
+No parto regenerativo deu-se à luz
+             D9/F#*
+Na Remissão
+G         G9           G       G9
+Bem vinda Aurora
+C C/B         Am7 Am7/G D9/F#              G6
+     O lobo pasta            junto ao cordeiro
+D9/F# C7M                      Bm7
+Crianças brincam com a serpente
+       Em            D4(6)
+E os anjos andarilham
+   C                C/B
+Com os homens que volitam
+Am Am/G                D9/F#
+No amor da Promissão
+G         G9             G          G9
+Bem vinda Alvorada
+C                  C5-            C C5-
+Artefazendo o belo bom
+     D4(9)
+Entreflorindo olhar
+Em       Bm7
+A aliança homem-Deus
+   C     C/B Am Am/G
+Já não é só arco-íris
+           D9/F#
+É comunhão
+                   G G9 G
+Bem vindo dia
+G9                  C C5-
+Bem vinda Luz`,
       },
       {
         id: 'gv-11',
@@ -694,15 +1342,61 @@ Verteu lágrimas, rangeu dentes`,
         duration: '3:20',
         requests: 10,
         addedAt: '2026-10-16T19:55:00.000Z',
-        lyrics: `Olha a manhã que brilha na janela
-Este sol de Deus é luz de amor em seu coração
-Olha o que Deus nos deu de presente
-Diamantes de poeira flutuando em raios de luz
+        lyrics: `                                                           11
 
-Vamos louvar a Deus e agradecer a tudo
+                                 Diamantes de Poeira
+
+Ariovaldo Filho
+Tom: G int: G C9 G C9 G C9
+G         C9       G       Em
+Olha a manhã que brilha na janela
+G         C9       F7+       C    F7+       G C9 G C9
+Este sol de Deus é luz de amor em seu co_ra_ção
+G      C9        G      Em
+Olha o que Deus nos deu de presente
+  G           C9         F7+ C      F7+      G C9 G
+Diamantes de poeira flutuando em raios de luz
+                 Em                     Am7
+Vamos louvar a Deus        e agradecer a tudo
+           D7           G          Em
 Um novo dia amanheceu, amanheceu
-Nos levantar agora, sair ao mundo hoje
-Testificar o amor... o amor de Jesus`,
+               Am7                     D7
+Nos levantar agora,      sair ao mundo hoje
+               F7+ C F7+           G C9 G C9 G C9
+Testificar o amor ... o amor de Jesus              [BIS]
+
+                                     Fio Condutor
+Autor desconhecido
+
+
+G
+À luz da oração
+Em     C Em C               G
+Vibração, proteção de nossas almas
+G
+Orar, meditar
+Em      C Em C                  G
+Transcender, mergulhar dentro da alma
+
+
+G              Bm
+A prece é uma estrela
+                C       D7
+Que brilha na escuridão
+G               Bm
+Com sua luz ilumina
+            C       D7
+Nossa peregrinação
+
+
+G            Bm
+Bússola que orienta
+               C       D7
+Nossa frágil embarcação
+C                   G
+Como um fio condutor
+D               G
+Nos liga ao Criador`,
       },
       {
         id: 'gv-12',
@@ -711,14 +1405,51 @@ Testificar o amor... o amor de Jesus`,
         duration: '3:05',
         requests: 21,
         addedAt: '2026-10-16T20:00:00.000Z',
-        lyrics: `Jovem (jovem), desbravador de novos mares (úúú)
-Depende só de seus cantares o renascer de um mundo bom, bem melhor!
+        lyrics: `Alvorada Jovem
+Tom: G
+
+[Intro] G D/F# Em Bm7
+
+      Am7 D7 D7(4)
+
+
+
+G        D/F# Em              Bm7
+
+Jovem (jovem), desbravador de novos mares (úúú)
+
+Am7                 D7 Am7
+
+ Depende só de seus cantares o renascer de um
+
+     C       D7
+
+mundo bom, bem melhor!
+
+G        D/F# Em                  Bm7
 
 Jovem (jovem), com sangue novo e peito aberto (úúú)
-Será traçado um rumo certo
-Guiaremos o mundo ao amor, guiaremos o mundo ao amor!
 
-E quando amanhecer, o sol de primavera
+Am7                 D7
+
+ Será traçado um rumo certo
+
+    Am7            D7    Am7
+
+Guiaremos o mundo ao amor, guiaremos o mundo ao
+
+    D7 D7(4)
+
+amor!
+
+
+
+G            Em           Am7
+
+ E quando amanhecer, o sol de primavera
+
+            D7     D7(4) D7   G
+
 Desvenda a nova era em mim e em você`,
       },
       {
@@ -728,21 +1459,45 @@ Desvenda a nova era em mim e em você`,
         duration: '3:55',
         requests: 25,
         addedAt: '2026-10-16T20:05:00.000Z',
-        lyrics: `Sometimes I lay under the moon, I thank God I'm breathin'
-Then I pray don't take me soon, 'cause I am here for reason
+        lyrics: `                                                                                          37
+
+                                            One Day
+Autor: Matisyahu - Intro: C G Am F (Capo na XX casa)
+C         G           Am           F
+ Sometimes I lay under the moon, I thank God I'm breathin'
+C     G               Am               F
+ Then I pray don't take me soon, 'cause I am here for reason
+C                 G           Am            F
 Sometimes in my tears I drown, but I never let it get me down
+          C           G       Am            F
 So when negativity surrounds, I know someday it'll all turn around because
-
+C             G               Am                F
 All my life I been waiting for, I been praying for, for the people to say
+C             G                        Am           F
 That we don't wanna fight no more, there'll be no more wars, and our children will play
-One day, one day, one day, oh oh oh (2x)
-
-Sometimes I lay under the moon, I thank God I'm breathin'
-Then I pray don't take me soon, 'cause I am here for reason
-
+C     G       Am          F
+One day, one day, one day, oh oh oh 2x
+C         G           Am           F
+ Sometimes I lay under the moon, I thank God I'm breathin'
+C     G               Am               F
+ Then I pray don't take me soon, 'cause I am here for reason
+C                 G           Am            F
+Sometimes in my tears I drown, but I never let it get me down
+          C           G       Am            F
+So when negativity surrounds, I know someday it'll all turn around because
+C             G               Am                F
 All my life I been waiting for, I been praying for, for the people to say
+C             G                        Am           F
 That we don't wanna fight no more, there'll be no more wars, and our children will play
-One day, one day, one day, oh oh oh (4x)`,
+C     G       Am          F
+One day, one day, one day, oh oh oh 2x
+
+C             G               Am                F
+All my life I been waiting for, I been praying for, for the people to say
+C             G                        Am           F
+That we don't wanna fight no more, there'll be no more wars, and our children will play
+C     G       Am          F
+One day, one day, one day, oh oh oh 4x`,
       },
       {
         id: 'gv-14',
@@ -751,27 +1506,55 @@ One day, one day, one day, oh oh oh (4x)`,
         duration: '3:50',
         requests: 30,
         addedAt: '2026-10-16T20:10:00.000Z',
-        lyrics: `Acredite estou aqui, ao teu lado e vou te ouvir venho consolar teu coração
+        lyrics: `                                                                                    38
+
+                                                            Aleluia
+Autora: Elizabete Lacerda
+Intro: C Am C Am F G C G (Capo XX Casa)
+
+
+C        Am           C               Am            F         G          C G
+Acredite estou aqui, ao teu lado e vou te ouvir venho consolar teu coração
+C        F       G       Am                F            G            E    Am
 Fale me do teu sofrer, busque a mim basta querer, posso restaurar a tua vida
 
+
+    F        Am            F          C G       C
 Aleluia, aleluia, aleluia, aleluuuuuiiiaaa
 
+
+C            Am               C            Am
 Homens fracos creiam em mim, toda dor há de ter fim
+F        G                C       G
 Sou de Deus e trago a luz ao mundo
+C            F       G Am              F            G            E            Am
 Todo pranto ha de secar, a esperança vai brotar, sinta minha presença em tua vida
 
+
+    F        Am            F          C G       C
 Aleluia, aleluia, aleluia, aleluuuuuiiiaaa
 
+
+C            Am            C          Am            F            G        C G
 Sou o cristo consolador, mensageiro do amor, junto a mim encontrarás abrigo
+C         F       G Am                F         G            E           Am
 Nas tormentas e na dor, não desista lá estou, trago a esperança sou amor
 
+
+    F        Am            F          C G       C
 Aleluia, aleluia, aleluia, aleluuuuuiiiaaa
 
+
+C        Am           C               Am
 Todos num só coração, as nações se dando as mãos,
+F        G           C    G
 Somos todos filhos do senhor
+C        F        G       Am           F                G         E       Am
 Sai o ódio entra o amor, vai a guerra nasce a flor, então cantaremos aleluia
 
-Aleluia, aleluia, aleluia, aleluuuuuiiiaaa`,
+
+     F        Am              F       C G       C
+ Aleluia, aleluia, aleluia, aleluuuuuiiiaaa`,
       },
       {
         id: 'gv-15',
@@ -780,29 +1563,95 @@ Aleluia, aleluia, aleluia, aleluuuuuiiiaaa`,
         duration: '3:45',
         requests: 28,
         addedAt: '2026-10-16T20:15:00.000Z',
-        lyrics: `Me perguntam de onde vem
+        lyrics: `Força do Bem - Grupo Bem
+intro: F#m D A E
+
+  F#m                      D
+
+Me perguntam de onde vem
+
+      A            E
+
 esse olhar firme e seguro
+
+      F#m              D
+
 quando tudo é desafio
+
+      A            E
+
 quando tudo é tão escuro
 
+
+
+   F#m                     D
+
 as respostas que eu tenho
+
+   A                   E
+
 se encontram neste mundo
+
+ F#m               D
+
 a certeza que eu sinto
+
+  A            E
+
 é o meu porto-seguro
 
+
+
+  F#m              D
+
 eu me cerco, eu vigio
+
+       A           E
+
 eu me importo, eu procuro
+
+  F#m          D
+
 persevero, acredito
+
+       A           E
+
 eu transformo este mundo
 
+
+
+  F#m          D
+
 é na força do bem
+
+           A       E
+
 que eu me apego e caminho
+
+    F#m                 D
+
 no poder que mantém
+
+        A           E
+
 meu coração protegido
 
+
+
+        F#m             D
+
 e não há nada, nada
+
+A           E
+
 nada a temer
+
+    F#m                 D
+
 pois a força do bem
+
+    A           E
+
 é o maior poder`,
       },
     ],
@@ -827,17 +1676,55 @@ pois a força do bem
         duration: '3:55',
         requests: 20,
         addedAt: '2026-10-17T20:05:00.000Z',
-        lyrics: `Todo o Céu se organiza para vir nos transformar
+        lyrics: `Apenas Amar - Denis Soares
+    C           F7M              C
+
+Todo o Céu se organiza para vir nos transformar
+
+C7M
+
+    C            F7M         G/C           G
+
 O Cristo já nos auxilia para vida nova alçar
-Ondas de atos belos podem vir de nossas próprias mãos
+
+C                F7M                   C
+
+Ondas de atos belos podem vir de nossas
+
+        C7M
+
+próprias mãos
+
+C               F7M              G/C       G
+
 Sentimentos triunfantes brotam naturais, então
 
+
+
+F7M             Em         F7M             Em
+
 Vou por dentro me preparar pra sem rebeldia aceitar
+
+F7M            Em          F7M         G
+
 Invencível expande o amor em fraternidade
 
+
+
+F        F7M    C
+
 E eu desejo apenas amar, e todo um mar
+
+F       F7M      C
+
 De afetos cativar
+
+F       F7M            C
+
 Uma luz vem pra resplandecer, dentro do ser
+
+F         F7M         C
+
 Para ao Pai glorificar`,
       },
       {
@@ -847,27 +1734,95 @@ Para ao Pai glorificar`,
         duration: '4:05',
         requests: 17,
         addedAt: '2026-10-17T20:10:00.000Z',
-        lyrics: `Esquece o tempo
+        lyrics: `O Chamado - Evangelizar É Amar
+          C
+
+Esquece o tempo
+
+                      Am
+
 Preocupado em teres o que os outros têm
-Facilidades que na aparência os tornam mais felizes
+
+      C                               F
+
+Facilidades que na aparência os tornam mais
+
+ G7/4 G7
+
+felizes
+
+
+
+      C
 
 Seja grato por sua vida,
+
+
+
 Creia em Deus e em mim também,
+
+     Am
+
 Valoriza com ternura a todos que te querem bem
+
+ F                    Dm
+
 Amar é ser mais livre e liberdade é condição
+
+      G7/4       G7           G7/4         G7
+
 Pra alcançar felicidade, seja neste mundo ou não
 
+
+
+          C                      Am
+
 Esquece o tempo dos mitos dessa ilusão constante
+
+                          F
+
 De que viver pro mundo era o bastante
-Talvez chamar meu nome não passasse de uma simples convenção
+
+     Dm                   G7/4            G7
+
+Talvez chamar meu nome não passasse de uma
+
+          G7/4   G7
+
+simples convenção
+
+          C                          Am
 
 Esquece o tempo marcado pelo orgulho e a vaidade
+
+                      F
+
 Erraste por não ter a humildade
-De admitir tuas faltas, de dobrar-te a um pedido de perdão
+
+   Dm                       G7/4   G7
+
+De admitir tuas faltas, de dobrar-te a um pedido
+
+    G7/4 G7
+
+de perdão
+
+(REFRÃO)
+
+     F                      G7
 
 Esquece tudo e vem, senta ao meu lado
+
+      C       E7   Am       Am/G
+
 Nós precisamos conversar
+
+          F             Dm
+
 Meu fardo é leve, a escolha é tua
+
+         G7/4 G7        C
+
 Não perca o tempo de mudar`,
       },
       {
@@ -877,24 +1832,96 @@ Não perca o tempo de mudar`,
         duration: '3:40',
         requests: 15,
         addedAt: '2026-10-17T20:15:00.000Z',
-        lyrics: `Ó poderosa águia que há no alto do totem
+        lyrics: `Uma Prece - Cacau
+[Intro] Em C Am D B7
+
+ Em                    C
+
+Ó poderosa águia que há no alto do totem
+
+Am             D               B7
+
 Dá-me tuas asas, me ensina a voar
+
+ Em                        C
+
 Cruzar os horizontes, vencer montes e mares
+
+     Am                    D           B7
+
 Com a luz do saber, pela virtude de amar
 
+
+
+Em                              C
+
 Com tua força tamanha, ó urso, me ajude a derrubar
+
+Am                                 D     B7
+
 As barreiras da vida que eu venha a encontrar
 
-E eu venho pedir a ti, ó tartaruga, que o totem estás a sustentar
+
+
+          Em
+
+E eu venho pedir a ti, ó tartaruga, que o totem
+
+  C
+
+estás a
+
+Sustentar
+
+Am                             D        B7
+
 Dá-me tua certeza de um dia eu poder chegar
+
+          Em               C
+
 A ver-te nas asas da águia, na força do urso
+
+Am                 D           B7
+
 Em todas as coisas criadas por ti
+
+Em             C
+
 Eleva minh'alma, me faz tão perfeito
+
+  Am                   D            B7
+
 Me leva a saber que estás dentro de mim
 
+
+
+Em                 C
+
 Ó Pai Nosso que estás no céu
+
+Am                  D
+
 Santificado seja o teu nome
-Em favor de todos nóóós... nóóós... nóóós...`,
+
+     B7        Em
+
+Em favor de todos nós
+
+                 C
+
+Ó Pai Nosso que estás no céu
+
+Am                  D
+
+Santificado seja o teu nome
+
+     B7        Em       C   Am
+
+Em favor de todos nóóós... nóóós... nóóós...
+
+  D       B7
+
+nóóós... nóóós`,
       },
       {
         id: 'fp-04',
@@ -935,21 +1962,100 @@ pois a força do bem
         duration: '3:20',
         requests: 19,
         addedAt: '2026-10-17T20:25:00.000Z',
-        lyrics: `Sem saber que um Sol maior,
+        lyrics: `Já É Tempo - Música Espírita
+Intro: G D/F# C G
+
+
+
+G     D/F#         C       G
+
+Sem saber que um Sol maior,
+
+            D/F#        C          G B7
+
 Brilhava sobre mim quase me perdi
+
+       C           D7 D7/4 D7
+
 Ia sem destino, mas o amor...
 
+
+
+G Am7          G               Am7          G
+
 Não, não há lugar pra tristeza em quem sabe amar
-É uma luz que nos faz sonhar é uma alegria que nos faz chorar
+
+      Am7               G             Am7
+
+É uma luz que nos faz sonhar é uma alegria que
+
+       G B7
+
+nos faz chorar
+
+           C           D7 D7/4
+
 E sofrer sorrindo, sem temor...
 
-Olhe, olhe, olhe pro céu, já é tempo de cair o véu
+
+
+G      Am7             G           Am7
+
+Olhe, olhe, olhe pro céu, já é tempo de cair o
+
+G B7
+
+véu
+
+       C       D7              G     Am7
+
 De sair amando, espalhando a paz, a paz
+
+
+
+G Am7 G Am7 G B7
 
 Na, na, na, na
-De sair amando, espalhando a paz, a paz
 
-A paz, a paz a paz, a paz a paz`,
+       C       D7           G       Am7
+
+De sair amando,espalhando a paz, a paz
+
+
+
+G Am7          G               Am7          G
+
+Não, não há lugar pra tristeza em quem sabe amar
+
+        Am7            G          Am7
+
+É uma luz que nos faz sonhar é uma alegria que
+
+         G B7
+
+te faz chorar
+
+             C        D7 D7/4
+
+E sofrer sorrindo, sem temor...
+
+
+
+G        Am7          G       Am7
+
+Olhe, olhe, olhe pro céu, já é tempo de cair o
+
+G B7
+
+véu
+
+         C       D7       G   Am7
+
+De sair amando,espalhando a paz,a paz
+
+    G    Am7     G    Am7     G
+
+A paz, a paz a paz,a paz a paz`,
       },
       {
         id: 'fp-06',
@@ -1188,6 +2294,239 @@ export function AppProvider({ children }) {
   // Currently logged-in user object (null = logged out / not authenticated)
   const [currentUser, setCurrentUser] = useLocalStorage('spiritfy_current_user', null);
 
+  // Lista de e-mails de colaboradores aprovados pelo administrador
+  const [approvedCollaborators, setApprovedCollaborators] = useLocalStorage(
+    'spiritfy_approved_collaborators',
+    ['admin@spiritfy.app', 'filipe@spiritfy.app']
+  );
+
+  // Controle de visibilidade do modal de autenticação (não bloqueia visitantes)
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const openAuthModal = useCallback(() => setIsAuthModalOpen(true), []);
+  const closeAuthModal = useCallback(() => setIsAuthModalOpen(false), []);
+
+  /**
+   * Mapeia um usuário do Supabase Auth para o formato usado na interface do Spiritfy
+   */
+  const mapSupabaseUser = useCallback(
+    (sbUser) => {
+      if (!sbUser) return null;
+      const email = (sbUser.email || '').toLowerCase();
+      const meta = sbUser.user_metadata || {};
+      const admin = email === 'admin@spiritfy.app' || meta.role === 'admin';
+      const approved =
+        admin ||
+        email === 'filipe@spiritfy.app' ||
+        meta.is_approved === true ||
+        approvedCollaborators.some((e) => e.toLowerCase() === email);
+
+      const roleName = admin
+        ? 'Administrador'
+        : approved
+        ? 'Colaborador Aprovado'
+        : 'Aguardando Aprovação';
+
+      return {
+        id: sbUser.id,
+        email: sbUser.email,
+        name: meta.name || sbUser.email?.split('@')[0] || 'Usuário',
+        avatar: meta.avatar || (admin ? '👑' : approved ? '🎸' : '👤'),
+        role: roleName,
+        isAdmin: admin,
+        isApproved: approved,
+        confirmed: !!sbUser.email_confirmed_at || !!sbUser.confirmed_at,
+        rawUser: sbUser,
+      };
+    },
+    [approvedCollaborators]
+  );
+
+  // Sincroniza sessão do Supabase Auth com o estado do aplicativo
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user) {
+        setCurrentUser(mapSupabaseUser(session.user));
+      }
+    });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) {
+        setCurrentUser(mapSupabaseUser(session.user));
+      } else {
+        // Se deslogou no Supabase, limpa apenas se a sessão ativa era do Supabase
+        setCurrentUser((prev) => (prev?.rawUser ? null : prev));
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [mapSupabaseUser, setCurrentUser]);
+
+  // Atualiza currentUser se a lista de aprovados mudar
+  useEffect(() => {
+    if (currentUser?.email) {
+      const email = currentUser.email.toLowerCase();
+      const admin = email === 'admin@spiritfy.app' || currentUser.isAdmin;
+      const approved =
+        admin ||
+        email === 'filipe@spiritfy.app' ||
+        approvedCollaborators.some((e) => e.toLowerCase() === email);
+
+      const newRole = admin
+        ? 'Administrador'
+        : approved
+        ? 'Colaborador Aprovado'
+        : 'Aguardando Aprovação';
+
+      if (currentUser.role !== newRole || currentUser.isApproved !== approved) {
+        setCurrentUser((prev) =>
+          prev
+            ? {
+                ...prev,
+                role: newRole,
+                isApproved: approved,
+                isAdmin: admin,
+              }
+            : null
+        );
+      }
+    }
+  }, [approvedCollaborators, currentUser?.email, currentUser?.isAdmin, currentUser?.isApproved, currentUser?.role, setCurrentUser]);
+
+  // Funções de Gestão de Colaboradores (Exclusivo Administrador)
+  const approveCollaborator = useCallback(
+    (email) => {
+      if (!email) return;
+      const normalized = email.trim().toLowerCase();
+      setApprovedCollaborators((prev) => {
+        if (prev.some((e) => e.toLowerCase() === normalized)) return prev;
+        return [...prev, normalized];
+      });
+      showToast(`Colaborador "${normalized}" aprovado com sucesso!`, 'success');
+    },
+    [setApprovedCollaborators, showToast]
+  );
+
+  const revokeCollaborator = useCallback(
+    (email) => {
+      if (!email) return;
+      const normalized = email.trim().toLowerCase();
+      if (normalized === 'admin@spiritfy.app') {
+        showToast('Não é possível revogar o administrador principal.', 'warning');
+        return;
+      }
+      setApprovedCollaborators((prev) =>
+        prev.filter((e) => e.toLowerCase() !== normalized)
+      );
+      showToast(`Permissão revogada para "${normalized}".`, 'info');
+    },
+    [setApprovedCollaborators, showToast]
+  );
+
+  // Computa permissões ativas
+  const isAdmin = useMemo(() => {
+    if (!currentUser) return false;
+    const email = (currentUser.email || '').toLowerCase();
+    return email === 'admin@spiritfy.app' || currentUser.role === 'Administrador' || currentUser.isAdmin === true;
+  }, [currentUser]);
+
+  const isApprovedCollaborator = useMemo(() => {
+    if (!currentUser) return false;
+    if (isAdmin) return true;
+    const email = (currentUser.email || '').toLowerCase();
+    return (
+      email === 'filipe@spiritfy.app' ||
+      approvedCollaborators.some((e) => e.toLowerCase() === email) ||
+      currentUser.isApproved === true
+    );
+  }, [currentUser, isAdmin, approvedCollaborators]);
+
+  const canEdit = isAdmin || isApprovedCollaborator;
+
+  // Supabase Auth Methods
+  const supabaseSignIn = useCallback(
+    async ({ email, password }) => {
+      try {
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email: email.trim().toLowerCase(),
+          password,
+        });
+
+        if (error) {
+          const isUnconfirmed =
+            error.message?.toLowerCase().includes('email not confirmed') ||
+            error.code === 'email_not_confirmed';
+          return {
+            success: false,
+            error: isUnconfirmed
+              ? 'E-mail ainda não confirmado! O Supabase enviou um link de ativação para sua caixa de entrada. Por favor, confirme seu e-mail para acessar.'
+              : error.message || 'Erro ao fazer login no Supabase.',
+            isUnconfirmed,
+          };
+        }
+
+        const user = mapSupabaseUser(data.user);
+        setCurrentUser(user);
+        setIsAuthModalOpen(false);
+        showToast(`Bem-vindo(a), ${user.name}! 🎸`, 'success');
+        return { success: true, user };
+      } catch (err) {
+        return { success: false, error: err.message || 'Erro de conexão com o Supabase.' };
+      }
+    },
+    [mapSupabaseUser, setCurrentUser, showToast]
+  );
+
+  const supabaseSignUp = useCallback(
+    async ({ name, email, password }) => {
+      try {
+        const trimmedEmail = email.trim().toLowerCase();
+        const { data, error } = await supabase.auth.signUp({
+          email: trimmedEmail,
+          password,
+          options: {
+            data: {
+              name: name.trim(),
+              role: trimmedEmail === 'admin@spiritfy.app' ? 'admin' : 'collaborator',
+              is_approved: trimmedEmail === 'admin@spiritfy.app' || trimmedEmail === 'filipe@spiritfy.app',
+            },
+          },
+        });
+
+        if (error) {
+          return { success: false, error: error.message || 'Erro ao criar conta no Supabase.' };
+        }
+
+        showToast(
+          'Conta cadastrada! Verifique seu e-mail para o link de confirmação do Supabase.',
+          'info'
+        );
+
+        return {
+          success: true,
+          user: data.user,
+          email: trimmedEmail,
+          name: name.trim(),
+        };
+      } catch (err) {
+        return { success: false, error: err.message || 'Erro inesperado ao registrar.' };
+      }
+    },
+    [showToast]
+  );
+
+  const supabaseSignOut = useCallback(async () => {
+    try {
+      await supabase.auth.signOut();
+    } catch (e) {
+      console.warn('Erro ao encerrar sessão Supabase:', e);
+    }
+    const name = currentUser?.name || 'Visitante';
+    setCurrentUser(null);
+    showToast(`Até logo, ${name}! Sessão encerrada.`, 'info');
+  }, [currentUser?.name, setCurrentUser, showToast]);
+
   // Request interaction history (for Profile page & live feed)
   const [userRequests, setUserRequests] = useLocalStorage('spiritfy_user_requests', []);
 
@@ -1341,9 +2680,7 @@ export function AppProvider({ children }) {
    * Log out the currently authenticated user.
    */
   const logout = () => {
-    const name = currentUser?.name || 'Usuário';
-    setCurrentUser(null);
-    showToast(`Até logo, ${name}! Sessão encerrada.`, 'info');
+    supabaseSignOut();
   };
 
   /**
@@ -1599,6 +2936,18 @@ export function AppProvider({ children }) {
         users: registeredUsers,
         registeredUsers,
         currentUser,
+        isAdmin,
+        isApprovedCollaborator,
+        canEdit,
+        approvedCollaborators,
+        approveCollaborator,
+        revokeCollaborator,
+        isAuthModalOpen,
+        openAuthModal,
+        closeAuthModal,
+        supabaseSignIn,
+        supabaseSignUp,
+        supabaseSignOut,
         userRequests,
         mixGeralPlaylist,
         toast,

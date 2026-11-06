@@ -35,7 +35,7 @@ const PRESET_COVERS = [
  * plus search filtering and a modal to create new custom playlists.
  */
 export function PlaylistsPage() {
-  const { playlists, mixGeralPlaylist, addPlaylist } = useApp();
+  const { playlists, mixGeralPlaylist, addPlaylist, canEdit, openAuthModal, showToast } = useApp();
 
   // Search filter query
   const [searchQuery, setSearchQuery] = useState('');
@@ -48,6 +48,30 @@ export function PlaylistsPage() {
   const [description, setDescription] = useState('');
   const [selectedCover, setSelectedCover] = useState(PRESET_COVERS[0]);
   const [customImageUrl, setCustomImageUrl] = useState('');
+
+  const handleOpenCreateModal = () => {
+    if (!canEdit) {
+      showToast(
+        'Apenas colaboradores aprovados pelo administrador podem criar playlists.',
+        'info'
+      );
+      openAuthModal();
+      return;
+    }
+    setIsModalOpen(true);
+  };
+
+  const handleOpenEdit = (pl) => {
+    if (!canEdit) {
+      showToast(
+        'Apenas colaboradores aprovados pelo administrador podem editar playlists.',
+        'info'
+      );
+      openAuthModal();
+      return;
+    }
+    setEditingPlaylist(pl);
+  };
 
   // Filtered playlists
   const displayPlaylists = useMemo(() => {
@@ -105,7 +129,7 @@ export function PlaylistsPage() {
 
         {/* Action button */}
         <button
-          onClick={() => setIsModalOpen(true)}
+          onClick={handleOpenCreateModal}
           className="self-start md:self-auto px-5 py-2.5 rounded-full bg-spotify-green hover:bg-spotify-green-light text-black font-extrabold text-sm transition-all duration-200 hover:scale-105 shadow-lg shadow-spotify-green/20 flex items-center gap-2"
         >
           <Plus className="w-5 h-5" />
@@ -148,7 +172,7 @@ export function PlaylistsPage() {
             <PlaylistCard
               key={playlist.id}
               playlist={playlist}
-              onEdit={(pl) => setEditingPlaylist(pl)}
+              onEdit={handleOpenEdit}
             />
           ))}
         </div>

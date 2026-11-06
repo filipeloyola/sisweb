@@ -1,15 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Radio, LogOut } from 'lucide-react';
+import { Radio, LogOut, UserCheck, Shield, Crown, Music2 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
 /**
  * Navbar Component
- * Fixed top bar showing Spiritfy branding, live stage indicator,
- * active user profile, and a Logout button.
+ * Barra superior fixa com identidade Spiritfy, indicador do palco ao vivo,
+ * botão discreto de "Login / Colaborador" para visitantes e status do usuário logado.
  */
 export function Navbar() {
-  const { currentUser, logout } = useApp();
+  const { currentUser, logout, openAuthModal, isAdmin, isApprovedCollaborator } = useApp();
 
   return (
     <header className="sticky top-0 z-30 w-full h-16 bg-[#121212]/95 backdrop-blur-md border-b border-white/5 px-4 sm:px-8 flex items-center justify-between transition-all">
@@ -43,36 +43,59 @@ export function Navbar() {
         </div>
       </div>
 
-      {/* Right side: User info + Logout */}
+      {/* Right side: Public Visitor Login CTA or Authenticated User Profile */}
       <div className="flex items-center gap-2 sm:gap-3">
-        {/* User profile chip */}
-        <Link
-          to="/profile"
-          className="flex items-center gap-2.5 px-3 py-1.5 rounded-full bg-[#181818] hover:bg-[#282828] border border-white/10 hover:border-spotify-green/50 transition-all text-sm font-medium group"
-          title="Ver perfil"
-        >
-          <span className="text-lg leading-none" role="img" aria-label="avatar">
-            {currentUser?.avatar ?? '👤'}
-          </span>
-          <div className="flex flex-col text-left">
-            <span className="text-xs sm:text-sm font-semibold text-white group-hover:text-spotify-green transition-colors">
-              {currentUser?.name ?? 'Perfil'}
-            </span>
-            <span className="text-[10px] text-spotify-gray hidden sm:block">
-              {currentUser?.role ?? ''}
-            </span>
-          </div>
-        </Link>
+        {!currentUser ? (
+          /* Botão discreto para visitantes / colaboradores */
+          <button
+            onClick={openAuthModal}
+            className="flex items-center gap-2 px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full bg-[#181818] hover:bg-[#252525] border border-white/10 hover:border-spotify-green/50 text-white font-semibold text-xs sm:text-sm transition-all hover:scale-105 active:scale-95 shadow-sm group"
+          >
+            <UserCheck className="w-4 h-4 text-spotify-green group-hover:scale-110 transition-transform" />
+            <span>Login / Colaborador</span>
+          </button>
+        ) : (
+          /* Usuário Autenticado */
+          <>
+            <Link
+              to="/profile"
+              className="flex items-center gap-2.5 px-3 py-1.5 rounded-full bg-[#181818] hover:bg-[#282828] border border-white/10 hover:border-spotify-green/50 transition-all text-sm font-medium group"
+              title="Ver meu perfil e permissões"
+            >
+              <span className="text-lg leading-none" role="img" aria-label="avatar">
+                {currentUser?.avatar ?? '👤'}
+              </span>
+              <div className="flex flex-col text-left">
+                <span className="text-xs sm:text-sm font-semibold text-white group-hover:text-spotify-green transition-colors truncate max-w-[120px] sm:max-w-none">
+                  {currentUser?.name ?? 'Perfil'}
+                </span>
+                <span className="text-[10px] text-spotify-gray flex items-center gap-1">
+                  {isAdmin ? (
+                    <span className="text-amber-400 font-bold flex items-center gap-0.5">
+                      <Crown className="w-2.5 h-2.5 inline" /> Admin
+                    </span>
+                  ) : isApprovedCollaborator ? (
+                    <span className="text-spotify-green font-bold flex items-center gap-0.5">
+                      <Music2 className="w-2.5 h-2.5 inline" /> Colaborador
+                    </span>
+                  ) : (
+                    <span className="text-yellow-500">Pendente</span>
+                  )}
+                </span>
+              </div>
+            </Link>
 
-        {/* Logout button */}
-        <button
-          onClick={logout}
-          title="Sair da conta"
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#181818] hover:bg-red-950/60 border border-white/10 hover:border-red-500/40 text-[#B3B3B3] hover:text-red-400 transition-all text-xs font-semibold"
-        >
-          <LogOut className="w-4 h-4" />
-          <span className="hidden sm:inline">Sair</span>
-        </button>
+            {/* Logout button */}
+            <button
+              onClick={logout}
+              title="Sair da conta"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#181818] hover:bg-red-950/60 border border-white/10 hover:border-red-500/40 text-[#B3B3B3] hover:text-red-400 transition-all text-xs font-semibold"
+            >
+              <LogOut className="w-4 h-4" />
+              <span className="hidden sm:inline">Sair</span>
+            </button>
+          </>
+        )}
       </div>
     </header>
   );

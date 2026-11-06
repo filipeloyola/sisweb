@@ -39,7 +39,7 @@ function calculateTotalDuration(songs) {
 export function PlaylistDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { getPlaylistById, addSongToPlaylist, users } = useApp();
+  const { getPlaylistById, addSongToPlaylist, users, canEdit, openAuthModal, showToast } = useApp();
 
   const playlist = getPlaylistById(id);
 
@@ -54,6 +54,24 @@ export function PlaylistDetailPage() {
   const [artist, setArtist] = useState('');
   const [duration, setDuration] = useState('3:30');
   const [lyrics, setLyrics] = useState('');
+
+  const handleOpenEditModal = () => {
+    if (!canEdit) {
+      showToast('Apenas colaboradores aprovados pelo administrador podem editar a playlist.', 'info');
+      openAuthModal();
+      return;
+    }
+    setIsEditModalOpen(true);
+  };
+
+  const handleOpenAddSongModal = () => {
+    if (!canEdit) {
+      showToast('Apenas colaboradores aprovados pelo administrador podem adicionar músicas.', 'info');
+      openAuthModal();
+      return;
+    }
+    setIsModalOpen(true);
+  };
 
   // Compute creator info
   const creator = useMemo(() => {
@@ -132,7 +150,7 @@ export function PlaylistDetailPage() {
         {!isMixGeral && (
           <div className="flex items-center gap-2.5">
             <button
-              onClick={() => setIsEditModalOpen(true)}
+              onClick={handleOpenEditModal}
               className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#242424] hover:bg-[#323232] border border-white/10 text-white font-bold text-xs sm:text-sm transition-all hover:scale-105"
               title="Editar nome e capa da playlist"
             >
@@ -141,7 +159,7 @@ export function PlaylistDetailPage() {
             </button>
 
             <button
-              onClick={() => setIsModalOpen(true)}
+              onClick={handleOpenAddSongModal}
               className="flex items-center gap-2 px-4 py-2 rounded-full bg-spotify-green hover:bg-spotify-green-light text-black font-extrabold text-xs sm:text-sm transition-all hover:scale-105 shadow-md shadow-spotify-green/20"
             >
               <Plus className="w-4 h-4" />
