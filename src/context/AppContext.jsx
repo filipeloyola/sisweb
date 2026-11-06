@@ -9,6 +9,8 @@ const AppContext = createContext(null);
  * E-mails com privilégios permanentes de Administrador Principal do Spiritfy.
  * O e-mail loyolafilipe@gmail.com possui acesso total ao sistema.
  */
+export const SYSTEM_COLLABORATORS_ID = '00000000-0000-0000-0000-000000000001';
+
 export const ADMIN_EMAILS = ['loyolafilipe@gmail.com', 'admin@spiritfy.app'];
 
 export const checkIsAdmin = (email) => {
@@ -2087,6 +2089,636 @@ Desvenda a nova era em mim e em você`,
       },
     ],
   },
+  // ─────────────────────────────────────────────────────────────────────────
+  // PLAYLIST 4 — Ricardo Baptista
+  // ─────────────────────────────────────────────────────────────────────────
+  {
+    id: "playlist-ricardo-baptista",
+    name: "Ricardo Baptista",
+    description: "Repertório do Ricardo Baptista: canções e cifras de reflexão, esperança, amizade e vida para o evento ao vivo.",
+    imageUrl: "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?auto=format&fit=crop&w=800&q=80",
+    gradient: "from-amber-900 via-yellow-950 to-neutral-900",
+    createdBy: "user-3",
+    createdAt: "2026-10-18T10:00:00.000Z",
+    songs: [
+      {
+        id: "rb-01",
+        title: "Para Sempre No Meu Coração",
+        artist: "Simplesmente Almas",
+        duration: "3:40",
+        requests: 0,
+        addedAt: "2026-10-18T10:00:00.000Z",
+        lyrics: `Para Sempre No Meu Coração - Simplesmente Almas
+D                        D7M           G
+
+Nem se eu pudesse ter o pôr do sol, a lua, as
+
+                 Gm
+
+estrelas, toda a natureza
+
+D                        D7M       G
+
+Nem se eu tivesse todo o ouro e não tivesse um
+
+        Gm
+
+amigo, nada teria
+
+G                A         F#m              Bm
+
+Mas quando eu começasse a me sentir sozinho,
+
+G            A
+
+quem é que me
+
+        D       D7
+
+Consolaria?
+
+G            A           F#m               Bm
+
+Mas deus é bom botou você em meu caminho, pra
+
+         G
+
+que não falte a
+
+        A
+
+Alegria
+
+            D
+
+Você vai estar
+
+    D7M                        G           Gm
+
+Para sempre dentro do meu coração, vou lembrar
+
+    D           D7M
+
+de nós sempre que
+
+                     G    Gm
+
+Alguém cantar esta canção
+
+D                        D7M           G
+
+Nem se eu soubesse muitas palavras, nem se eu
+
+                 Gm
+
+as transformasse em poesia
+
+D                        D7M       G
+
+Não diria tudo o que há pra dizer, a inspiração
+
+        Gm
+
+de certo, faltaria
+
+G            A           F#m       Bm   G
+
+Mas se algum dia me faltar o seu abraço, não
+
+        A
+
+será triste a
+
+    D       D7
+
+Saudade
+
+G                A         F#m         Bm
+
+ Pois sei que nos encontraremos no espaço, meu
+
+    G                A
+
+amigo de verdade
+
+            D
+
+Você vai estar
+
+    D7M                        G       Gm
+
+Para sempre dentro do meu coração, vou lembrar
+
+    D        D7M
+
+de nós sempre que
+
+                     G    Gm
+
+Alguém cantar esta canção`,
+      },
+      {
+        id: "rb-02",
+        title: "Enquanto Houver Sol",
+        artist: "Titãs",
+        duration: "3:40",
+        requests: 0,
+        addedAt: "2026-10-18T10:00:00.000Z",
+        lyrics: `Enquanto Houver Sol - Titãs
+        A           B
+
+Quando não houver saída
+
+        A               B
+
+Quando não houver mais solução
+
+A               G#m
+
+Ainda há de haver saída
+
+F#m         A   B           E
+
+Nenhuma idéia vale uma vida
+
+        A               B
+
+Quando não houver esperança
+
+        A            B
+
+Quando não restar nem ilusão
+
+A                   G#m
+
+Ainda há de haver esperança
+
+    F#m         A           B   E
+
+Em cada um de nós, algo de uma criança
+
+
+
+Chorus:
+
+
+
+    A                Am
+
+Enquanto houver sol, enquanto houver sol
+
+E           G#m
+
+Ainda haverá
+
+    A                Am             E E4 E
+
+Enquanto houver sol, enquanto houver sol
+
+
+
+        A            B
+
+Quando não houver caminho
+
+        A               B
+
+Mesmo sem amor, sem direção
+
+    A               G#m
+
+A sós ninguém está sozinho
+
+F#m         A        B        E
+
+É caminhando que se faz o caminho
+
+        A            B
+
+Quando não houver desejo
+
+        A                B
+
+Quando não restar nem mesmo dor
+
+A                   G#m
+
+Ainda há de haver desejo
+
+    F#m         A         B       E
+
+Em cada um de nós, aonde Deus colocou
+
+    A                Am
+
+Enquanto houver sol, enquanto houver sol
+
+E           G#m
+
+Ainda haverá
+
+    A                Am           E E4 E
+
+Enquanto houver sol, enquanto houver sol
+
+
+
+
+Chorus:
+
+    A                Am
+
+Enquanto houver sol, enquanto houver sol
+
+E           G#m
+
+Ainda haverá
+
+    A                Am           E E4 E
+
+Enquanto houver sol, enquanto houver sol`,
+      },
+      {
+        id: "rb-03",
+        title: "É Preciso Saber Viver",
+        artist: "Titãs",
+        duration: "3:40",
+        requests: 0,
+        addedAt: "2026-10-18T10:00:00.000Z",
+        lyrics: `É Preciso Saber Viver - Titãs
+     D
+
+Quem espera que a vida
+
+
+
+Seja feita de ilusão
+
+
+
+Pode até ficar maluco
+
+    G
+
+Ou morrer na solidão
+
+    Gm
+
+É preciso ter cuidado
+
+        D         Bm
+
+Pra mais tarde não sofrer
+
+E        G    A
+
+É preciso saber viver
+
+
+
+    D
+
+Toda pedra no caminho
+
+
+
+Você pode retirar
+
+
+
+Numa flor que tem espinhos
+
+    G
+
+Você pode se arranhar
+
+    Gm
+
+Se o bem e o mal existem
+
+    D        Bm
+
+Você pode escolher
+
+E        G    A
+
+É preciso saber viver
+
+
+
+[Refrão]
+
+G        D        Bm
+
+É preciso saber viver
+
+G        D        Bm
+
+É preciso saber viver
+
+G        D        Bm
+
+É preciso saber viver
+
+E           G A
+
+Saber viver
+
+
+
+[Solo] D G Gm D
+
+    Bm E G A
+
+    D G Gm D
+
+    Bm E G A
+
+
+
+[Primeira Parte]
+
+
+
+     D
+
+Quem espera que a vida
+
+
+
+Seja feita de ilusão
+
+
+
+Pode até ficar maluco
+
+    G
+
+Ou morrer na solidão
+
+    Gm
+
+É preciso ter cuidado
+
+        D             Bm
+
+Pra mais tarde não sofrer
+
+E        G        A
+
+É preciso saber viver
+
+
+
+    D
+
+Toda pedra no caminho
+
+Você pode retirar
+
+
+
+Numa flor que tem espinhos
+
+    G
+
+Você pode se arranhar
+
+    Gm
+
+Se o bem e o mal existem
+
+    D        Bm
+
+Você pode escolher
+
+E       G      A
+
+É preciso saber viver
+
+
+
+[Refrão]
+
+
+
+G        D     Bm
+
+É preciso saber viver
+
+G        D     Bm
+
+É preciso saber viver
+
+G        D     Bm
+
+É preciso saber viver
+
+E        G A
+
+Saber viver
+
+
+
+G        D     Bm
+
+É preciso saber viver
+
+G        D     Bm
+
+É preciso saber viver
+
+G        D     Bm
+
+É preciso saber viver
+
+E        G A
+
+Saber viver
+
+
+
+G        D     Bm
+
+É preciso saber viver
+
+G      D      Bm
+
+É preciso saber viver
+
+G      D      Bm
+
+É preciso saber viver
+
+E       G A D
+
+Saber viver`,
+      },
+      {
+        id: "rb-04",
+        title: "Dias Melhores",
+        artist: "Jota Quest",
+        duration: "3:40",
+        requests: 0,
+        addedAt: "2026-10-18T10:00:00.000Z",
+        lyrics: `Dias Melhores - Jota Quest
+
+G                     Em7
+
+ Vivemos esperando dias melhores
+
+G                 Em7
+
+ Dias de paz, dias a mais
+
+D4/F#                 G
+
+Dias que não deixaremos para trás
+
+      Em7 D4/F#
+
+Oh, oh, oh
+
+
+
+G
+
+ Vivemos esperando
+
+            Em7
+
+O dia em que seremos melhores
+
+G                         Em7
+
+ Melhores no amor, melhores na dor
+
+D4/F#             G
+
+     Melhores em tudo
+
+      Em7
+
+Oh, oh, oh
+
+
+
+[Pré-Refrão]
+
+
+
+C9           G/B
+
+    Vivemos esperando
+
+C9             G/B
+
+    O dia em que seremos para sempre
+
+C9           G/B
+
+    Vivemos esperando
+
+      Am7
+
+Oh, oh, oh
+
+[Refrão]
+
+
+
+G         C9     G    C9
+
+Dias melhores pra sempre
+
+G         C9
+
+Dias melhores
+
+     G
+
+Pra sempre
+
+
+
+( Em7 G Em7 D4/F# )
+
+
+
+[Primeira Parte]
+
+
+
+G                     Em7
+
+ Vivemos esperando dias melhores
+
+G                Em7
+
+ Dias de paz, dias a mais
+
+D4/F#                 G
+
+Dias que não deixaremos para trás
+
+         Em7
+
+Oh, oh, oh
+
+
+
+[Pré-Refrão]
+
+
+
+C9             G/B
+
+    Vivemos esperando
+
+C9              G/B
+
+    O dia em que seremos para sempre
+
+C9             G/B
+
+    Vivemos esperando
+
+         Am7
+
+Oh, oh, oh
+
+
+
+[Refrão Final]
+
+G       C9   G   C9
+
+Dias melhores pra sempre
+
+G       C9   G   C9
+
+Dias melhores pra sempre
+
+G       C9   G   C9
+
+Dias melhores pra sempre
+
+G       C9   G
+
+Dias melhores pra sempre
+
+
+
+( Em7 G Em7 )
+
+
+
+    G
+
+Pra sempre`,
+      },
+    ],
+  },
 ];
 
 /**
@@ -2105,33 +2737,47 @@ function mapDbToPlaylists(dbPlaylists = [], dbSongs = [], customDescriptions = {
     (songsByPlaylist[song.playlist_id] ||= []).push(song);
   });
 
-  return dbPlaylists.map((pl) => {
-    const preset = INITIAL_PLAYLISTS.find((p) => p.name.toLowerCase() === pl.title.toLowerCase());
-    return {
-      id: pl.id,
-      name: pl.title,
-      title: pl.title,
-      description: customDescriptions[pl.id] || pl.description || preset?.description || 'Repertório de músicas ao vivo.',
-      imageUrl: pl.image_url || preset?.imageUrl || '',
-      image_url: pl.image_url || preset?.imageUrl || '',
-      gradient: preset?.gradient || 'from-neutral-800 via-neutral-900 to-black',
-      createdBy: preset?.createdBy || 'user-1',
-      createdAt: pl.created_at,
-      songs: (songsByPlaylist[pl.id] || []).map((song) => {
-        const seedSong = presetSongs.get(`${pl.title}::${song.title}`.toLowerCase());
-        return {
-          id: song.id,
-          playlist_id: song.playlist_id,
-          title: song.title,
-          artist: song.artist,
-          lyrics: song.lyrics || '',
-          duration: seedSong?.duration || '3:30',
-          requests: 0,
-          addedAt: song.created_at,
-        };
-      }),
-    };
-  });
+  return dbPlaylists
+    .filter((pl) => pl.id !== SYSTEM_COLLABORATORS_ID && pl.title !== "__SYSTEM_COLLABORATORS__")
+    .map((pl) => {
+      let parsedUrl = pl.image_url || "";
+      let parsedDesc = pl.description || null;
+      if (pl.image_url && typeof pl.image_url === "string" && pl.image_url.trim().startsWith("{")) {
+        try {
+          const meta = JSON.parse(pl.image_url);
+          if (meta.url !== undefined) parsedUrl = meta.url;
+          if (meta.description !== undefined) parsedDesc = meta.description;
+        } catch (e) {
+          // preserve
+        }
+      }
+
+      const preset = INITIAL_PLAYLISTS.find((p) => p.name.toLowerCase() === pl.title.toLowerCase());
+      return {
+        id: pl.id,
+        name: pl.title,
+        title: pl.title,
+        description: parsedDesc || customDescriptions[pl.id] || preset?.description || "Repertório de músicas ao vivo.",
+        imageUrl: parsedUrl || preset?.imageUrl || "",
+        image_url: parsedUrl || preset?.imageUrl || "",
+        gradient: preset?.gradient || "from-neutral-800 via-neutral-900 to-black",
+        createdBy: preset?.createdBy || "user-1",
+        createdAt: pl.created_at,
+        songs: (songsByPlaylist[pl.id] || []).map((song) => {
+          const seedSong = presetSongs.get(`${pl.title}::${song.title}`.toLowerCase());
+          return {
+            id: song.id,
+            playlist_id: song.playlist_id,
+            title: song.title,
+            artist: song.artist,
+            lyrics: song.lyrics || "",
+            duration: seedSong?.duration || "3:30",
+            requests: 0,
+            addedAt: song.created_at,
+          };
+        }),
+      };
+    });
 }
 
 /**
@@ -2200,21 +2846,24 @@ export function AppProvider({ children }) {
   }, []);
 
   /**
-   * Semeia as 3 playlists oficiais e respectivas músicas no Supabase
+   * Semeia as 4 playlists oficiais e respectivas músicas no Supabase
    * caso o banco na nuvem esteja vazio na primeira inicialização.
    */
   const seedInitialPlaylists = useCallback(async () => {
     try {
-      console.log('[Supabase] Inicializando banco de dados com as 3 playlists oficiais...');
+      console.log('[Supabase] Inicializando banco de dados com as playlists oficiais...');
       for (const pl of INITIAL_PLAYLISTS) {
+        const payload = {
+          title: pl.name,
+          image_url: JSON.stringify({
+            url: pl.imageUrl || '',
+            description: pl.description || '',
+          }),
+        };
+
         const { data: createdPls, error: plErr } = await supabase
           .from('playlists')
-          .insert([
-            {
-              title: pl.name,
-              image_url: pl.imageUrl || '',
-            },
-          ])
+          .insert([payload])
           .select();
 
         if (plErr) throw plErr;
@@ -2252,50 +2901,193 @@ export function AppProvider({ children }) {
     }
   }, [playlistDescriptions, showToast]);
 
+  // Mapa de colaboradores sincronizado na nuvem (Supabase __SYSTEM_COLLABORATORS__)
+  const [collaboratorsMap, setCollaboratorsMap] = useLocalStorage(
+    'spiritfy_cloud_collaborators',
+    {
+      'loyolafilipe@gmail.com': {
+        email: 'loyolafilipe@gmail.com',
+        name: 'Filipe Loyola',
+        status: 'approved',
+        requestedAt: '2026-10-15T00:00:00.000Z',
+      },
+      'admin@spiritfy.app': {
+        email: 'admin@spiritfy.app',
+        name: 'Administrador Geral',
+        status: 'approved',
+        requestedAt: '2026-10-15T00:00:00.000Z',
+      },
+      'filipe@spiritfy.app': {
+        email: 'filipe@spiritfy.app',
+        name: 'Filipe',
+        status: 'approved',
+        requestedAt: '2026-10-15T00:00:00.000Z',
+      },
+    }
+  );
+
+  /**
+   * Busca colaboradores do registro de sistema no Supabase
+   */
+  const fetchCollaborators = useCallback(async () => {
+    try {
+      const { data, error } = await supabase
+        .from('playlists')
+        .select('*')
+        .eq('id', SYSTEM_COLLABORATORS_ID)
+        .maybeSingle();
+
+      if (error) throw error;
+      if (data && data.image_url) {
+        try {
+          const parsed = JSON.parse(data.image_url);
+          if (parsed && typeof parsed === 'object') {
+            setCollaboratorsMap((prev) => ({
+              ...prev,
+              ...parsed,
+              'loyolafilipe@gmail.com': {
+                ...(parsed['loyolafilipe@gmail.com'] || prev['loyolafilipe@gmail.com'] || {}),
+                email: 'loyolafilipe@gmail.com',
+                name: 'Filipe Loyola',
+                status: 'approved',
+              },
+            }));
+          }
+        } catch (e) {
+          console.warn('Erro ao decodificar colaboradores do Supabase:', e);
+        }
+      }
+    } catch (e) {
+      console.warn('Erro ao buscar colaboradores do Supabase:', e);
+    }
+  }, [setCollaboratorsMap]);
+
+  /**
+   * Persiste o mapa de colaboradores no registro de sistema do Supabase
+   */
+  const saveCollaboratorsToCloud = useCallback(async (newMap) => {
+    try {
+      const payload = {
+        title: '__SYSTEM_COLLABORATORS__',
+        image_url: JSON.stringify(newMap),
+      };
+      const { error } = await supabase
+        .from('playlists')
+        .update(payload)
+        .eq('id', SYSTEM_COLLABORATORS_ID);
+
+      if (error) {
+        await supabase.from('playlists').upsert([{ id: SYSTEM_COLLABORATORS_ID, ...payload }]);
+      }
+    } catch (err) {
+      console.warn('Falha ao salvar colaboradores no Supabase:', err);
+    }
+  }, []);
+
   /**
    * Consulta assíncrona das playlists e músicas diretamente do Supabase
    */
-  const fetchPlaylists = useCallback(async () => {
-    try {
-      setIsLoadingPlaylists(true);
+  const fetchPlaylists = useCallback(
+    async (showLoading = true) => {
+      try {
+        if (showLoading) setIsLoadingPlaylists(true);
 
-      const { data: dbPlaylists, error: plError } = await supabase
-        .from('playlists')
-        .select('*')
-        .order('created_at', { ascending: true });
+        const { data: dbPlaylists, error: plError } = await supabase
+          .from('playlists')
+          .select('*')
+          .order('created_at', { ascending: true });
 
-      if (plError) throw plError;
+        if (plError) throw plError;
 
-      // Se a tabela estiver vazia, popula com as 3 playlists oficiais
-      if (!dbPlaylists || dbPlaylists.length === 0) {
-        await seedInitialPlaylists();
-        return;
+        if (!dbPlaylists || dbPlaylists.length === 0) {
+          await seedInitialPlaylists();
+          return;
+        }
+
+        // Sincroniza colaboradores se o registro de sistema estiver na listagem
+        const systemCollabRow = dbPlaylists.find(
+          (pl) => pl.id === SYSTEM_COLLABORATORS_ID || pl.title === '__SYSTEM_COLLABORATORS__'
+        );
+        if (systemCollabRow && systemCollabRow.image_url) {
+          try {
+            const parsed = JSON.parse(systemCollabRow.image_url);
+            if (parsed && typeof parsed === 'object') {
+              setCollaboratorsMap((prev) => ({
+                ...prev,
+                ...parsed,
+                'loyolafilipe@gmail.com': {
+                  ...(parsed['loyolafilipe@gmail.com'] || prev['loyolafilipe@gmail.com'] || {}),
+                  email: 'loyolafilipe@gmail.com',
+                  name: 'Filipe Loyola',
+                  status: 'approved',
+                },
+              }));
+            }
+          } catch (e) {
+            // ignore
+          }
+        }
+
+        // Busca todas as músicas da tabela songs
+        const { data: dbSongs, error: songsError } = await supabase
+          .from('songs')
+          .select('*')
+          .order('created_at', { ascending: true });
+
+        if (songsError) throw songsError;
+
+        setPlaylists(mapDbToPlaylists(dbPlaylists, dbSongs, playlistDescriptions));
+      } catch (err) {
+        console.warn('[Supabase] Falha ao consultar Supabase:', err);
+        if (showLoading) {
+          showToast('Aviso: Operando com dados locais de contingência.', 'info');
+        }
+        setPlaylists(INITIAL_PLAYLISTS);
+      } finally {
+        if (showLoading) setIsLoadingPlaylists(false);
       }
+    },
+    [playlistDescriptions, seedInitialPlaylists, setCollaboratorsMap, showToast]
+  );
 
-      // Busca todas as músicas da tabela songs
-      const { data: dbSongs, error: songsError } = await supabase
-        .from('songs')
-        .select('*')
-        .order('created_at', { ascending: true });
-
-      if (songsError) throw songsError;
-
-      setPlaylists(mapDbToPlaylists(dbPlaylists, dbSongs, playlistDescriptions));
-    } catch (err) {
-      console.warn('[Supabase] Falha ao consultar Supabase:', err);
-      showToast('Aviso: Operando com dados locais de contingência.', 'info');
-      setPlaylists(INITIAL_PLAYLISTS);
-    } finally {
-      setIsLoadingPlaylists(false);
-    }
-  }, [playlistDescriptions, seedInitialPlaylists, showToast]);
-
-  // Carrega os dados na montagem do componente
+  // Inicialização e canal Realtime para sincronização automática entre múltiplos navegadores
   useEffect(() => {
-    if (hasFetchedRef.current) return;
-    hasFetchedRef.current = true;
-    fetchPlaylists();
-  }, [fetchPlaylists]);
+    fetchPlaylists(false);
+    fetchCollaborators();
+
+    const channel = supabase
+      .channel('spiritfy_realtime')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'playlists' },
+        (payload) => {
+          if (payload?.new?.id === SYSTEM_COLLABORATORS_ID) {
+            fetchCollaborators();
+          } else {
+            fetchPlaylists(false);
+          }
+        }
+      )
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'songs' },
+        () => {
+          fetchPlaylists(false);
+        }
+      )
+      .subscribe();
+
+    // Sincronização periódica de retaguarda (fallback a cada 15 segundos)
+    const interval = setInterval(() => {
+      fetchPlaylists(false);
+      fetchCollaborators();
+    }, 15000);
+
+    return () => {
+      supabase.removeChannel(channel);
+      clearInterval(interval);
+    };
+  }, [fetchPlaylists, fetchCollaborators]);
 
   /**
    * `registeredUsers`: Usuários cadastrados (mantido para sessão e alternância de perfil)
@@ -2307,13 +3099,6 @@ export function AppProvider({ children }) {
 
   // Currently logged-in user object (null = logged out / not authenticated)
   const [currentUser, setCurrentUser] = useLocalStorage('spiritfy_current_user', null);
-
-  // Lista de e-mails de colaboradores aprovados pelo administrador
-  // loyolafilipe@gmail.com possui acesso de Administrador Principal permanente
-  const [approvedCollaborators, setApprovedCollaborators] = useLocalStorage(
-    'spiritfy_approved_collaborators',
-    ['loyolafilipe@gmail.com', 'admin@spiritfy.app', 'filipe@spiritfy.app']
-  );
 
   // Controle de visibilidade do modal de autenticação (não bloqueia visitantes)
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
@@ -2329,31 +3114,38 @@ export function AppProvider({ children }) {
       const email = (sbUser.email || '').toLowerCase().trim();
       const meta = sbUser.user_metadata || {};
       const admin = checkIsAdmin(email) || meta.role === 'admin';
+      const collabEntry = collaboratorsMap[email];
+      const isApprovedStatus = collabEntry?.status === 'approved';
+      const isRejectedStatus = collabEntry?.status === 'rejected';
+
       const approved =
         admin ||
         email === 'filipe@spiritfy.app' ||
         meta.is_approved === true ||
-        approvedCollaborators.some((e) => e.toLowerCase().trim() === email);
+        isApprovedStatus;
 
       const roleName = admin
         ? 'Administrador'
         : approved
         ? 'Colaborador Aprovado'
+        : isRejectedStatus
+        ? 'Cadastro Recusado'
         : 'Aguardando Aprovação';
 
       return {
         id: sbUser.id,
         email: sbUser.email,
-        name: meta.name || sbUser.email?.split('@')[0] || 'Usuário',
+        name: meta.name || collabEntry?.name || sbUser.email?.split('@')[0] || 'Usuário',
         avatar: meta.avatar || (admin ? '👑' : approved ? '🎸' : '👤'),
         role: roleName,
         isAdmin: admin,
         isApproved: approved,
+        collaboratorStatus: admin ? 'approved' : collabEntry?.status || (meta.is_approved ? 'approved' : 'pending'),
         confirmed: !!sbUser.email_confirmed_at || !!sbUser.confirmed_at,
         rawUser: sbUser,
       };
     },
-    [approvedCollaborators]
+    [collaboratorsMap]
   );
 
   // Sincroniza sessão do Supabase Auth com o estado do aplicativo
@@ -2370,7 +3162,6 @@ export function AppProvider({ children }) {
       if (session?.user) {
         setCurrentUser(mapSupabaseUser(session.user));
       } else {
-        // Se deslogou no Supabase, limpa apenas se a sessão ativa era do Supabase
         setCurrentUser((prev) => (prev?.rawUser ? null : prev));
       }
     });
@@ -2378,20 +3169,26 @@ export function AppProvider({ children }) {
     return () => subscription.unsubscribe();
   }, [mapSupabaseUser, setCurrentUser]);
 
-  // Atualiza currentUser se a lista de aprovados mudar
+  // Atualiza currentUser se a lista de colaboradores mudar na nuvem
   useEffect(() => {
     if (currentUser?.email) {
       const email = currentUser.email.toLowerCase().trim();
       const admin = checkIsAdmin(email) || currentUser.isAdmin;
+      const collabEntry = collaboratorsMap[email];
+      const isApprovedStatus = collabEntry?.status === 'approved';
+      const isRejectedStatus = collabEntry?.status === 'rejected';
+
       const approved =
         admin ||
         email === 'filipe@spiritfy.app' ||
-        approvedCollaborators.some((e) => e.toLowerCase().trim() === email);
+        isApprovedStatus;
 
       const newRole = admin
         ? 'Administrador'
         : approved
         ? 'Colaborador Aprovado'
+        : isRejectedStatus
+        ? 'Cadastro Recusado'
         : 'Aguardando Aprovação';
 
       if (currentUser.role !== newRole || currentUser.isApproved !== approved) {
@@ -2402,41 +3199,72 @@ export function AppProvider({ children }) {
                 role: newRole,
                 isApproved: approved,
                 isAdmin: admin,
+                collaboratorStatus: admin ? 'approved' : collabEntry?.status || 'pending',
               }
             : null
         );
       }
     }
-  }, [approvedCollaborators, currentUser?.email, currentUser?.isAdmin, currentUser?.isApproved, currentUser?.role, setCurrentUser]);
+  }, [collaboratorsMap, currentUser?.email, currentUser?.isAdmin, currentUser?.isApproved, currentUser?.role, setCurrentUser]);
 
   // Funções de Gestão de Colaboradores (Exclusivo Administrador)
   const approveCollaborator = useCallback(
-    (email) => {
+    async (email) => {
       if (!email) return;
       const normalized = email.trim().toLowerCase();
-      setApprovedCollaborators((prev) => {
-        if (prev.some((e) => e.toLowerCase().trim() === normalized)) return prev;
-        return [...prev, normalized];
-      });
+      const existing = collaboratorsMap[normalized] || {};
+      const updatedEntry = {
+        ...existing,
+        email: normalized,
+        name: existing.name || normalized.split('@')[0],
+        status: 'approved',
+        approvedAt: new Date().toISOString(),
+      };
+      const updatedMap = {
+        ...collaboratorsMap,
+        [normalized]: updatedEntry,
+      };
+
+      setCollaboratorsMap(updatedMap);
+      await saveCollaboratorsToCloud(updatedMap);
       showToast(`Colaborador "${normalized}" aprovado com sucesso!`, 'success');
     },
-    [setApprovedCollaborators, showToast]
+    [collaboratorsMap, saveCollaboratorsToCloud, setCollaboratorsMap, showToast]
+  );
+
+  const rejectCollaborator = useCallback(
+    async (email) => {
+      if (!email) return;
+      const normalized = email.trim().toLowerCase();
+      if (checkIsAdmin(normalized)) {
+        showToast('Não é possível rejeitar o Administrador Principal.', 'warning');
+        return;
+      }
+      const existing = collaboratorsMap[normalized] || {};
+      const updatedEntry = {
+        ...existing,
+        email: normalized,
+        name: existing.name || normalized.split('@')[0],
+        status: 'rejected',
+        rejectedAt: new Date().toISOString(),
+      };
+      const updatedMap = {
+        ...collaboratorsMap,
+        [normalized]: updatedEntry,
+      };
+
+      setCollaboratorsMap(updatedMap);
+      await saveCollaboratorsToCloud(updatedMap);
+      showToast(`Solicitação de "${normalized}" recusada.`, 'info');
+    },
+    [collaboratorsMap, saveCollaboratorsToCloud, setCollaboratorsMap, showToast]
   );
 
   const revokeCollaborator = useCallback(
-    (email) => {
-      if (!email) return;
-      const normalized = email.trim().toLowerCase();
-      if (ADMIN_EMAILS.includes(normalized)) {
-        showToast('Não é possível revogar o administrador principal.', 'warning');
-        return;
-      }
-      setApprovedCollaborators((prev) =>
-        prev.filter((e) => e.toLowerCase().trim() !== normalized)
-      );
-      showToast(`Permissão revogada para "${normalized}".`, 'info');
+    async (email) => {
+      await rejectCollaborator(email);
     },
-    [setApprovedCollaborators, showToast]
+    [rejectCollaborator]
   );
 
   // Computa permissões ativas
@@ -2450,15 +3278,31 @@ export function AppProvider({ children }) {
     if (!currentUser) return false;
     if (isAdmin) return true;
     const email = (currentUser.email || '').toLowerCase().trim();
-    return (
-      email === 'filipe@spiritfy.app' ||
-      approvedCollaborators.some((e) => e.toLowerCase().trim() === email) ||
-      currentUser.isApproved === true
-    );
-  }, [currentUser, isAdmin, approvedCollaborators]);
+    if (email === 'filipe@spiritfy.app') return true;
+    const collab = collaboratorsMap[email];
+    if (collab && collab.status === 'approved') return true;
+    return currentUser.isApproved === true;
+  }, [currentUser, isAdmin, collaboratorsMap]);
 
   // Usuários não logados (visitantes) NUNCA têm permissão de edição
   const canEdit = Boolean(currentUser && (isAdmin || isApprovedCollaborator));
+
+  // Listagens de colaboradores por status
+  const pendingCollaborators = useMemo(() => {
+    return Object.values(collaboratorsMap).filter((c) => c.status === 'pending');
+  }, [collaboratorsMap]);
+
+  const approvedCollaboratorsList = useMemo(() => {
+    return Object.values(collaboratorsMap).filter((c) => c.status === 'approved');
+  }, [collaboratorsMap]);
+
+  const rejectedCollaborators = useMemo(() => {
+    return Object.values(collaboratorsMap).filter((c) => c.status === 'rejected');
+  }, [collaboratorsMap]);
+
+  const approvedCollaborators = useMemo(() => {
+    return approvedCollaboratorsList.map((c) => c.email);
+  }, [approvedCollaboratorsList]);
 
   // Supabase Auth Methods
   const supabaseSignIn = useCallback(
@@ -2498,14 +3342,16 @@ export function AppProvider({ children }) {
     async ({ name, email, password }) => {
       try {
         const trimmedEmail = email.trim().toLowerCase();
+        const isAdminUser = checkIsAdmin(trimmedEmail);
+
         const { data, error } = await supabase.auth.signUp({
           email: trimmedEmail,
           password,
           options: {
             data: {
               name: name.trim(),
-              role: trimmedEmail === 'admin@spiritfy.app' ? 'admin' : 'collaborator',
-              is_approved: trimmedEmail === 'admin@spiritfy.app' || trimmedEmail === 'filipe@spiritfy.app',
+              role: isAdminUser ? 'admin' : 'collaborator',
+              is_approved: isAdminUser,
             },
           },
         });
@@ -2514,8 +3360,22 @@ export function AppProvider({ children }) {
           return { success: false, error: error.message || 'Erro ao criar conta no Supabase.' };
         }
 
+        // Registra a solicitação de colaborador na nuvem com status pending (ou approved para admin)
+        const newEntry = {
+          email: trimmedEmail,
+          name: name.trim() || trimmedEmail.split('@')[0],
+          status: isAdminUser ? 'approved' : 'pending',
+          requestedAt: new Date().toISOString(),
+        };
+        const updatedMap = {
+          ...collaboratorsMap,
+          [trimmedEmail]: newEntry,
+        };
+        setCollaboratorsMap(updatedMap);
+        await saveCollaboratorsToCloud(updatedMap);
+
         showToast(
-          'Conta cadastrada! Verifique seu e-mail para o link de confirmação do Supabase.',
+          'Conta cadastrada! Verifique seu e-mail para confirmação. Um administrador liberará seu acesso para edição.',
           'info'
         );
 
@@ -2529,7 +3389,7 @@ export function AppProvider({ children }) {
         return { success: false, error: err.message || 'Erro inesperado ao registrar.' };
       }
     },
-    [showToast]
+    [collaboratorsMap, saveCollaboratorsToCloud, setCollaboratorsMap, showToast]
   );
 
   const supabaseSignOut = useCallback(async () => {
@@ -2755,12 +3615,21 @@ export function AppProvider({ children }) {
     }
 
     try {
+      const trimmedName = name.trim();
+      const trimmedUrl = (imageUrl || '').trim();
+      const trimmedDesc = (description || '').trim();
+
+      const encodedImageUrl = JSON.stringify({
+        url: trimmedUrl,
+        description: trimmedDesc,
+      });
+
       const { data, error } = await supabase
         .from('playlists')
         .insert([
           {
-            title: name.trim(),
-            image_url: imageUrl || '',
+            title: trimmedName,
+            image_url: encodedImageUrl,
           },
         ])
         .select();
@@ -2768,20 +3637,13 @@ export function AppProvider({ children }) {
       if (error) throw error;
       const created = data[0];
 
-      if (description) {
-        setPlaylistDescriptions((prev) => ({
-          ...prev,
-          [created.id]: description.trim(),
-        }));
-      }
-
       const newPlaylist = {
         id: created.id,
         name: created.title,
         title: created.title,
-        description: description || 'Playlist personalizada no Supabase.',
-        imageUrl: created.image_url || '',
-        image_url: created.image_url || '',
+        description: trimmedDesc || 'Playlist personalizada no Supabase.',
+        imageUrl: trimmedUrl,
+        image_url: trimmedUrl,
         gradient: gradient || 'from-neutral-800 via-neutral-900 to-black',
         createdBy: currentUser ? currentUser.id : 'user-guest',
         createdAt: created.created_at,
@@ -2789,7 +3651,9 @@ export function AppProvider({ children }) {
       };
 
       setPlaylists((prev) => [newPlaylist, ...prev]);
-      showToast(`Playlist "${name}" criada e salva no Supabase!`, 'success');
+      fetchPlaylists(false);
+
+      showToast(`Playlist "${trimmedName}" criada e salva no Supabase!`, 'success');
       return newPlaylist;
     } catch (err) {
       console.error('[Supabase] Erro ao criar playlist:', err);
@@ -2815,60 +3679,51 @@ export function AppProvider({ children }) {
     }
 
     try {
-      const payload = {};
-      if (updatedData.name !== undefined) payload.title = updatedData.name.trim();
-      if (updatedData.title !== undefined) payload.title = updatedData.title.trim();
-      if (updatedData.imageUrl !== undefined) payload.image_url = updatedData.imageUrl.trim();
-      if (updatedData.image_url !== undefined) payload.image_url = updatedData.image_url.trim();
+      const currentPl = playlists.find((p) => p.id === playlistId);
+      const title = (updatedData.name ?? updatedData.title ?? currentPl?.name ?? '').trim();
+      const imageUrl = (updatedData.imageUrl ?? updatedData.image_url ?? currentPl?.imageUrl ?? '').trim();
+      const description = (updatedData.description ?? currentPl?.description ?? '').trim();
 
-      // Tenta atualizar com description no banco caso a coluna exista
-      if (updatedData.description !== undefined) {
-        payload.description = updatedData.description.trim();
-      }
+      // Armazena url e description compactadas em image_url no Supabase,
+      // garantindo sincronização imediata em todos os navegadores
+      const encodedImageUrl = JSON.stringify({
+        url: imageUrl,
+        description: description,
+      });
 
-      let { error } = await supabase
+      const payload = {
+        title,
+        image_url: encodedImageUrl,
+      };
+
+      const { error } = await supabase
         .from('playlists')
         .update(payload)
         .eq('id', playlistId);
 
-      // Se a coluna description ainda não existir fisicamente no Supabase, atualiza sem ela
-      if (error && error.message?.includes('description')) {
-        delete payload.description;
-        const res = await supabase
-          .from('playlists')
-          .update(payload)
-          .eq('id', playlistId);
-        error = res.error;
-      }
-
       if (error) throw error;
-
-      // Salva a descrição também no armazenamento persistente local
-      if (updatedData.description !== undefined) {
-        setPlaylistDescriptions((prev) => ({
-          ...prev,
-          [playlistId]: updatedData.description.trim(),
-        }));
-      }
 
       setPlaylists((prev) =>
         prev.map((pl) => {
           if (pl.id === playlistId) {
             return {
               ...pl,
-              ...updatedData,
-              name: payload.title || pl.name,
-              title: payload.title || pl.title,
-              description: updatedData.description !== undefined ? updatedData.description.trim() : pl.description,
-              imageUrl: payload.image_url !== undefined ? payload.image_url : pl.imageUrl,
-              image_url: payload.image_url !== undefined ? payload.image_url : pl.image_url,
+              name: title,
+              title: title,
+              description: description,
+              imageUrl: imageUrl,
+              image_url: imageUrl,
+              gradient: updatedData.gradient || pl.gradient,
             };
           }
           return pl;
         })
       );
 
-      showToast(`Playlist atualizada com sucesso no Supabase!`, 'success');
+      // Re-busca silenciosa para garantir atualização no banco
+      fetchPlaylists(false);
+
+      showToast('Playlist atualizada e sincronizada com sucesso!', 'success');
       return true;
     } catch (err) {
       console.error('[Supabase] Erro ao atualizar playlist:', err);
@@ -2897,6 +3752,7 @@ export function AppProvider({ children }) {
       if (error) throw error;
 
       setPlaylists((prev) => prev.filter((pl) => pl.id !== playlistId));
+      fetchPlaylists(false);
       showToast('Playlist removida com sucesso!', 'info');
       return true;
     } catch (err) {
@@ -2960,6 +3816,7 @@ export function AppProvider({ children }) {
           return pl;
         })
       );
+      fetchPlaylists(false);
 
       showToast(`Música "${title}" adicionada com sucesso no Supabase!`, 'success');
       return newSong;
@@ -2996,6 +3853,7 @@ export function AppProvider({ children }) {
           return pl;
         })
       );
+      fetchPlaylists(false);
 
       showToast('Música removida do repertório!', 'info');
       return true;
@@ -3066,9 +3924,15 @@ export function AppProvider({ children }) {
         isAdmin,
         isApprovedCollaborator,
         canEdit,
+        collaboratorsMap,
+        pendingCollaborators,
+        approvedCollaboratorsList,
+        rejectedCollaborators,
         approvedCollaborators,
         approveCollaborator,
+        rejectCollaborator,
         revokeCollaborator,
+        fetchCollaborators,
         isAuthModalOpen,
         openAuthModal,
         closeAuthModal,
