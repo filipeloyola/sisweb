@@ -2849,6 +2849,10 @@ export function AppProvider({ children }) {
    * Semeia as 4 playlists oficiais e respectivas músicas no Supabase
    * caso o banco na nuvem esteja vazio na primeira inicialização.
    */
+  /**
+   * Semeia as 4 playlists oficiais e respectivas músicas no Supabase
+   * caso o banco na nuvem esteja vazio na primeira inicialização.
+   */
   const seedInitialPlaylists = useCallback(async () => {
     try {
       console.log('[Supabase] Inicializando banco de dados com as playlists oficiais...');
@@ -2901,7 +2905,7 @@ export function AppProvider({ children }) {
     }
   }, [playlistDescriptions, showToast]);
 
-  // Mapa de colaboradores sincronizado na nuvem (Supabase __SYSTEM_COLLABORATORS__)
+  // Mapa de colaboradores sincronizado na nuvem (Supabase __SYSTEM_COLLABORATORS__ e tabela profiles)
   const [collaboratorsMap, setCollaboratorsMap] = useLocalStorage(
     'spiritfy_cloud_collaborators',
     {
@@ -2909,56 +2913,106 @@ export function AppProvider({ children }) {
         email: 'loyolafilipe@gmail.com',
         name: 'Filipe Loyola',
         status: 'approved',
+        role: 'admin',
+        is_approved: true,
         requestedAt: '2026-10-15T00:00:00.000Z',
       },
       'admin@spiritfy.app': {
         email: 'admin@spiritfy.app',
         name: 'Administrador Geral',
         status: 'approved',
+        role: 'admin',
+        is_approved: true,
         requestedAt: '2026-10-15T00:00:00.000Z',
       },
       'filipe@spiritfy.app': {
         email: 'filipe@spiritfy.app',
         name: 'Filipe',
         status: 'approved',
+        role: 'collaborator',
+        is_approved: true,
         requestedAt: '2026-10-15T00:00:00.000Z',
       },
     }
   );
 
   /**
-   * Busca colaboradores do registro de sistema no Supabase
+   * Busca colaboradores tanto da tabela 'profiles' quanto do registro de sistema no Supabase
    */
   const fetchCollaborators = useCallback(async () => {
     try {
-      const { data, error } = await supabase
-        .from('playlists')
-        .select('*')
-        .eq('id', SYSTEM_COLLABORATORS_ID)
-        .maybeSingle();
+      let profilesMap = {};
 
-      if (error) throw error;
-      if (data && data.image_url) {
-        try {
-          const parsed = JSON.parse(data.image_url);
-          if (parsed && typeof parsed === 'object') {
-            setCollaboratorsMap((prev) => ({
-              ...prev,
-              ...parsed,
-              'loyolafilipe@gmail.com': {
-                ...(parsed['loyolafilipe@gmail.com'] || prev['loyolafilipe@gmail.com'] || {}),
-                email: 'loyolafilipe@gmail.com',
-                name: 'Filipe Loyola',
-                status: 'approved',
-              },
-            }));
-          }
-        } catch (e) {
-          console.warn('Erro ao decodificar colaboradores do Supabase:', e);
+      // 1. Tenta buscar da tabela oficial 'profiles' no Supabase com try/catch isolado
+      try {
+        const { data: profilesData, error: profErr } = await supabase
+          .from('profiles')
+          .select('*');
+
+        if (!profErr && Array.isArray(profilesData)) {
+          profilesData.forEach((prof) => {
+            if (!prof.email) return;
+            const normEmail = prof.email.toLowerCase().trim();
+            const isAdminUser = checkIsAdmin(normEmail) || prof.role === 'admin';
+            const isApproved = isAdminUser || prof.is_approved === true || prof.role === 'collaborator';
+
+            profilesMap[normEmail] = {
+              id: prof.id,
+              email: normEmail,
+              name: normEmail.split('@')[0],
+              status: isAdminUser ? 'approved' : isApproved ? 'approved' : 'pending',
+              role: prof.role || (isAdminUser ? 'admin' : isApproved ? 'collaborator' : 'user'),
+              is_approved: isApproved,
+              requestedAt: prof.created_at || new Date().toISOString(),
+            };
+          });
         }
+      } catch (profEx) {
+        console.warn('[Supabase] Aviso ao buscar tabela profiles:', profEx);
       }
+
+      // 2. Busca do registro de sistema __SYSTEM_COLLABORATORS__ com try/catch isolado
+      let systemMap = {};
+      try {
+        const { data: sysData, error: sysErr } = await supabase
+          .from('playlists')
+          .select('*')
+          .eq('id', SYSTEM_COLLABORATORS_ID)
+          .maybeSingle();
+
+        if (!sysErr && sysData && sysData.image_url) {
+          const parsed = JSON.parse(sysData.image_url);
+          if (parsed && typeof parsed === 'object') {
+            systemMap = parsed;
+          }
+        }
+      } catch (sysEx) {
+        console.warn('[Supabase] Aviso ao buscar sistema de colaboradores:', sysEx);
+      }
+
+      // 3. Mescla com segurança garantindo o Administrador Principal
+      setCollaboratorsMap((prev) => {
+        const merged = { ...prev, ...systemMap, ...profilesMap };
+        merged['loyolafilipe@gmail.com'] = {
+          ...(merged['loyolafilipe@gmail.com'] || {}),
+          email: 'loyolafilipe@gmail.com',
+          name: 'Filipe Loyola',
+          status: 'approved',
+          role: 'admin',
+          is_approved: true,
+        };
+        merged['admin@spiritfy.app'] = {
+          ...(merged['admin@spiritfy.app'] || {}),
+          email: 'admin@spiritfy.app',
+          name: 'Administrador Geral',
+          status: 'approved',
+          role: 'admin',
+          is_approved: true,
+        };
+        return merged;
+      });
     } catch (e) {
-      console.warn('Erro ao buscar colaboradores do Supabase:', e);
+      console.warn('[Supabase] Falha ao sincronizar colaboradores:', e);
     }
   }, [setCollaboratorsMap]);
 
@@ -2985,26 +3039,35 @@ export function AppProvider({ children }) {
   }, []);
 
   /**
-   * Consulta assíncrona das playlists e músicas diretamente do Supabase
+   * Consulta assíncrona das playlists e músicas diretamente do Supabase.
+   * SEMPRE chama setIsLoadingPlaylists(false) no bloco finally.
    */
   const fetchPlaylists = useCallback(
-    async (showLoading = true) => {
+    async (showLoading = false) => {
+      if (showLoading) setIsLoadingPlaylists(true);
       try {
-        if (showLoading) setIsLoadingPlaylists(true);
-
         const { data: dbPlaylists, error: plError } = await supabase
           .from('playlists')
           .select('*')
           .order('created_at', { ascending: true });
 
-        if (plError) throw plError;
-
-        if (!dbPlaylists || dbPlaylists.length === 0) {
-          await seedInitialPlaylists();
+        if (plError) {
+          console.warn('[Supabase] Erro ao carregar playlists:', plError);
+          setPlaylists(INITIAL_PLAYLISTS);
           return;
         }
 
-        // Sincroniza colaboradores se o registro de sistema estiver na listagem
+        if (!dbPlaylists || dbPlaylists.length === 0) {
+          try {
+            await seedInitialPlaylists();
+          } catch (seedErr) {
+            console.warn('[Supabase] Erro no seed de playlists:', seedErr);
+            setPlaylists(INITIAL_PLAYLISTS);
+          }
+          return;
+        }
+
+        // Sincroniza colaboradores caso o registro de sistema esteja na listagem
         const systemCollabRow = dbPlaylists.find(
           (pl) => pl.id === SYSTEM_COLLABORATORS_ID || pl.title === '__SYSTEM_COLLABORATORS__'
         );
@@ -3028,33 +3091,178 @@ export function AppProvider({ children }) {
           }
         }
 
-        // Busca todas as músicas da tabela songs
-        const { data: dbSongs, error: songsError } = await supabase
-          .from('songs')
-          .select('*')
-          .order('created_at', { ascending: true });
+        // Busca todas as músicas da tabela songs com try/catch isolado
+        let dbSongs = [];
+        try {
+          const { data: songsData, error: songsError } = await supabase
+            .from('songs')
+            .select('*')
+            .order('created_at', { ascending: true });
 
-        if (songsError) throw songsError;
+          if (!songsError && Array.isArray(songsData)) {
+            dbSongs = songsData;
+          }
+        } catch (sErr) {
+          console.warn('[Supabase] Aviso ao buscar músicas (usando padrões):', sErr);
+        }
 
         setPlaylists(mapDbToPlaylists(dbPlaylists, dbSongs, playlistDescriptions));
       } catch (err) {
         console.warn('[Supabase] Falha ao consultar Supabase:', err);
-        if (showLoading) {
-          showToast('Aviso: Operando com dados locais de contingência.', 'info');
-        }
         setPlaylists(INITIAL_PLAYLISTS);
       } finally {
-        if (showLoading) setIsLoadingPlaylists(false);
+        // GARANTE 100% QUE O CARREGAMENTO É DESATIVADO
+        setIsLoadingPlaylists(false);
       }
     },
-    [playlistDescriptions, seedInitialPlaylists, setCollaboratorsMap, showToast]
+    [playlistDescriptions, seedInitialPlaylists, setCollaboratorsMap]
   );
 
-  // Inicialização e canal Realtime para sincronização automática entre múltiplos navegadores
-  useEffect(() => {
-    fetchPlaylists(false);
-    fetchCollaborators();
+  /**
+   * `registeredUsers`: Usuários cadastrados (mantido para sessão e alternância de perfil)
+   */
+  const [registeredUsers, setRegisteredUsers] = useLocalStorage(
+    'spiritfy_registered_users',
+    PRESET_USERS
+  );
 
+  // Currently logged-in user object (null = logged out / not authenticated / visitante)
+  const [currentUser, setCurrentUser] = useLocalStorage('spiritfy_current_user', null);
+
+  // Controle de visibilidade do modal de autenticação (não bloqueia visitantes)
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const openAuthModal = useCallback(() => setIsAuthModalOpen(true), []);
+  const closeAuthModal = useCallback(() => setIsAuthModalOpen(false), []);
+
+  /**
+   * Mapeia um usuário do Supabase Auth e perfil da tabela profiles para a interface
+   */
+  const mapSupabaseUser = useCallback(
+    (sbUser, profileData = null) => {
+      if (!sbUser) return null;
+      const email = (sbUser.email || '').toLowerCase().trim();
+      const meta = sbUser.user_metadata || {};
+      const collabEntry = collaboratorsMap[email];
+
+      const admin =
+        checkIsAdmin(email) ||
+        meta.role === 'admin' ||
+        profileData?.role === 'admin';
+
+      const isApprovedStatus =
+        admin ||
+        email === 'filipe@spiritfy.app' ||
+        meta.is_approved === true ||
+        profileData?.is_approved === true ||
+        collabEntry?.status === 'approved';
+
+      const isRejectedStatus = !admin && !isApprovedStatus && collabEntry?.status === 'rejected';
+
+      const roleName = admin
+        ? 'Administrador'
+        : isApprovedStatus
+        ? 'Colaborador Aprovado'
+        : isRejectedStatus
+        ? 'Cadastro Recusado'
+        : 'Aguardando Aprovação';
+
+      return {
+        id: sbUser.id,
+        email: sbUser.email,
+        name: meta.name || profileData?.name || collabEntry?.name || sbUser.email?.split('@')[0] || 'Usuário',
+        avatar: meta.avatar || (admin ? '👑' : isApprovedStatus ? '🎸' : '👤'),
+        role: roleName,
+        isAdmin: admin,
+        isApproved: isApprovedStatus,
+        collaboratorStatus: admin ? 'approved' : isApprovedStatus ? 'approved' : isRejectedStatus ? 'rejected' : 'pending',
+        confirmed: !!sbUser.email_confirmed_at || !!sbUser.confirmed_at,
+        rawUser: sbUser,
+        profile: profileData,
+      };
+    },
+    [collaboratorsMap]
+  );
+
+  /**
+   * Verifica a sessão do usuário com try/catch robusto.
+   * Se houver qualquer erro, mantém o usuário como visitante sem quebrar a tela.
+   */
+  const checkUserSession = useCallback(async () => {
+    try {
+      const { data, error } = await supabase.auth.getSession();
+      if (error) {
+        console.warn('[Supabase] Erro de autenticação (modo visitante mantido):', error);
+        setCurrentUser(null);
+        return;
+      }
+
+      const sbUser = data?.session?.user;
+      if (!sbUser) {
+        setCurrentUser(null);
+        return;
+      }
+
+      // Tenta buscar da tabela profiles com try/catch isolado
+      let userProfile = null;
+      try {
+        const { data: prof, error: pErr } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('id', sbUser.id)
+          .maybeSingle();
+
+        if (!pErr && prof) {
+          userProfile = prof;
+        } else if (sbUser.email) {
+          const { data: profByEmail } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('email', sbUser.email.toLowerCase().trim())
+            .maybeSingle();
+          if (profByEmail) userProfile = profByEmail;
+        }
+      } catch (profErr) {
+        console.warn('[Supabase] Aviso ao buscar perfil do usuário (usando metadados):', profErr);
+      }
+
+      setCurrentUser(mapSupabaseUser(sbUser, userProfile));
+    } catch (err) {
+      console.warn('[Supabase] Erro na verificação de sessão (modo visitante ativado):', err);
+      setCurrentUser(null);
+    }
+  }, [mapSupabaseUser, setCurrentUser]);
+
+  // Carregamento inicial mestre com watchdog de segurança e try/catch global
+  useEffect(() => {
+    let isMounted = true;
+
+    // Watchdog de segurança: NUNCA deixa o site preso em "Carregando repertório..."
+    // Em caso de lentidão ou timeout de rede, força a liberação em 2.5 segundos
+    const watchdogTimer = setTimeout(() => {
+      if (isMounted) {
+        setIsLoadingPlaylists(false);
+      }
+    }, 2500);
+
+    const initMaster = async () => {
+      try {
+        await Promise.allSettled([
+          fetchPlaylists(true),
+          fetchCollaborators(),
+          checkUserSession(),
+        ]);
+      } catch (e) {
+        console.warn('[Spiritfy] Aviso na inicialização geral:', e);
+      } finally {
+        if (isMounted) {
+          setIsLoadingPlaylists(false);
+        }
+      }
+    };
+
+    initMaster();
+
+    // Sincronização em tempo real (Supabase Realtime)
     const channel = supabase
       .channel('spiritfy_realtime')
       .on(
@@ -3075,89 +3283,24 @@ export function AppProvider({ children }) {
           fetchPlaylists(false);
         }
       )
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'profiles' },
+        () => {
+          fetchCollaborators();
+        }
+      )
       .subscribe();
 
-    // Sincronização periódica de retaguarda (fallback a cada 15 segundos)
+    // Fallback de polling a cada 15 segundos entre abas/dispositivos
     const interval = setInterval(() => {
       fetchPlaylists(false);
       fetchCollaborators();
     }, 15000);
 
-    return () => {
-      supabase.removeChannel(channel);
-      clearInterval(interval);
-    };
-  }, [fetchPlaylists, fetchCollaborators]);
-
-  /**
-   * `registeredUsers`: Usuários cadastrados (mantido para sessão e alternância de perfil)
-   */
-  const [registeredUsers, setRegisteredUsers] = useLocalStorage(
-    'spiritfy_registered_users',
-    PRESET_USERS
-  );
-
-  // Currently logged-in user object (null = logged out / not authenticated)
-  const [currentUser, setCurrentUser] = useLocalStorage('spiritfy_current_user', null);
-
-  // Controle de visibilidade do modal de autenticação (não bloqueia visitantes)
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-  const openAuthModal = useCallback(() => setIsAuthModalOpen(true), []);
-  const closeAuthModal = useCallback(() => setIsAuthModalOpen(false), []);
-
-  /**
-   * Mapeia um usuário do Supabase Auth para o formato usado na interface do Spiritfy
-   */
-  const mapSupabaseUser = useCallback(
-    (sbUser) => {
-      if (!sbUser) return null;
-      const email = (sbUser.email || '').toLowerCase().trim();
-      const meta = sbUser.user_metadata || {};
-      const admin = checkIsAdmin(email) || meta.role === 'admin';
-      const collabEntry = collaboratorsMap[email];
-      const isApprovedStatus = collabEntry?.status === 'approved';
-      const isRejectedStatus = collabEntry?.status === 'rejected';
-
-      const approved =
-        admin ||
-        email === 'filipe@spiritfy.app' ||
-        meta.is_approved === true ||
-        isApprovedStatus;
-
-      const roleName = admin
-        ? 'Administrador'
-        : approved
-        ? 'Colaborador Aprovado'
-        : isRejectedStatus
-        ? 'Cadastro Recusado'
-        : 'Aguardando Aprovação';
-
-      return {
-        id: sbUser.id,
-        email: sbUser.email,
-        name: meta.name || collabEntry?.name || sbUser.email?.split('@')[0] || 'Usuário',
-        avatar: meta.avatar || (admin ? '👑' : approved ? '🎸' : '👤'),
-        role: roleName,
-        isAdmin: admin,
-        isApproved: approved,
-        collaboratorStatus: admin ? 'approved' : collabEntry?.status || (meta.is_approved ? 'approved' : 'pending'),
-        confirmed: !!sbUser.email_confirmed_at || !!sbUser.confirmed_at,
-        rawUser: sbUser,
-      };
-    },
-    [collaboratorsMap]
-  );
-
-  // Sincroniza sessão do Supabase Auth com o estado do aplicativo
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session?.user) {
-        setCurrentUser(mapSupabaseUser(session.user));
-      }
-    });
-
+    // Escuta mudanças de auth em tempo real
     const {
-      data: { subscription },
+      data: { subscription: authSub },
     } = supabase.auth.onAuthStateChange((_event, session) => {
       if (session?.user) {
         setCurrentUser(mapSupabaseUser(session.user));
@@ -3166,16 +3309,22 @@ export function AppProvider({ children }) {
       }
     });
 
-    return () => subscription.unsubscribe();
-  }, [mapSupabaseUser, setCurrentUser]);
+    return () => {
+      isMounted = false;
+      clearTimeout(watchdogTimer);
+      clearInterval(interval);
+      supabase.removeChannel(channel);
+      authSub?.unsubscribe();
+    };
+  }, [fetchPlaylists, fetchCollaborators, checkUserSession, mapSupabaseUser, setCurrentUser]);
 
-  // Atualiza currentUser se a lista de colaboradores mudar na nuvem
+  // Atualiza currentUser se o mapa de colaboradores mudar na nuvem
   useEffect(() => {
     if (currentUser?.email) {
       const email = currentUser.email.toLowerCase().trim();
       const admin = checkIsAdmin(email) || currentUser.isAdmin;
       const collabEntry = collaboratorsMap[email];
-      const isApprovedStatus = collabEntry?.status === 'approved';
+      const isApprovedStatus = collabEntry?.status === 'approved' || collabEntry?.is_approved === true;
       const isRejectedStatus = collabEntry?.status === 'rejected';
 
       const approved =
@@ -3199,7 +3348,7 @@ export function AppProvider({ children }) {
                 role: newRole,
                 isApproved: approved,
                 isAdmin: admin,
-                collaboratorStatus: admin ? 'approved' : collabEntry?.status || 'pending',
+                collaboratorStatus: admin ? 'approved' : isApproved ? 'approved' : isRejectedStatus ? 'rejected' : 'pending',
               }
             : null
         );
@@ -3218,6 +3367,8 @@ export function AppProvider({ children }) {
         email: normalized,
         name: existing.name || normalized.split('@')[0],
         status: 'approved',
+        role: 'collaborator',
+        is_approved: true,
         approvedAt: new Date().toISOString(),
       };
       const updatedMap = {
@@ -3226,7 +3377,20 @@ export function AppProvider({ children }) {
       };
 
       setCollaboratorsMap(updatedMap);
+
+      // Salva no registro de sistema na nuvem
       await saveCollaboratorsToCloud(updatedMap);
+
+      // Também tenta atualizar na tabela profiles
+      try {
+        await supabase
+          .from('profiles')
+          .update({ is_approved: true, role: 'collaborator' })
+          .eq('email', normalized);
+      } catch (profErr) {
+        console.warn('Aviso ao atualizar profiles:', profErr);
+      }
+
       showToast(`Colaborador "${normalized}" aprovado com sucesso!`, 'success');
     },
     [collaboratorsMap, saveCollaboratorsToCloud, setCollaboratorsMap, showToast]
@@ -3246,6 +3410,8 @@ export function AppProvider({ children }) {
         email: normalized,
         name: existing.name || normalized.split('@')[0],
         status: 'rejected',
+        role: 'user',
+        is_approved: false,
         rejectedAt: new Date().toISOString(),
       };
       const updatedMap = {
@@ -3254,7 +3420,20 @@ export function AppProvider({ children }) {
       };
 
       setCollaboratorsMap(updatedMap);
+
+      // Salva no registro de sistema na nuvem
       await saveCollaboratorsToCloud(updatedMap);
+
+      // Também tenta atualizar na tabela profiles
+      try {
+        await supabase
+          .from('profiles')
+          .update({ is_approved: false, role: 'user' })
+          .eq('email', normalized);
+      } catch (profErr) {
+        console.warn('Aviso ao atualizar profiles:', profErr);
+      }
+
       showToast(`Solicitação de "${normalized}" recusada.`, 'info');
     },
     [collaboratorsMap, saveCollaboratorsToCloud, setCollaboratorsMap, showToast]
@@ -3917,6 +4096,7 @@ export function AppProvider({ children }) {
       value={{
         playlists,
         isLoadingPlaylists,
+        setIsLoadingPlaylists,
         fetchPlaylists,
         users: registeredUsers,
         registeredUsers,

@@ -34,7 +34,7 @@ function ScrollToTop() {
  * A autenticação é opcional e acionada discretamente pelo botão "Login / Colaborador".
  */
 export function App() {
-  const { currentUser, isLoadingPlaylists, isAuthModalOpen, closeAuthModal } = useApp();
+  const { currentUser, isLoadingPlaylists, setIsLoadingPlaylists, isAuthModalOpen, closeAuthModal } = useApp();
 
   /**
    * pendingConfirmation holds data when user registers via demo/local flow:
@@ -83,6 +83,13 @@ export function App() {
             <div className="flex flex-col items-center justify-center py-32 gap-4 text-spotify-gray">
               <span className="w-10 h-10 border-4 border-white/10 border-t-spotify-green rounded-full animate-spin" />
               <p className="text-sm font-medium">Carregando repertório do Supabase...</p>
+              <button
+                type="button"
+                onClick={() => setIsLoadingPlaylists(false)}
+                className="mt-2 text-xs text-spotify-green hover:underline cursor-pointer bg-white/5 hover:bg-white/10 px-4 py-2 rounded-full transition-colors"
+              >
+                Acessar imediatamente como Visitante &rarr;
+              </button>
             </div>
           ) : (
             <Routes>
